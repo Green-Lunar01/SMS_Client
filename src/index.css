@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  font-family: "Inter", sans-serif
+
+}
+#root {
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --primary-green: #13A541;
+  --dark-green: #08190E;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  transition: all 0.25s ease-in-out;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+
+/* @font-face {
+  font-family: "ButlerLight";
+  src: local("ButlerLight"),
+    url("./fonts/Butler_Webfont/Butler-Light.woff") format("woff");
+  font-weight: normal;
+} */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
