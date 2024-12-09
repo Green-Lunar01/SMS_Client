@@ -1,0 +1,167 @@
+.navbar {
+    background-color: #FFF;
+    color: var(--dark-green);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+
+        img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    aside {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+
+        button {
+            background-color: #FBAE44;
+            color: #FFF;
+            padding: 10px 20px;
+            font-size: .9rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .svgs {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            svg:hover {
+                color: var(--primary-green);
+            }
+        }
+
+        svg {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+
+            img {
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            p {
+                font-size: .9rem;
+                font-weight: 500;
+            }
+
+            .profile-menu {
+                position: absolute;
+                top: 120%;
+                right: 0;
+                background-color: #FFF;
+                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+                display: flex;
+                flex-direction: column;
+
+                a,
+                span {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 15px 20px;
+                    cursor: pointer;
+                }
+
+                a:hover,
+                span:hover {
+                    background-color: #dadada;
+                }
+
+                span:last-of-type:hover {
+                    background-color: rgb(247, 123, 123);
+                }
+
+                svg {
+                    font-size: 1.3rem;
+                }
+
+                p {
+                    font-size: .8rem;
+                    font-weight: 400;
+                    text-wrap: nowrap;
+                }
+            }
+        }
+    }
+
+    >.mobile-menu {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 786px) {
+    .navbar {
+        padding: 0px;
+        height: 55px;
+
+        .logo,
+        aside {
+            display: none;
+        }
+
+        >.mobile-menu {
+            display: flex;
+            border-bottom: 1px solid gray;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 20px;
+
+            .left {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+
+                svg {
+                    font-size: 1.3rem;
+                    cursor: pointer;
+                }
+
+                h2 {
+                    font-size: 1.1rem;
+                    color: var(--primary-green);
+                }
+            }
+
+            .right {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+
+                svg {
+                    font-size: 1.3rem;
+                    cursor: pointer;
+                }
+
+                img {
+                    width: 35px;
+                    object-fit: cover;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
