@@ -17,6 +17,14 @@ const SettingsDashboard = lazy(() =>
 	import("./pages/Dashboard/Settings/Settings.jsx")
 );
 
+const ClassDashboard = lazy(() => import("./pages/Dashboard/Class/Class.jsx"));
+const ClassDetailsDashboard = lazy(() =>
+	import("./pages/Dashboard/Class/ClassDetails/ClassDetails.jsx")
+);
+const EditClass = lazy(() =>
+	import("./pages/Dashboard/Class/EditClass/EditClass.jsx")
+);
+
 function App() {
 	return (
 		<>
@@ -33,6 +41,18 @@ function App() {
 					<Route
 						path="/dashboard/settings"
 						element={<SettingsDashboard />}
+					/>
+					<Route
+						path="/dashboard/class"
+						element={<ClassDashboard />}
+					/>
+					<Route
+						path="/dashboard/classdetails/:id"
+						element={<ClassDetailsDashboard />}
+					/>
+					<Route
+						path="/dashboard/editclass/:id"
+						element={<EditClass />}
 					/>
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>

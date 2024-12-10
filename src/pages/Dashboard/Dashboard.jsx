@@ -128,8 +128,10 @@ const Dashboard = () => {
 						Dashboard
 					</Link>
 					<Link
-						to="/dashboard/#"
-						className={isLinkActive("/dashboard/#") ? "active" : ""}
+						to="/dashboard/class"
+						className={
+							isLinkActive("/dashboard/class") ? "active" : ""
+						}
 					>
 						<svg
 							width="24"

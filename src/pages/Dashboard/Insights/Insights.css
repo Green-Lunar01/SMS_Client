@@ -1,5 +1,4 @@
 .insights {
-    /* border: 1px solid red; */
     width: calc(100vw - 300px);
     flex-grow: 1;
     flex-shrink: 0;

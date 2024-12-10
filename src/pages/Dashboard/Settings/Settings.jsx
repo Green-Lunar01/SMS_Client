@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Profile from "./Profile/Profile";
 import FeeSetup from "./FeeSetup/FeeSetup";
 import AccountSettings from "./AccountSettings/AccountSettings";
+import Rules from "./Rules/Rules";
+import MarksGradingSetup from "./MarksGrading/MarksGradingSetup";
 import { CSSTransition } from "react-transition-group";
 import "./Settings.css";
 
@@ -16,6 +18,10 @@ export default function App() {
 				return <FeeSetup />;
 			case "Account Settings":
 				return <AccountSettings />;
+			case "Rules":
+				return <Rules />;
+			case "Marks Grading":
+				return <MarksGradingSetup />;
 			default:
 				return <Profile />;
 		}
@@ -45,6 +51,20 @@ export default function App() {
 					onClick={() => setActiveTab("Account Settings")}
 				>
 					Account Settings
+				</button>
+				<button
+					className={`tab ${activeTab === "Rules" ? "active" : ""}`}
+					onClick={() => setActiveTab("Rules")}
+				>
+					Rules and Regulations
+				</button>
+				<button
+					className={`tab ${
+						activeTab === "Marks Grading" ? "active" : ""
+					}`}
+					onClick={() => setActiveTab("Marks Grading")}
+				>
+					Marks Grading Setup
 				</button>
 			</nav>
 			<CSSTransition
