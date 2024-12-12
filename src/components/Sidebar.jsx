@@ -32,9 +32,9 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="relative">
+    <div className="relative bg-white">
       <SideBarActiveButton>
-        <div className="fixed w-[18%] h-[1117px] md:flex flex-col items-end hidden border-r">
+        <div className="fixed bg-white w-[18%] h-[1117px] md:flex flex-col items-end hidden border-r">
           <div className="lg:w-[208px] w-full h-[590px] mt-[46px]">
             {buttons.map((button) => (
               <SidebarButton

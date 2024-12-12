@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className='sticky top-0 bg-[white]'>
+    <div className='sticky top-0 bg-[white] z-50'>
 
         <div className=' w-full lg:h-[95px] h-[56px] flex justify-center border-0 border-b'>
             <div className='w-[90%] flex justify-between'>

@@ -1,3 +1,4 @@
+// import { Chart } from 'chart.js'
 import React, { useState } from 'react'
 
 const Books = () => {
@@ -52,7 +53,7 @@ const Books = () => {
   }
  
   return (
-<div className=''>
+<div className='bg-[#fdfdfd]'>
     <div className='w-full flex justify-center'>
       <div className='lg:w-[93%] w-[85%] flex flex-col  gap-[48px] justify-start p-0 bg-white  my-[15px]'>
         <div className='lg:w-full  lg:flex-row flex flex-col   gap-[16px]'> 
@@ -66,19 +67,22 @@ const Books = () => {
         </div>
         <section className='w-full flex justify-start  gap-[16px] '> 
         
-        <div className='w-full flex justify-center gap-[26px] h-[74px]'>
+        <div className='w-full flex justify-center gap-[10px] h-[74px]'>
   {bookLibrary.map((bookCategory) => (
     <button 
-      key={bookCategory.bookCategory} // Adding a unique key for React
+      key={bookCategory.bookCategory} 
       onClick={() => handleSetCategory(bookCategory.bookCategory)}
       style={{
         backgroundColor: category === bookCategory.bookCategory ? "#13A541" : "#f9f9f9",
       }}
-      className={`text-[14px] h-[40px] px-[4px] py-[5px] flex items-center rounded-md ${
+      className={`text-[10px] w-[150px]  h-[30px] px-[4px] py-[2px] flex items-center rounded-md ${
         category === bookCategory.bookCategory ? "text-white" : "text-black"
       }`}
     >
-      {bookCategory.bookCategory}
+    <h1 className='w-full'>
+        {bookCategory.bookCategory}
+    </h1>
+    {/* <Chart /> */}
     </button>
   ))}
 </div>

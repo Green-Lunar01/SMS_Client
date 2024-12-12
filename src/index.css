@@ -23,7 +23,7 @@ body{
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-  transition: all 0.25s ease-in-out;
+  /* transition: all 0.25s ease-in-out; */
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
 }
@@ -38,4 +38,51 @@ body{
 a {
   text-decoration: none;
   color: inherit;
+}
+
+input, button, textarea{
+  outline: 0
+
+}
+.flex-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.flex-container-col {
+  display: flex;
+  justify-content: center;
+  flex-direction:column
+}
+.flex-container-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  
+}
+.screen-hd{
+  color: #08190E;
+  font-size: 22px;
+  font-weight: 600;
+}
+.dropdown-input{
+  border: 1px solid #d9d9d9;
+  position: relative;
+  padding: 15px 0 15px 15px;
+  font-weight: 400;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.table{
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+.exam-td, .exam-th{
+  
+  height: 55px;
+  text-align: left
 }
