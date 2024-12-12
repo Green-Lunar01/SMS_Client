@@ -1,0 +1,219 @@
+.classes-with-subjects-container {
+    padding: 40px 20px;
+
+    .search-area {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+
+        >div {
+            display: flex;
+            gap: 15px;
+        }
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 26px;
+        width: 350px;
+        height: 60px;
+
+        svg {
+            font-size: 2.2rem;
+            color: #ccc;
+        }
+    }
+
+    .search-bar input {
+        padding: 10px 20px;
+        flex: 1;
+        border: none;
+        outline: none;
+    }
+
+    .search-area button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        height: 60px;
+        width: 120px;
+        font-size: 1rem;
+    }
+
+    .class-list {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+
+        >.no-records-found {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 40px auto;
+        }
+    }
+
+    .class-card {
+        border: 1px solid #D9D9D9;
+        padding: 20px;
+        height: 400px;
+        width: 350px;
+        overflow-y: scroll;
+        scrollbar-width: none;
+
+        >.top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            h3 {
+                font-size: 1.2rem;
+                font-weight: 500;
+                padding: 10px 20px;
+                border-radius: 50%;
+                height: 100px;
+                width: 100px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: lightblue;
+            }
+
+            svg {
+                font-size: 2.5rem;
+                border: 1px solid #D9D9D9;
+                padding: 10px;
+                cursor: pointer;
+            }
+        }
+
+        >.bottom {
+            margin-top: 40px;
+
+            ul {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                flex-wrap: wrap;
+
+                li {
+                    list-style-type: none;
+                }
+            }
+        }
+    }
+
+    .modal-content:has(.subjects-modal) {
+        padding: 0px;
+
+        .modal-close {
+            display: none;
+        }
+    }
+
+    .subjects-modal {
+        display: flex;
+        flex-direction: column;
+        width: 450px;
+        max-height: 90vh;
+        overflow-y: scroll;
+        scrollbar-width: none;
+
+        >aside {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            border-bottom: 1px solid #D9D9D9;
+
+            h3 {
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+
+            svg {
+                font-size: 1.7rem;
+                cursor: pointer;
+            }
+        }
+
+        >.edit-class-card {
+            padding: 30px;
+
+
+            h3 {
+                font-size: .9rem;
+                color: #fff;
+                background-color: var(--primary-green);
+                padding: 10px 20px;
+                border-radius: 50%;
+                height: 100px;
+                width: 100px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 20px auto;
+            }
+
+            li {
+                list-style-type: none;
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+                margin-block: 10px;
+
+                span {
+                    width: 100%;
+
+                    p {
+                        padding: 10px;
+                        background-color: #F2F2F2;
+                        color: var(--dark-green);
+                        margin-bottom: 5px;
+                    }
+
+                    select {
+                        padding: 10px 15px;
+                        border: 1px solid #D9D9D9;
+                    }
+                }
+
+                >svg {
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                }
+            }
+
+            .add-more {
+                background-color: #A8F5C0;
+                color: #000;
+                border: none;
+                cursor: pointer;
+                padding: 10px 20px;
+                border-radius: 6px;
+            }
+
+            button {
+                display: block;
+                margin-block: 20px;
+            }
+        }
+    }
+
+    .subjects-modal:hover {
+        scrollbar-width: thin;
+    }
+}

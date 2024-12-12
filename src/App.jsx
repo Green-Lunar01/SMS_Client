@@ -24,6 +24,11 @@ const ClassDetailsDashboard = lazy(() =>
 const EditClass = lazy(() =>
 	import("./pages/Dashboard/Class/EditClass/EditClass.jsx")
 );
+const Subject = lazy(() => import("./pages/Dashboard/Subject/Subject.jsx"));
+const Students = lazy(() => import("./pages/Dashboard/Students/Students.jsx"));
+const EditStudent = lazy(() =>
+	import("./pages/Dashboard/Students/EditStudent/EditStudent.jsx")
+);
 
 function App() {
 	return (
@@ -53,6 +58,12 @@ function App() {
 					<Route
 						path="/dashboard/editclass/:id"
 						element={<EditClass />}
+					/>
+					<Route path="/dashboard/subject" element={<Subject />} />
+					<Route path="/dashboard/students" element={<Students />} />
+					<Route
+						path="/dashboard/editstudent/:id"
+						element={<EditStudent />}
 					/>
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>

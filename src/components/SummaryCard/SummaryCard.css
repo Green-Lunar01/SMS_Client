@@ -13,6 +13,7 @@
     p {
         font-size: .8rem;
         font-weight: 500;
+        color: white;
     }
 
     h2 {
@@ -20,5 +21,10 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        color: white;
+
+        span {
+            color: white;
+        }
     }
 }

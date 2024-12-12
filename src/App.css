@@ -18,14 +18,34 @@
   font-family: "Inter", sans-serif;
 }
 
-/* @font-face {
-  font-family: "ButlerLight";
-  src: local("ButlerLight"),
-    url("./fonts/Butler_Webfont/Butler-Light.woff") format("woff");
-  font-weight: normal;
-} */
-
 a {
   text-decoration: none;
   color: inherit;
+}
+
+.primary-btn {
+  background-color: var(--primary-green);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--primary-green);
+}
+
+.primary-btn:hover {
+  background-color: white;
+  color: var(--primary-green);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+label,
+a {
+  color: var(--dark-green);
 }
