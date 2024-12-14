@@ -1,5 +1,5 @@
-.edit-student-container {
-    padding: 2rem;
+.add-student-container {
+    padding: 3rem 2rem;
     width: 100%;
 
     span {
@@ -86,7 +86,7 @@
         }
 
         button:hover {
-            background-color: #4CAF50;
+            background-color: var(--primary-green);
         }
 
         img {
@@ -145,7 +145,7 @@
     }
 
     .submit-btn:hover {
-        color: #45a049;
+        color: var(--primary-green);
         background-color: white;
     }
 }

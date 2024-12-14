@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
-import "./EditStudent.css";
+import "./AddStudent.css";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
-const EditStudent = () => {
+const AddStudent = () => {
 	const [studentInfo, setStudentInfo] = useState({
 		studentSurname: "Jesus",
 		studentFirstName: "William",
@@ -55,12 +55,9 @@ const EditStudent = () => {
 	};
 
 	return (
-		<div className="edit-student-container">
+		<div className="add-student-container">
 			<span>
-				<Link to="/dashboard/students">
-					<HiOutlineArrowNarrowLeft />
-				</Link>
-				<h1>Edit Student</h1>
+				<h1>Admission Form</h1>
 			</span>
 			<form onSubmit={handleSubmit}>
 				<div className="student-info">
@@ -379,11 +376,11 @@ const EditStudent = () => {
 					</main>
 				</div>
 				<button type="submit" className="submit-btn">
-					Save Changes
+					Submit
 				</button>
 			</form>
 		</div>
 	);
 };
 
-export default EditStudent;
+export default AddStudent;

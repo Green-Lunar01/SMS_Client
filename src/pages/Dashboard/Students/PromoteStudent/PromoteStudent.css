@@ -1,0 +1,125 @@
+.promotion-table {
+    padding: 3rem 2rem;
+
+    .search-section {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .search-input {
+            width: 300px;
+            padding: 15px 20px;
+            border: 1px solid #d9d9d9;
+            border-radius: 25px;
+        }
+
+        .search-button {
+            padding: 10px 25px;
+            background-color: var(--primary-green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    }
+
+    .table-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        >aside {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .action-button {
+            padding: 12px 20px;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #000;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    }
+
+    .student-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+
+        th,
+        td {
+            border-bottom: 1px solid #d9d9d9;
+            padding: 20px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        th:last-of-type {
+            background-color: #FFBC04;
+            color: #fff;
+        }
+
+        td select {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p {
+            margin: 0;
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            background-color: var(--primary-green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    }
+
+    .modal-content:has(.promote-class-modal) {
+        padding: 0px;
+
+        .modal-close {
+            display: none;
+        }
+    }
+
+    .promote-class-modal {
+        max-height: 500px;
+        width: 400px;
+
+        >aside {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #000;
+
+            svg {
+                font-size: 1.7rem;
+                cursor: pointer;
+            }
+        }
+    }
+}

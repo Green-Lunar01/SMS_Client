@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./Students.css";
 import AllStudents from "./AllStudents/AllStudents";
+import AddStudent from "./AddStudent/AddStudent";
+import AdmissionLetter from "./AdmissionLetter/AdmissionLetter";
+import PromoteStudent from "./PromoteStudent/PromoteStudent";
 
 const Students = () => {
 	const [tab, setTab] = useState("all");
@@ -118,6 +121,9 @@ const Students = () => {
 			</aside>
 
 			{tab === "all" && <AllStudents studentData={studentData} />}
+			{tab === "add new" && <AddStudent />}
+			{tab === "admission letter" && <AdmissionLetter />}
+			{tab === "promote" && <PromoteStudent />}
 		</div>
 	);
 };

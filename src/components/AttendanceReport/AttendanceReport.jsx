@@ -10,7 +10,7 @@ const AttendanceReport = () => {
 	});
 
 	return (
-		<div className="attendance-report">
+		<div className="attendance-report-component">
 			<h3>Attendance Report</h3>
 			{data ? (
 				<>

@@ -175,7 +175,7 @@ const AllStudents = ({ studentData }) => {
 									<td>{student.dateOfAdmission}</td>
 									<td className="actions">
 										<Link
-											to={`/dashboard/students/${student.matricNumber}`}
+											to={`/dashboard/viewstudent/${student.matricNumber}`}
 										>
 											<AiOutlineEye />
 										</Link>

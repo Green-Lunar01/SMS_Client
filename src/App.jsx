@@ -29,6 +29,9 @@ const Students = lazy(() => import("./pages/Dashboard/Students/Students.jsx"));
 const EditStudent = lazy(() =>
 	import("./pages/Dashboard/Students/EditStudent/EditStudent.jsx")
 );
+const ViewStudent = lazy(() =>
+	import("./pages/Dashboard/Students/ViewStudent/ViewStudent.jsx")
+);
 
 function App() {
 	return (
@@ -64,6 +67,10 @@ function App() {
 					<Route
 						path="/dashboard/editstudent/:id"
 						element={<EditStudent />}
+					/>
+					<Route
+						path="/dashboard/viewstudent/:id"
+						element={<ViewStudent />}
 					/>
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>
