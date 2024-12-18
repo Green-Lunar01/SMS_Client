@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./PromoteStudent.css";
 import Modal from "../../../../components/Modal/Modal";
 import { RiCloseLine } from "react-icons/ri";
+import { FaAnglesDown } from "react-icons/fa6";
 
 const PromotionTable = () => {
 	const [students, setStudents] = useState(
@@ -137,7 +138,17 @@ const PromotionTable = () => {
 						<h3>Promote Class</h3>
 						<RiCloseLine onClick={closeModal} />
 					</aside>
-					<main></main>
+					<main>
+						<h4>Promote J.S.S 2 Students to</h4>
+
+						<FaAnglesDown />
+
+						<select name="class" id="class">
+							<option value="">Select Class</option>
+						</select>
+
+						<button className="primary-btn">Promote Class</button>
+					</main>
 				</div>
 			</Modal>
 		</div>

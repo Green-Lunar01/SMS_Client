@@ -248,8 +248,10 @@ const Dashboard = () => {
 						Students
 					</Link>
 					<Link
-						to="/dashboard/#"
-						className={isLinkActive("/dashboard/#") ? "active" : ""}
+						to="/dashboard/employees"
+						className={
+							isLinkActive("/dashboard/employees") ? "active" : ""
+						}
 					>
 						<svg
 							width="24"
@@ -275,8 +277,10 @@ const Dashboard = () => {
 						Employee
 					</Link>
 					<Link
-						to="/dashboard/#"
-						className={isLinkActive("/dashboard/#") ? "active" : ""}
+						to="/dashboard/fee"
+						className={
+							isLinkActive("/dashboard/fee") ? "active" : ""
+						}
 					>
 						<svg
 							width="24"
@@ -302,8 +306,10 @@ const Dashboard = () => {
 						Fee
 					</Link>
 					<Link
-						to="/dashboard/#"
-						className={isLinkActive("/dashboard/#") ? "active" : ""}
+						to="/dashboard/account"
+						className={
+							isLinkActive("/dashboard/account") ? "active" : ""
+						}
 					>
 						<svg
 							width="24"

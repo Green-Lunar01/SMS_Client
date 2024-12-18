@@ -1,26 +1,9 @@
 import React, { useState } from "react";
 import "./ClassesWithSubjects.css";
-import { CiSearch } from "react-icons/ci";
+import SearchBar from "../../../../components/SearchBar/SearchBar";
 import { RiEdit2Line, RiDeleteBin6Line, RiCloseLine } from "react-icons/ri";
 import Modal from "../../../../components/Modal/Modal";
 import { FiPlus } from "react-icons/fi";
-
-const SearchBar = ({ searchQuery, setSearchQuery }) => (
-	<div className="search-area">
-		<div>
-			<span className="search-bar">
-				<CiSearch />
-				<input
-					type="text"
-					placeholder="Search"
-					value={searchQuery}
-					onChange={(e) => setSearchQuery(e.target.value)}
-				/>
-			</span>
-			<button>Search</button>
-		</div>
-	</div>
-);
 
 const ClassesWithSubjects = () => {
 	const [searchQuery, setSearchQuery] = useState("");

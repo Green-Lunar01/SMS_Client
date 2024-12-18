@@ -32,6 +32,15 @@ const EditStudent = lazy(() =>
 const ViewStudent = lazy(() =>
 	import("./pages/Dashboard/Students/ViewStudent/ViewStudent.jsx")
 );
+const Employee = lazy(() => import("./pages/Dashboard/Employee/Employee.jsx"));
+const EditEmployee = lazy(() =>
+	import("./pages/Dashboard/Employee/EditEmployee/EditEmployee.jsx")
+);
+const ViewEmployee = lazy(() =>
+	import("./pages/Dashboard/Employee/ViewEmployee/ViewEmployee.jsx")
+);
+const Fee = lazy(() => import("./pages/Dashboard/Fee/Fee.jsx"));
+const Account = lazy(() => import("./pages/Dashboard/Account/Account.jsx"));
 
 function App() {
 	return (
@@ -72,6 +81,17 @@ function App() {
 						path="/dashboard/viewstudent/:id"
 						element={<ViewStudent />}
 					/>
+					<Route path="/dashboard/employees" element={<Employee />} />
+					<Route
+						path="/dashboard/editemployee/:id"
+						element={<EditEmployee />}
+					/>
+					<Route
+						path="/dashboard/viewemployee/:id"
+						element={<ViewEmployee />}
+					/>
+					<Route path="/dashboard/fee" element={<Fee />} />
+					<Route path="/dashboard/account" element={<Account />} />
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>
 			</Routes>
