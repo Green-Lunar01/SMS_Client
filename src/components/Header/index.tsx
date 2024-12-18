@@ -10,9 +10,9 @@ const Header = () => {
   const currentPath = location.pathname;
 
   return (
-    <div className="flex justify-between items-center shadow-lg py-5 px-5 lg:px-16">
+    <div className="flex justify-between items-center shadow-lg py-2 px-5 lg:px-10">
       <Link to={`/`} className="text-primary-light text-3xl w-[25%] font-bold">
-        EduSoft
+        <img src="/logo.svg" alt="" className='w-[80%] md:w-[30%]' />
       </Link>
 
       <nav className="hidden lg:flex items-center gap-5 w-[20%] justify-between">
