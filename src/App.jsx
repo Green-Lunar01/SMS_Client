@@ -3,15 +3,14 @@ import { useState } from "react";
 import Dashboard from "./screens/Dashboard";
 import Assignment from "./screens/Assignment";
 import Timetable from "./screens/Timetable";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+
 import Books from "./screens/Books";
 import Messaging from "./screens/Messaging";
 import Exams from "./screens/Exams";
 import ClassTest from "./screens/ClassTest";
 import Report from "./screens/Report";
 import Login from "./pages/Auth/Login";
-import Layout from "./layout/layout";
+
 import ProtectedRoutes from "./pages/Auth/ProtectedRoutes";
 import LiveClass from "./screens/LiveClass";
 function App() {
