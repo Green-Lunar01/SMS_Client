@@ -1,27 +1,29 @@
-import React from 'react'
-import Chart from '../components/Chart/Chart'
+import React, {useRef} from 'react'
+
+
 import FinalResultTable from '../components/ResultTables/FinalResultTable'
-import { saveAs } from "file-saver";
-import * as XLSX from "xlsx";
+
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import html2canvas from "html2canvas";
 
 
 function Report() {
-  const exportToPDF = () => {
-    const doc = new jsPDF();
-    const tableColumn = ["Subject", "Session", "Class", "Term", "Total Marks", "Obtained"];
-    const tableRows = examTable.map(row => [
-      row.subject,
-      row.session,
-      row.class,
-      row.term,
-      row.totalMarks,
-      row.marksObtained,
-    ]);
+  const tableRef = useRef(); 
 
-    doc.autoTable({ head: [tableColumn], body: tableRows });
-    doc.save("exam_data.pdf");
+  const exportToPDF = async () => {
+    const input = tableRef.current; 
+    if (input) {
+      const canvas = await html2canvas(input, { scale: 2 }); 
+      const imgData = canvas.toDataURL("image/png"); 
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width; // Maintain aspect ratio
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("final_result.pdf");
+    }
   };
   const reportData =[
     {
@@ -149,9 +151,10 @@ function Report() {
             {/* <AssessmentTable tableData={examTable} /> */}
 
           </div>
-          <FinalResultTable reportData={reportData}/>
-         
-
+          {/* <FinalResultTable reportData={reportData}/> */}
+          <div ref={tableRef}>
+              <FinalResultTable reportData={reportData} />
+          </div>
           </section>
         </div>
       </div>

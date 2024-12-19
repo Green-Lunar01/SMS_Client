@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useActiveButton } from './SideBarActiveButton';
-
+import { useLocation } from 'react-router-dom';
 function SidebarButton({ name, icon: Icon, onClick, title }) {
-  const { activeButton, handleNavigateColor } = useActiveButton();
+  const { activeButton, handleNavigateColor, setActiveButton } = useActiveButton();
+  const location = useLocation ()
+  const pathWithoutSlash = location.pathname.startsWith("/")
+    ? location.pathname.slice(1)
+    : location.pathname;
+  useEffect(
+    () => {
+      if(location.pathname){
+        setActiveButton(pathWithoutSlash)
+        console.log(activeButton)
+      }
 
+    }
+  )
+  
   const handleClick = () => {
     onClick();
+  
     handleNavigateColor(name);
     console.log('Active Button:', activeButton);
     console.log('Clicked Button Name:', name);

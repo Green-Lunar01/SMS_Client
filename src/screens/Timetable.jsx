@@ -115,7 +115,7 @@ function Timetable() {
     },
     {
 
-      "day": "Tuesday",
+      "day": "Thursday",
       "subjectsForDay": [
         {
           "subject": "Phonetics",

@@ -28,7 +28,7 @@ const Sidebar = () => {
     { name: 'books', title: 'Books', icon: BookIcon, onClick: () => navigate('/books') },
     { name: 'exams', title: 'Exams', icon: QuizIcon, onClick: () => navigate('/exams') },
     { name: 'class-test', title: 'Class Test', icon: TestIcon, onClick: () => navigate('/class-test') },
-    { name: 'report', title: 'Report Card', icon: ReportIcon, onClick: () => navigate('/report-card') },
+    { name: 'report-card', title: 'Report Card', icon: ReportIcon, onClick: () => navigate('/report-card') },
   ];
 
   return (

@@ -122,7 +122,7 @@ function FinalResultTable({reportData}) {
           </div>
           <div className='w-full flex items-center '>
             <div className='lg:w-8/12 ml-9  mt-4'>
-                  <div className='border flex justify-center items-center p-3 w-[60%]'>
+                  <div className='border flex justify-center items-center p-3 w-[63%]'>
                   <table className='w-full border border-collapse table-fixed'>
                     <thead >
                       <th className='border text-center bg-[#f5f5f5]'>Score</th>

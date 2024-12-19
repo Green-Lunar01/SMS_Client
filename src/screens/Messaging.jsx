@@ -1,11 +1,13 @@
 import React from 'react'
+import Sendermsg from '../components/messages/Sendermsg';
+import Receivermsg from '../components/messages/Receivermsg';
 
 const Messaging = () => {
   return (
-    <div className=''>
+    <div className='bg-[#fdfdfd]'>
     <div className='w-full flex justify-center'>
-      <div className='lg:w-[93%] w-[85%] flex flex-col  gap-[24px] justify-start p-0 bg-white  my-[15px]'>
-        <div className='lg:w-full  lg:flex-row flex flex-col   gap-[16px]'> 
+      <div className='lg:w-[93%] w-[85%] flex flex-col  gap-[24px] justify-start p-0   my-[15px]'>
+        <div className='lg:w-full py-[9px] flex bg-white   lg:flex-row items-center flex-col   gap-[16px]'> 
           <h1 className='w-full text-[#08190E] text-center font-bold text-[24px]'>
             Messaging
           </h1>
@@ -15,8 +17,8 @@ const Messaging = () => {
           
         </div>
        
-        <section className='w-full   flex justify-between items-center '>
-          <div className='dummyDiv h-[700px] border-[1px] border-[#d9d9d9]  lg:w-[35%] px-[23px]  pt-[38px] flex flex-col justify-start gap-[34px] rounded-[9px]'>
+        <section className='w-full bg-[#fdfdfd]  flex justify-between  '>
+          <div className='dummyDiv h-auto mb-[40px] border-[1px] bg-[#fff] border-[#d9d9d9]  lg:w-[34%] px-[23px]  pt-[38px] flex flex-col justify-start gap-[34px] rounded-[9px]'>
             <div className='w-full flex flex-col items-center  gap-[33px]'>
                 <div className='w-11/12 flex flex-col items-center gap-[23px] '>
                        <div className='w-11/12 flex flex-col gap-[23px] '>
@@ -32,26 +34,47 @@ const Messaging = () => {
                        </div>
                 </div>
                 <div className='w-11/12'>
-                    {/* <input className=' w-full h-[200px] border-[1px] border-[#f9f9f9] px-[20px] py-[10px] rounded-[6px]' type='text' placeholder='Write you message' /> */}
+                   
                     <textarea className=' w-full h-[200px] border-[1px] border-[#f9f9f9] px-[15px] pt-[15px] rounded-[6px]' type='text' placeholder='Write you message' ></textarea>
                     <div>
                         <p> 244 Characters</p>
                         <img src=''/>
                     </div>
                     <div className='pt-[24px]  '>
-                      <button type='submit' className='bg-[#13A541] text-center text-white py-[10px] px-[30px] rounded-[10px]'> Send Message</button>
+                      <button type='submit' className='bg-[#13A541] text-center text-white py-[10px] px-[30px] rounded-[10px] mb-10'> Send Message</button>
                      </div>
                 </div>
             </div>
             
           </div>
-          <div className='lg:w-7/12 dummyDiv flex flex-col gap-8  '>
-             <img src='/icons/dummy.svg'/>
-             <h1 className='font-normal text-[16px] text-center'>
-              No Messages yet
-             </h1>
+          <div className='lg:w-[62%] bg-[#fff] dummyDiv flex flex-col gap-8  '>
+            <div className='w-full border-b border-[#d9d9d9]  bg-[#f9f9f9]'> 
+              <div className='w-[62%] flex justify-between ml-[25px] my-[12px]  '>
+                <button className='w-auto px-[10px] h-[43px] text-[#fff] bg-[#13A541] text-[12px] font-normal'>
+                  All Messages
+                </button>
+                <button className='w-auto px-[10px] h-[43px] text-[#8E98A8] bg-[#fff] text-[12px] font-normal border border-[#d9d9d9] '>
+                  Sent Messages
+                </button>
+                <button className='w-auto px-[10px] h-[43px] text-[#8E98A8] bg-[#fff] text-[12px] font-normal border border-[#d9d9d9] '>
+                Received Messages
+                </button>
+               
+
+              </div>
+              
+            </div>
+            <div className='w-full flex justify-start'>
+              <Sendermsg />
+              {/* <div className='w-11/12 flex flex-col gap-[10px]  sender'>
+                  
+              </div> */}
+            </div>
+            <div className='w-full flex justify-end '>
+              <Receivermsg />
+            </div>
           </div>
-        </section>
+        </section> 
       </div>
     </div>
   </div>
