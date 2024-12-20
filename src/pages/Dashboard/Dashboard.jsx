@@ -331,8 +331,10 @@ const Dashboard = () => {
 						Account
 					</Link>
 					<Link
-						to="/dashboard/#"
-						className={isLinkActive("/dashboard/#") ? "active" : ""}
+						to="/dashboard/salary"
+						className={
+							isLinkActive("/dashboard/salary") ? "active" : ""
+						}
 					>
 						<svg
 							width="24"

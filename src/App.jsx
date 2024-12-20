@@ -41,6 +41,7 @@ const ViewEmployee = lazy(() =>
 );
 const Fee = lazy(() => import("./pages/Dashboard/Fee/Fee.jsx"));
 const Account = lazy(() => import("./pages/Dashboard/Account/Account.jsx"));
+const Salary = lazy(() => import("./pages/Dashboard/Salary/Salary.jsx"));
 
 function App() {
 	return (
@@ -92,6 +93,7 @@ function App() {
 					/>
 					<Route path="/dashboard/fee" element={<Fee />} />
 					<Route path="/dashboard/account" element={<Account />} />
+					<Route path="/dashboard/salary" element={<Salary />} />
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>
 			</Routes>

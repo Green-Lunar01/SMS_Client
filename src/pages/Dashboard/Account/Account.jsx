@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import "./Account.css";
+import ChartOfAccount from "./ChartOfAccount/ChartOfAccount";
+import AddIncome from "./AddIncome/AddIncome";
+import AddExpense from "./AddExpense/AddExpense";
+import AccountStatement from "./AccountStatement/AccountStatement";
 
 const Account = () => {
 	const [tab, setTab] = useState("one");
@@ -32,6 +36,11 @@ const Account = () => {
 					Account Statement
 				</button>
 			</aside>
+
+			{tab === "one" && <ChartOfAccount />}
+			{tab === "two" && <AddIncome />}
+			{tab === "three" && <AddExpense />}
+			{tab === "four" && <AccountStatement />}
 		</div>
 	);
 };
