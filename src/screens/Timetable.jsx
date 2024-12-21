@@ -217,41 +217,42 @@ function Timetable() {
               <p className='font-medium text-[16px]'>Term 2</p>
 
             </section>
-            <section className='table w-full'>
-              <table className='w-full border-collapse table-fixed'>
-                <tr className='w-full'>
-                  <th className='w-flex justify-center items-center border h-[64px] text-[20px] font-medium '><h1>Period</h1></th>
-                  <th className='w-flex justify-center items-center border h-[64px] text-[20px] font-medium'>1</th>
-                  <th className='w-flex justify-center items-center border h-[64px] text-[20px] font-medium'>2</th>
-                  <th className='w-flex justify-center items-center border h-[64px] text-[20px] font-medium'>3</th>
-                  <th className='w-flex justify-center items-center border h-[64px] text-[20px] font-medium'>4</th>
-                  <th className='w-flex justify-center items-center border h-[64px] text-[20px] font-medium'>5</th>
-                  <th className='w-flex justify-center items-center border h-[64px] text-[20px] font-medium '>6</th>
+            <section className="overflow-x-auto md:overflow-visible">
+  <table className="md:min-w-full min-w-[1100px] md:w-full border-collapse table-fixed">
+    <thead>
+      <tr>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">Period</th>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">1</th>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">2</th>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">3</th>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">4</th>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">5</th>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">6</th>
+      </tr>
+    </thead>
+    <tbody>
+      {weekTimetable.map((day, index) => (
+        <React.Fragment key={day.day}>
+          <tr className="text-center">
+            <td className="h-[144px] border text-center bg-[#F0F4F9] font-bold text-[#5178b3] text-[22px] w-[100px]">{day.day}</td>
+            {day.subjectsForDay.map((subject, subIndex) => (
+              <td
+                key={`${day.day}-${subIndex}`}
+                style={{ backgroundColor: subject.color }}
+                className="border-0 h-[144px] p-2 text-center w-[600px]"
+              >
+                <h1 className="text-[16px] font-bold text-white break-words">{subject.subject}</h1>
+                <p className="font-normal text-[14px] text-white">{subject.time}</p>
+              </td>
+            ))}
+          </tr>
+        </React.Fragment>
+      ))}
+    </tbody>
+  </table>
+</section>
 
-                </tr>
-                                  {
-                    weekTimetable.map((day, index) => (
-                      <React.Fragment key={day.day}>
-                       
-                        <tr className='text-center'>
-                          <td className='h-[144px] w-flex justify-center items-center border text-center bg-[#F0F4F9] font-bold text-[#5178b3] text-[22px]'>{day.day}</td>
-                          {day.subjectsForDay.map((subject, subIndex) => (
-                          <td style={{backgroundColor: subject.color}} className='w-flex justify-center items-center border-0 h-[144px] p-2' key={`${day.day}-${subIndex}`}>
-                            <h1 className='text-[16px] font-bold text-white break-words'>{subject.subject}</h1>
-                            <p className='font-normal text-[14px] text-white'>{subject.time}</p>
-                           
-                          </td>
-                        ))}
-                        </tr>
 
-                       
-                        
-                      </React.Fragment>
-                    ))
-                    }
-              </table>
-
-            </section>
         </section>
         
       </div>

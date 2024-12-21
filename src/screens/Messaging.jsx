@@ -17,7 +17,7 @@ const Messaging = () => {
           
         </div>
        
-        <section className='w-full bg-[#fdfdfd]  flex justify-between  '>
+        <section className='w-full bg-[#fdfdfd]  flex flex-col md:flex-row justify-between  '>
           <div className='dummyDiv h-auto mb-[40px] border-[1px] bg-[#fff] border-[#d9d9d9]  lg:w-[34%] px-[23px]  pt-[38px] flex flex-col justify-start gap-[34px] rounded-[9px]'>
             <div className='w-full flex flex-col items-center  gap-[33px]'>
                 <div className='w-11/12 flex flex-col items-center gap-[23px] '>

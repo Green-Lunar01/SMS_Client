@@ -26,23 +26,23 @@ function Assignment({showModal,  handleModal}) {
           
           
         </div>
-        <section className='w-full flex justify-start  gap-[16px]'> 
+        <section className='w-full flex justify-start  lg:gap-[16px]'> 
         
           <div className='w-full'>
 
               <div className='flex flex-col gap-[10px]'>
                 <h1 className='text-[#08190E] font-bold text-[14px]'>Assignment Date</h1>
-                <div className='flex items-center gap-[64px]'>
-                <div className="relative w-[213px]">
-      {/* Input Field */}
+                <div className='w-full flex items-center md:gap-[64px] gap-5'>
+                <div className="relative ">
+    
       <input
         placeholder="DD/MM/YYYY"
-        className="pl-[27px] w-[213px] h-[56px] outline-0 border-[1px] border-[#d9d9d9] rounded-[6px]"
+        className="md:pl-[27px] pl-3 md:w-[213px] w-[98%] h-[56px] outline-0 border-[1px] border-[#d9d9d9] rounded-[6px]"
         value={selectedDate ? selectedDate.toLocaleDateString('en-GB') : ''}
         readOnly
       />
 
-      {/* Calendar Icon */}
+      
       <button
         type="button"
         className="absolute right-[18px] top-[16px]"
@@ -52,13 +52,13 @@ function Assignment({showModal,  handleModal}) {
         <img src="/icons/calendar4.svg" alt="Calendar Icon" />
       </button>
 
-      {/* React-Calendar */}
+     
       {showCalendar && (
         <div className="absolute top-[60px] left-0 z-10">
           <Calendar onChange={handleDateChange} value={selectedDate} />
         </div>
       )}
-    </div>
+                </div>
                   <div>
                     <button className='text-[14px] font-semibold w-[127px] h-[55px] rounded-[10px] text-[#fff] bg-[#13A541]'> Search</button>
 
@@ -71,30 +71,30 @@ function Assignment({showModal,  handleModal}) {
           <h1>All</h1>
           <div className='w-full flex flex-col border border-1 border-[#d9d9d9] mt-4'>
             <div className='flex-container border-b border-[#d9d9d9]'>
-            <div className='w-[92%] flex-container-between  '>
-                <div className='w-[70%] flex gap-[6%] items-center rounded-[3px]'>
-                  <div className='w-[20%] bg-[#F3FEF7] p-[12px] flex items-center my-[8px] gap-3'>
+            <div className='w-[92%]  flex flex-col-reverse items-end md:flex-row md:items-center md:justify-between '>
+                <div className='md:w-[70%] w-full  flex flex-wrap md:gap-[6%] gap-2 justify-center items-center p-0 rounded-[3px]'>
+                  <div className='md:w-[20%] w-[47%] bg-[#F3FEF7] p-[12px] flex items-center my-[8px] gap-3'>
                     <img className='w-[30%]' src='/images/persona.svg'/>
                     <div className='w-[60%] p-0'>
                       <h1 className='font-medium text-[12px]'>Value</h1>
                       <p className='font-normal text-[10px]'>Role</p>
                     </div>
                   </div>
-                  <div className='w-[20%] bg-[#E9EFFF] p-[12px] flex items-center my-[8px] gap-3'>
+                  <div className='md:w-[20%] w-[47%] bg-[#E9EFFF] p-[12px] flex items-center my-[8px] gap-3'>
                     <img className='w-[30%]' src='/icons/bookas.svg'/>
                     <div className='w-[60%] p-0'>
                       <h1 className='font-medium text-[12px]'>Value</h1>
                       <p className='font-normal text-[10px]'>Role</p>
                     </div>
                   </div>
-                  <div className='w-[20%] bg-[#F3FEF7] p-[12px] flex items-center my-[8px] gap-3'>
+                  <div className='md:w-[20%] w-[47%] bg-[#F3FEF7] p-[12px] flex items-center my-[8px] gap-3'>
                     <img className='w-[30%]' src='/icons/online.svg'/>
                     <div className='w-[60%] p-0'>
                       <h1 className='font-medium text-[12px]'>Value</h1>
                       <p className='font-normal text-[10px]'>Role</p>
                     </div>
                   </div>
-                  <div className='w-[20%] bg-[#E9EFFF] p-[12px] flex items-center my-[8px] gap-3'>
+                  <div className='md:w-[20%] w-[47%] bg-[#E9EFFF] p-[12px] flex items-center my-[8px] gap-3'>
                     <img className='w-[30%]' src='/icons/calendarass.svg'/>
                     <div className='w-[60%] p-0'>
                       <h1 className='font-medium text-[12px]'>Value</h1>
@@ -103,11 +103,11 @@ function Assignment({showModal,  handleModal}) {
                   </div>
                   
                 </div>
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-3 pr-3 py-2'>
                  <button type='button' onClick={() => handleModal()}><img src='/icons/comment.svg'/></button> 
                  <p  className='font-normal text-[12px]'>Add Comment</p>
                 </div>
-           </div>
+            </div>
             </div>
            <div className='w-full flex flex-col items-center gap-2'>
               <div className='w-11/12 my-[16px]'>
@@ -118,14 +118,7 @@ function Assignment({showModal,  handleModal}) {
 
           </div>
         </section>
-        {/* <section className='w-full  flex justify-center items-center'>
-          <div className='dummyDiv flex flex-col gap-8 mt-[60px]'>
-             <img src='/icons/dummy.svg'/>
-             <h1 className='font-normal text-[16px] text-center'>
-              No Records yet
-             </h1>
-          </div>
-        </section> */}
+        
       </div>
     </div>
   </div>
@@ -133,3 +126,13 @@ function Assignment({showModal,  handleModal}) {
 }
 
 export default Assignment
+
+
+/* <section className='w-full  flex justify-center items-center'>
+          <div className='dummyDiv flex flex-col gap-8 mt-[60px]'>
+             <img src='/icons/dummy.svg'/>
+             <h1 className='font-normal text-[16px] text-center'>
+              No Records yet
+             </h1>
+          </div>
+        </section> */

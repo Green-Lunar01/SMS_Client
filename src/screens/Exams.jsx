@@ -140,7 +140,7 @@ function Exams() {
           <div className="flex-container h-[50px]">
             <h1 className="screen-hd">Exams</h1>
           </div>
-          <div className="flex-container-between bg-[#fdfdfd] gap-[50px] my-[30px]">
+          <div className="w-full flex-container-between bg-[#fdfdfd] gap-[50px] my-[30px]">
             <div className="flex justify-normal gap-4 w-[50%]">
               <div className="relative">
                 {visible && !value && (

@@ -74,13 +74,13 @@ function Dashboard() {
     },
   ]
   return (
-    <div className=''>
+    <div className='w-full'>
+      {/* hiwirehjwfrlguwe;rofqjirghqero */}
     <div className='w-full flex justify-center'>
       <div className='lg:w-[93%] w-[85%] flex flex-col  gap-[51px] justify-start p-0 bg-white  my-[48px]'>
         <div className='lg:w-full lg:flex-row flex flex-col justify-center  gap-[16px]'> 
           
-         
-        
+       
           
           {attendanceCards.map((card, index) => (
             <div 
@@ -88,7 +88,7 @@ function Dashboard() {
               className=' flex flex-col  items-center lg:w-[27%]  h-[172px] rounded-[7px] pt-[19px]'
               style={{ backgroundColor: card.color }}
             >
-             <div className='flex flex-col gap-[22px] lg:w-[80%] h-[132px]'>
+             <div className='w-11/12 flex flex-col gap-[22px] lg:w-[80%] h-[132px]'>
                 <p className='font-semibold text-[14px]  text-white'> {card.attendanceType}</p>
                 <div className='flex w-full justify-between items-center'>
                   
@@ -111,7 +111,7 @@ function Dashboard() {
 
             <div className='lg:w-[67%] w-full  h-auto rounded-[8px] border-[1px] border-[#f2f2f2] shadow-[4px_8px_16px_0px_#d9d9d9] '>
                   <h1 className='text-[14px] font-bold text-[#08190e] pt-[20px] pl-[20px]'>Today Classes</h1>
-                  <div className='flex lg:justify-normal justify-center pt-[24px] pl-[24px] gap-[17px] flex-wrap mb-[20px]'>
+                  <div className='flex lg:justify-normal justify-center pt-[24px] md:pl-[24px] gap-[17px] flex-wrap mb-[20px]'>
                       {
                         timeTable.map((subjectTime) => (
                         

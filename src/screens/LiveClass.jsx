@@ -18,8 +18,8 @@ function LiveClass() {
         <section className='w-full bg-[#fdfdfd]  flex justify-between  '>
         
           <div className='lg:w-[100%] bg-[#fff] dummyDiv flex flex-col gap-8  '>
-            <div className='w-full border-b border-[#d9d9d9]  bg-[#f9f9f9]'> 
-              <div className='w-[35%] flex justify-between ml-[25px] my-[12px]  '>
+            <div className='w-full flex border-b border-[#d9d9d9]  bg-[#f9f9f9]'> 
+              <div className='md:w-[35%]  flex justify-between md:ml-[25px] my-[12px]  '>
                 <button className='w-auto px-[10px] rounded-[4px] h-[43px] text-[#fff] bg-[#13A541] text-[12px] font-normal'>
                   All meetings
                 </button>
@@ -38,7 +38,7 @@ function LiveClass() {
               
             </div>
             <div className='w-full flex justify-start'>
-               <div className='w-[55%] mx-[41px] px-[11px] py-[9px] border border-[#d9d9d9] rounded-[7px]'>
+               <div className='md:w-[55%] md:mx-[41px] px-[11px] py-[9px] border border-[#d9d9d9] rounded-[7px]'>
 
                    
                  <div className='flex gap-[13px] items-center'>

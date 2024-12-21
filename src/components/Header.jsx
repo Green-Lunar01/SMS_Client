@@ -1,15 +1,27 @@
 import React from 'react'
-
+import { useState } from 'react'
+import Sidebar from './Sidebar';
 const Header = () => {
+    const [showMenu, setShowMenu] = useState(false);
+
   return (
     <div className='sticky top-0 bg-[white] z-40'>
-
+        <div className='fixed md:hidden'>
+           {
+            showMenu ? <Sidebar showMenu={showMenu} setShowMenu={setShowMenu} /> : null
+           }
+            
+        </div>
         <div className=' w-full lg:h-[95px] h-[56px] flex justify-center border-0 border-b'>
             <div className='w-[90%] flex justify-between'>
                 <div className='lg:w-3/12 flex justify-between items-center'>
                    <img className='hidden md:block' src='/images/logo.png'/>
                    <div className='flex items-center gap-4'>
-                      <img className='w-auto h-auto' src='/icons/menu.png'/>
+                     <button type='button' onClick={() => setShowMenu(!showMenu)}>
+                        {
+                            showMenu ? <img src='/icons/cancel-01.svg'/> : <img src='/icons/menu.png' />
+                        }
+                     </button>
                       <div>
                       <img className='md:hidden' src='/images/lunar.png'/>
                       </div>
@@ -25,6 +37,7 @@ const Header = () => {
 
                 </div>
             </div>
+           
 
 
         </div>

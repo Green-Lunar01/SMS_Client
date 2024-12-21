@@ -53,7 +53,7 @@ const Books = () => {
   }
  
   return (
-<div className='bg-[#fdfdfd]'>
+<div className='bg-[#fdfdfd] z-50'>
     <div className='w-full flex justify-center'>
       <div className='lg:w-[93%] w-[85%] flex flex-col  gap-[48px] justify-start p-0 bg-white  my-[15px]'>
         <div className='lg:w-full  lg:flex-row flex flex-col   gap-[16px]'> 
@@ -67,7 +67,7 @@ const Books = () => {
         </div>
         <section className='w-full flex justify-start  gap-[16px] '> 
         
-        <div className='w-full flex justify-center gap-[10px] h-[74px]'>
+        <div className='w-full flex flex-wrap md:flex-nowrap justify-center gap-[10px] md:h-[74px]'>
   {bookLibrary.map((bookCategory) => (
     <button 
       key={bookCategory.bookCategory} 
@@ -75,7 +75,7 @@ const Books = () => {
       style={{
         backgroundColor: category === bookCategory.bookCategory ? "#13A541" : "#f9f9f9",
       }}
-      className={`text-[10px] w-[150px]  h-[30px] px-[4px] py-[2px] flex items-center rounded-md ${
+      className={`text-[10px] md:w-[150px]  h-[30px] px-[4px] py-[2px] flex items-center rounded-md ${
         category === bookCategory.bookCategory ? "text-white" : "text-black"
       }`}
     >

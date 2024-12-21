@@ -28,7 +28,9 @@ function Layout({children, showModal, setShowModal}) {
           </div>
       } 
         <Header />
-        <Sidebar />
+     <div className="md:flex hidden">
+     <Sidebar />
+     </div>
         {children}
     </div>
   )
