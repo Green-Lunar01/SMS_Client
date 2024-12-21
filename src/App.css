@@ -8,10 +8,7 @@
 
   --primary-green: #13A541;
   --dark-green: #08190E;
-<<<<<<< HEAD
-=======
   --primary-red: #FF3D3D;
->>>>>>> 534ca26af595f7841ec3c3067fa58f1ca9740446
 }
 
 * {
@@ -22,7 +19,6 @@
   font-family: "Inter", sans-serif;
 }
 
-<<<<<<< HEAD
 /* @font-face {
   font-family: "ButlerLight";
   src: local("ButlerLight"),
@@ -30,19 +26,15 @@
   font-weight: normal;
 } */
 
-=======
->>>>>>> 534ca26af595f7841ec3c3067fa58f1ca9740446
 a {
   text-decoration: none;
   color: inherit;
 }
-<<<<<<< HEAD
 input, button, textarea{
     outline: 0
   
   }
   
-=======
 
 .primary-btn {
   background-color: var(--primary-green);
@@ -70,4 +62,3 @@ label,
 a {
   color: var(--dark-green);
 }
->>>>>>> 534ca26af595f7841ec3c3067fa58f1ca9740446
