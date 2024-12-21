@@ -3,10 +3,7 @@
     width: 100%;
     background-color: var(--primary-green);
     padding: 20px;
-<<<<<<< HEAD
     border-radius: 8px;
-=======
->>>>>>> 534ca26af595f7841ec3c3067fa58f1ca9740446
 }
 
 .react-calendar__navigation {
@@ -30,15 +27,12 @@
     background-color: var(--primary-green);
     color: white;
 }
-<<<<<<< HEAD
 .react-calendar{
     height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-=======
->>>>>>> 534ca26af595f7841ec3c3067fa58f1ca9740446
 
 /* Style individual day tiles */
 .react-calendar__tile {
