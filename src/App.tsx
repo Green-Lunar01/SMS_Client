@@ -1,21 +1,32 @@
-import { useContext } from 'react';
-import Rout from './components/Rout';
-import Header from './components/Header';
-import { AppContext } from './context/AppContext';
-import MobileHeader from './components/MobileHeader';
+import { useContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import Rout from "./components/Rout";
+import Header from "./components/Header";
+import { AppContext } from "./context/AppContext";
+import MobileHeader from "./components/MobileHeader";
+import SchoolDashboard from "./schoolDashboard/App.jsx";
 
 const App = () => {
-  const { showNav } = useContext(AppContext);
+	const { showNav } = useContext(AppContext);
 
-  return (
-    <div>
-      <Header />
-      {showNav && <MobileHeader />}
-      <div>
-        <Rout />
-      </div>
-    </div>
-  );
+	return (
+		<>
+			{window.location.pathname.startsWith("/school") ? (
+				<Routes>
+					<Route path="/school/*" element={<SchoolDashboard />} />
+				</Routes>
+			) : (
+				<div>
+					<Header />
+					{showNav && <MobileHeader />}
+					<div>
+						<Rout />
+					</div>
+				</div>
+			)}
+		</>
+	);
+	// );
 };
 
 export default App;
