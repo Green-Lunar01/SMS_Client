@@ -4,6 +4,7 @@ import Rout from "./components/Rout";
 import Header from "./components/Header";
 import { AppContext } from "./context/AppContext";
 import MobileHeader from "./components/MobileHeader";
+// @ts-ignore
 import SchoolDashboard from "./schoolDashboard/App.jsx";
 
 const App = () => {
