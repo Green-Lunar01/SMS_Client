@@ -42,6 +42,12 @@ const ViewEmployee = lazy(() =>
 const Fee = lazy(() => import("./pages/Dashboard/Fee/Fee.jsx"));
 const Account = lazy(() => import("./pages/Dashboard/Account/Account.jsx"));
 const Salary = lazy(() => import("./pages/Dashboard/Salary/Salary.jsx"));
+const Attendance = lazy(() =>
+	import("./pages/Dashboard/Attendance/Attendance.jsx")
+);
+const Assignment = lazy(() =>
+	import("./pages/Dashboard/Assignment/Assignment.jsx")
+);
 
 function App() {
 	return (
@@ -94,6 +100,14 @@ function App() {
 					<Route path="/dashboard/fee" element={<Fee />} />
 					<Route path="/dashboard/account" element={<Account />} />
 					<Route path="/dashboard/salary" element={<Salary />} />
+					<Route
+						path="/dashboard/attendance"
+						element={<Attendance />}
+					/>
+					<Route
+						path="/dashboard/assignment"
+						element={<Assignment />}
+					/>
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>
 			</Routes>

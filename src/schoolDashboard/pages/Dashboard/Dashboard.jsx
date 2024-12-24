@@ -385,9 +385,11 @@ const Dashboard = () => {
 						Salary
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/attendance"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/attendance")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -421,9 +423,11 @@ const Dashboard = () => {
 						Attendance
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/assignment"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/assignment")
+								? "active"
+								: ""
 						}
 					>
 						<svg
