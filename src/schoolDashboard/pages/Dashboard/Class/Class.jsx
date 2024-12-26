@@ -36,7 +36,7 @@ const Class = () => {
 							/>
 						</label>
 						<label htmlFor="term-fee">
-							<p>Class Name *</p>
+							<p>School Fees *</p>
 							<input
 								type="text"
 								id="term-fee"
