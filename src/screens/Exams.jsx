@@ -136,13 +136,13 @@ function Exams() {
   return (
     <div>
       <div className="w-full flex-container bg-[#fdfdfd]">
-        <div className="flex-container-col lg:w-11/12 mt-[40px]">
-          <div className="flex-container h-[50px]">
-            <h1 className="screen-hd">Exams</h1>
+        <div className="w-11/12 flex flex-col md:items-start items-center  lg:w-11/12 mt-[40px]">
+          <div className="w-full flex-container h-[50px]">
+            <h1 className="screen-hd w-full flex justify-center  ">Exams</h1>
           </div>
-          <div className="w-full flex-container-between bg-[#fdfdfd] gap-[50px] my-[30px]">
-            <div className="flex justify-normal gap-4 w-[50%]">
-              <div className="relative">
+          <div className="md:w-full w-11/12 md:flex bg-[#fdfdfd]  gap-[50px] my-[30px]">
+            <div className="flex justify-normal   md:gap-4 gap-3 md:w-[50%]">
+              <div className="w-full relative">
                 {visible && !value && (
                   <div
                     onClick={handleVisible}
@@ -164,29 +164,29 @@ function Exams() {
                   onFocus={handleVisible}
                   onBlur={handleBlur}
                   placeholder=""
-                  className="w-[200px] border-[1px] border-[#d9d9d9] rounded-[26px] h-[50px] px-[16px] py-[20px]"
+                  className="md:w-[200px] w-full border-[1px] border-[#d9d9d9] rounded-[26px] h-[50px] px-[16px] py-[20px]"
                 />
               </div>
               {/* Search Button */}
               <button
                 type="submit"
-                className="bg-[#13A541] text-center text-white h-[50px] px-[25px] rounded-[10px]"
+                className="bg-[#13A541] text-center text-white h-[50px] w-[50%] px-[25px] rounded-[10px]"
               >
                 Search
               </button>
             </div>
-            <div className="flex-container gap-[28px] w-[50%]">
+            <div className="md:w-full flex-container my-4 md:my-0 md:gap-[28px] gap-2  w-[50%]">
               <input
                 placeholder="Term 1"
-                className="dropdown-input w-[100px]"
+                className="dropdown-input md:w-[100px] w-[35%]"
               />
               <input
                 placeholder="2023/2024"
-                className="dropdown-input w-[150px]"
+                className="dropdown-input md:w-[150px] w-[35%]"
               />
               <div className=" flex-container gap-[20px] bg-[#f7f7f7] rounded-[6px] px-4 py-4">
                <button>
-               <img  onClick={exportToExcel} src="/icons/xls.svg" alt="XLS" />
+               <img className="w-auto"  onClick={exportToExcel} src="/icons/xls.svg" alt="XLS" />
                </button>
                <button>
                 <img  onClick={exportToCSV} src="/icons/csv.svg" alt="CSV" />
@@ -199,9 +199,11 @@ function Exams() {
               </div>
             </div>
           </div>
-          <div className="lg:w-10/12 mt-4 mb-5">
+          <div className="lg:w-10/12 w-full mt-4 mb-5">
             <h3 className="font-bold text-[14px]">J.S.S 1</h3>
+            <div className=" w-full overflow-x-auto">
             <AssessmentTable tableData={examTable} />
+            </div>
             {/* <Chart /> */}
           </div>
         </div>

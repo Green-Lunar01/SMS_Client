@@ -13,6 +13,7 @@ import Login from "./pages/Auth/Login";
 
 import ProtectedRoutes from "./pages/Auth/ProtectedRoutes";
 import LiveClass from "./screens/LiveClass";
+import Profile from "./screens/Profile";
 function App() {
   const [showModal, setShowModal] = useState(false);
 
@@ -34,6 +35,7 @@ function App() {
               />
             }
           >
+            <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route
               path="/assignments"

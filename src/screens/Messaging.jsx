@@ -1,8 +1,15 @@
 import React from 'react'
+import { useState } from 'react';
 import Sendermsg from '../components/messages/Sendermsg';
 import Receivermsg from '../components/messages/Receivermsg';
 
 const Messaging = () => {
+  const [currentMsg, setCurrentMsg] = useState('All Messages');
+  const msgtype = ["All Messages", "Sent Messages", "Received Messages"];
+
+  const handleMsg = () => {
+    setCurrentMsg('sender-message');
+  }
   return (
     <div className='bg-[#fdfdfd]'>
     <div className='w-full flex justify-center'>
@@ -49,29 +56,43 @@ const Messaging = () => {
           </div>
           <div className='lg:w-[62%] bg-[#fff] dummyDiv flex flex-col gap-8  '>
             <div className='w-full border-b border-[#d9d9d9]  bg-[#f9f9f9]'> 
-              <div className='w-[62%] flex justify-between ml-[25px] my-[12px]  '>
-                <button className='w-auto px-[10px] h-[43px] text-[#fff] bg-[#13A541] text-[12px] font-normal'>
-                  All Messages
+              <div className='w-[62%] flex justify-between md:ml-[25px] ml-[13px] my-[12px] gap-3  '>
+                {
+                  msgtype.map((msg, index) => <button
+                  onClick={() => setCurrentMsg(msg)}
+                  className={`w-auto px-[10px] h-[43px] ${
+                    currentMsg === msg ? "bg-[#13a541] border-0 text-white" : "text-[#8E98A8] bg-[#fff] border border-[#d9d9d9]"
+                  } text-[12px] font-normal`}
+                >
+                  {msg}
                 </button>
-                <button className='w-auto px-[10px] h-[43px] text-[#8E98A8] bg-[#fff] text-[12px] font-normal border border-[#d9d9d9] '>
-                  Sent Messages
-                </button>
-                <button className='w-auto px-[10px] h-[43px] text-[#8E98A8] bg-[#fff] text-[12px] font-normal border border-[#d9d9d9] '>
-                Received Messages
-                </button>
+                )
+                }
+                
+                
                
 
               </div>
               
             </div>
             <div className='w-full flex justify-start'>
-              <Sendermsg />
-              {/* <div className='w-11/12 flex flex-col gap-[10px]  sender'>
-                  
-              </div> */}
+             
+              {
+               currentMsg === "All Messages" && <Sendermsg />
+              }
+              {
+               currentMsg === "Sent Messages" && <Sendermsg />
+              }
             </div>
             <div className='w-full flex justify-end '>
-              <Receivermsg />
+              {
+               currentMsg === "All Messages" && <Receivermsg />
+              }
+              {
+               currentMsg === "Received Messages" && <div>
+                <Receivermsg />
+               </div>
+              }
             </div>
           </div>
         </section> 

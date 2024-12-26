@@ -2,7 +2,8 @@ import React from 'react'
 
 function AssessmentTable({tableData}) {
   return (
-    <table className="table mt-3">
+    <div className='w-full overflow-x-auto'>
+        <table className="table mt-3 min-w-[770px] ">
     <thead>
       <tr className="w-full border-0 border-t-[1px] bg-[#f7f7f7]">
         <th className="exam-th w-[23%] pl-[13px]">Subject</th> {/* Adjusted width */}
@@ -26,6 +27,7 @@ function AssessmentTable({tableData}) {
       ))}
     </tbody>
   </table>
+    </div>
   )
 }
 

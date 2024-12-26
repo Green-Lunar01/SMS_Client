@@ -115,7 +115,7 @@ function Dashboard() {
                       {
                         timeTable.map((subjectTime) => (
                         
-                            <div className='flex flex-col gap-[20px] justify-center w-[152px] h-[125px] text-center text-white ' style={{backgroundColor: subjectTime.color}} >
+                            <div className='flex flex-col gap-[20px] justify-center md:w-[152px] w-[42%] h-[125px] text-center text-white ' style={{backgroundColor: subjectTime.color}} >
                               <p>
                                 {subjectTime.subject}
                               </p>

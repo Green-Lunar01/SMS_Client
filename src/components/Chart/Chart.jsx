@@ -14,8 +14,9 @@ import {
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+
+
 const Chart = () => {
-  
   const data = {
     labels: ['Word Processing', 'Lit-In-Eng', 'P.H.E', 'Fine Art', 'Basic Science', 'Business St.', 'History', 'Yoruba', 'Comp/ICT'], // X-axis labels
     datasets: [
@@ -25,13 +26,10 @@ const Chart = () => {
         backgroundColor: '#13A541', // Bar color
         borderColor: 'rgba(75, 192, 192, 1)', // Bar border
         borderWidth: 1,
-        barThickness: 30,
-        padding:0,
-        boxWidth:0,
+        barThickness: 30, // Default thickness
       },
     ],
   };
-
 
   const options = {
     responsive: true,
@@ -39,36 +37,43 @@ const Chart = () => {
     plugins: {
       legend: {
         display: false,
-        position: 'bottom', // Legend position
-      },
-      title: {
-        display: true,
-        text: '', // Chart title
       },
     },
     scales: {
       x: {
         grid: {
-          display: false, // Remove grid lines on the x-axis
+          display: false,
         },
-        ticks:{
-            minRotation: 45,
-            maxRotation: 45
-        }
+        ticks: {
+          minRotation: 45,
+          maxRotation: 45,
+        },
       },
       y: {
         min: 0,
-        max:100,
+        max: 100,
         grid: {
-          display: false, // Remove grid lines on the y-axis
+          display: false,
         },
       },
     },
+    // Dynamically adjust barThickness based on viewport width
+    onResize: (chart, size) => {
+      chart.data.datasets.forEach((dataset) => {
+        dataset.barThickness = size.width <= 768 ? 20 : 30; // Mobile: 25, Larger screens: 30
+      });
+      chart.update(); // Update the chart with new configurations
+    },
   };
 
-  return <div className='' style={{ width: '400px', height: '300px' }}>
-  <Bar data={data} options={options} height={1000} />
-</div>
+  return (
+    <div className="w-full" style={{ height: '300px' }}>
+      <Bar data={data} options={options} />
+    </div>
+  );
 };
 
 export default Chart;
+
+
+
