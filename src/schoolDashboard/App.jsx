@@ -48,6 +48,12 @@ const Attendance = lazy(() =>
 const Assignment = lazy(() =>
 	import("./pages/Dashboard/Assignment/Assignment.jsx")
 );
+const Timetable = lazy(() =>
+	import("./pages/Dashboard/Timetable/TimeTableScreen.jsx")
+);
+const Messaging = lazy(() =>
+	import("./pages/Dashboard/Messaging/Messaging.jsx")
+);
 
 function App() {
 	return (
@@ -107,6 +113,14 @@ function App() {
 					<Route
 						path="/dashboard/assignment"
 						element={<Assignment />}
+					/>
+					<Route
+						path="/dashboard/timetable"
+						element={<Timetable />}
+					/>
+					<Route
+						path="/dashboard/messaging"
+						element={<Messaging />}
 					/>
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>

@@ -476,9 +476,11 @@ const Dashboard = () => {
 						Assignment
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/timetable"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/timetable")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -516,9 +518,11 @@ const Dashboard = () => {
 						Time Table
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/messaging"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/messaging")
+								? "active"
+								: ""
 						}
 					>
 						<svg
