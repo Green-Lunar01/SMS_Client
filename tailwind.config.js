@@ -6,6 +6,21 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          light: '#13A541'
+        },
+        secondary: {
+          bold: '#08190E'
+        }
+      },
+      backgroundImage: {
+        header: "url('/green-bg.png')",
+        headerMobile: "url('/green-bg-mobile.png')",
+        hero: "url('/white-bg.png')",
+        heroMobile: "url('/mobile-hero.png')"
+      }
+    },
       keyframes: {
         slideIn: {
           '70%': { transform: 'translateX(-100%)', opacity: '1' },
