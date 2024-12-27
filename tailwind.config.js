@@ -19,8 +19,8 @@ export default {
         headerMobile: "url('/green-bg-mobile.png')",
         hero: "url('/white-bg.png')",
         heroMobile: "url('/mobile-hero.png')"
-      }
-    },
+      },
+    
       keyframes: {
         slideIn: {
           '70%': { transform: 'translateX(-100%)', opacity: '1' },
