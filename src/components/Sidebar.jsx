@@ -18,15 +18,15 @@ const Sidebar = ({showMenu, setShowMenu}) => {
   const navigate = useNavigate();
 
   const buttons = [
-    { name: 'dashboard', title: 'Dashboard', icon: DasIcon, onClick: () => (navigate('/dashboard')) },
-    { name: 'assignments', title: 'Assignments', icon: AssignmentsIcon, onClick: () => (navigate('/assignments')),  },
-    { name: 'timetable', title: 'Time Table', icon: CalendarIcon, onClick: () => navigate('/timetable') },
-    { name: 'messaging', title: 'Messaging', icon: MessageIcon, onClick: () => navigate('/messaging') },
-    { name: 'live-class', title: 'Live Class', icon: MentoringIcon, onClick: () => navigate('/live-class') },
-    { name: 'books', title: 'Books', icon: BookIcon, onClick: () => navigate('/books') },
-    { name: 'exams', title: 'Exams', icon: QuizIcon, onClick: () => navigate('/exams') },
-    { name: 'class-test', title: 'Class Test', icon: TestIcon, onClick: () => navigate('/class-test') },
-    { name: 'report-card', title: 'Report Card', icon: ReportIcon, onClick: () => navigate('/report-card') },
+    { name: 'dashboard', title: 'Dashboard', icon: DasIcon, onClick: () => (navigate('/student/dashboard')) },
+    { name: 'assignments', title: 'Assignments', icon: AssignmentsIcon, onClick: () => (navigate('/student/assignments')),  },
+    { name: 'timetable', title: 'Time Table', icon: CalendarIcon, onClick: () => navigate('/student/timetable') },
+    { name: 'messaging', title: 'Messaging', icon: MessageIcon, onClick: () => navigate('/student/messaging') },
+    { name: 'live-class', title: 'Live Class', icon: MentoringIcon, onClick: () => navigate('/student/live-class') },
+    { name: 'books', title: 'Books', icon: BookIcon, onClick: () => navigate('/student/books') },
+    { name: 'exams', title: 'Exams', icon: QuizIcon, onClick: () => navigate('/student/exams') },
+    { name: 'class-test', title: 'Class Test', icon: TestIcon, onClick: () => navigate('/student/class-test') },
+    { name: 'report-card', title: 'Report Card', icon: ReportIcon, onClick: () => navigate('/student/report-card') },
   ];
 
   return (

@@ -25,15 +25,11 @@ body{
   padding: 0px;
   /* transition: all 0.25s ease-in-out; */
   font-family: "Inter", sans-serif;
-  box-sizing: border-box;
+ 
+  /* color: white; */
 }
 
-/* @font-face {
-  font-family: "ButlerLight";
-  src: local("ButlerLight"),
-    url("./fonts/Butler_Webfont/Butler-Light.woff") format("woff");
-  font-weight: normal;
-} */
+
 
 a {
   text-decoration: none;
@@ -85,18 +81,8 @@ input, button, textarea{
   
   height: 55px;
   text-align: left
-}@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-* {
-  font-family: 'Inter', sans-serif;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
 }
+
 
 .floating {
   -webkit-animation: floating 2.5s linear infinite;

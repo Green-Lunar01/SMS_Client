@@ -22,10 +22,10 @@ function App() {
   };
 
   return (
-    <Router>
+    
       <div className="relative">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/student/login" element={<Login />} />
           <Route
             element={
               <ProtectedRoutes
@@ -35,25 +35,25 @@ function App() {
               />
             }
           >
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/student/profile" element={<Profile />} />
+            <Route path="/student/dashboard" element={<Dashboard />} />
             <Route
-              path="/assignments"
+              path="/student/assignments"
               element={
                 <Assignment showModal={showModal} handleModal={handleModal} />
               }
             />
-            <Route path="/timetable" element={<Timetable />} />
-            <Route path="/books" element={<Books />} />
-            <Route path="/messaging" element={<Messaging />} />
-            <Route path="/exams" element={<Exams />} />
-            <Route path="/live-class" element={<LiveClass />} />
-            <Route path="/class-test" element={<ClassTest />} />
-            <Route path="/report-card" element={<Report />} />
+            <Route path="/student/timetable" element={<Timetable />} />
+            <Route path="/student/books" element={<Books />} />
+            <Route path="/student/messaging" element={<Messaging />} />
+            <Route path="/student/exams" element={<Exams />} />
+            <Route path="/student/live-class" element={<LiveClass />} />
+            <Route path="/student/class-test" element={<ClassTest />} />
+            <Route path="/student/report-card" element={<Report />} />
           </Route>
         </Routes>
       </div>
-    </Router>
+  
   );
 }
 

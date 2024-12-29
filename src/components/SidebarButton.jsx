@@ -4,8 +4,8 @@ import { useLocation } from 'react-router-dom';
 function SidebarButton({ name, icon: Icon, onClick, title, setShowMenu }) {
   const { activeButton, handleNavigateColor, setActiveButton } = useActiveButton();
   const location = useLocation ()
-  const pathWithoutSlash = location.pathname.startsWith("/")
-    ? location.pathname.slice(1)
+  const pathWithoutSlash = location.pathname.startsWith("/student")
+    ? location.pathname.slice(9)
     : location.pathname;
   useEffect(
     () => {
