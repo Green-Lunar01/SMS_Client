@@ -16,7 +16,7 @@ const Footer = () => {
     },
     {
       title: 'Contact Us',
-      path: '/contact-us'
+      path: '/contact'
     },
     {
       title: 'Help',
