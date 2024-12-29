@@ -1,0 +1,172 @@
+.card-component {
+	max-width: 1200px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+	/* Header */
+	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 20px;
+
+		select {
+			padding: 8px;
+			font-size: 14px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+		}
+
+		.search {
+			display: flex;
+			align-items: center;
+		}
+
+		.search input {
+			padding: 8px;
+			border: 1px solid #ddd;
+			border-radius: 4px 0 0 4px;
+			outline: none;
+		}
+
+		.search button {
+			padding: 8px 12px;
+			background-color: #28a745;
+			color: white;
+			border: none;
+			border-radius: 0 4px 4px 0;
+			cursor: pointer;
+		}
+
+		.navigation button {
+			padding: 8px 12px;
+			margin-left: 8px;
+			border: none;
+			background-color: #007bff;
+			color: white;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+	}
+
+	/* School Info */
+	.school-info {
+		text-align: center;
+		margin-bottom: 20px;
+
+		h1 {
+			font-size: 24px;
+			margin-bottom: 8px;
+			color: #333;
+		}
+
+		p {
+			font-size: 14px;
+			color: #555;
+		}
+	}
+
+	/* Student Info */
+	.student-info {
+		margin-bottom: 20px;
+		display: flex;
+		justify-content: space-between;
+
+		h2 {
+			font-size: 20px;
+			color: #333;
+		}
+
+		div p {
+			font-size: 14px;
+			color: #555;
+			margin: 4px 0;
+		}
+	}
+
+	/* Chart Section */
+	.chart-section {
+		margin: 20px 0;
+		text-align: center;
+	}
+
+	/* Scores Table */
+	.scores-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 20px;
+
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: center;
+			font-size: 14px;
+		}
+
+		th {
+			background-color: #f8f9fa;
+			color: #333;
+		}
+
+		tbody tr:nth-child(even) {
+			background-color: #f9f9f9;
+		}
+
+		tbody tr:hover {
+			background-color: #f1f1f1;
+		}
+	}
+
+	/* Summary Section */
+	.summary {
+		border-top: 1px solid #ddd;
+		padding-top: 20px;
+
+		h3 {
+			font-size: 18px;
+			color: #28a745;
+			margin-bottom: 10px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+
+		table th,
+		table td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: center;
+			font-size: 14px;
+		}
+
+		table th {
+			background-color: #f8f9fa;
+			color: #333;
+		}
+
+		div p {
+			font-size: 14px;
+			color: #555;
+			margin: 4px 0;
+		}
+	}
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	.student-info {
+		flex-direction: column;
+	}
+
+	.student-info div {
+		margin-top: 10px;
+	}
+}

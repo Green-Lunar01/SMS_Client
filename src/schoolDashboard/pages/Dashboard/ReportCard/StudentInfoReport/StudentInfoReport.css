@@ -1,0 +1,66 @@
+.student-info-report {
+	padding: 3rem 2rem;
+
+	> .student-info-report-table {
+		> .mid {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 40px;
+
+			.search-component-area {
+				margin-bottom: 0px;
+
+				.search-bar {
+					margin-bottom: 0px;
+				}
+			}
+
+			aside {
+				display: flex;
+				align-items: center;
+				background-color: #f7f7f7;
+				padding: 10px 20px;
+				gap: 20px;
+
+				select {
+					padding: 10px 15px;
+					background-color: #fff;
+					border: 1px solid #d9d9d9;
+					border-radius: 4px;
+				}
+
+				div {
+					padding: 5px;
+					cursor: pointer;
+				}
+
+				svg {
+					font-size: 1.5rem;
+					color: var(--primary-red);
+				}
+			}
+		}
+
+		> table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-block: 20px;
+
+			th,
+			td {
+				padding: 30px 20px;
+				text-align: left;
+				border-bottom: 1px solid #d9d9d9;
+				color: var(--dark-green);
+				font-size: 0.9rem;
+			}
+
+			th {
+				font-weight: 700;
+				font-size: 1rem;
+				background-color: #f7f7f7;
+			}
+		}
+	}
+}

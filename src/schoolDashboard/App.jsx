@@ -54,6 +54,14 @@ const Timetable = lazy(() =>
 const Messaging = lazy(() =>
 	import("./pages/Dashboard/Messaging/Messaging.jsx")
 );
+const Questions = lazy(() =>
+	import("./pages/Dashboard/Questions/Questions.jsx")
+);
+const Exams = lazy(() => import("./pages/Dashboard/Exams/Exams.jsx"));
+const Tests = lazy(() => import("./pages/Dashboard/Tests/Tests.jsx"));
+const ReportCard = lazy(() =>
+	import("./pages/Dashboard/ReportCard/ReportCard.jsx")
+);
 
 function App() {
 	return (
@@ -121,6 +129,16 @@ function App() {
 					<Route
 						path="/dashboard/messaging"
 						element={<Messaging />}
+					/>
+					<Route
+						path="/dashboard/questions"
+						element={<Questions />}
+					/>
+					<Route path="/dashboard/exams" element={<Exams />} />
+					<Route path="/dashboard/tests" element={<Tests />} />
+					<Route
+						path="/dashboard/reportcard"
+						element={<ReportCard />}
 					/>
 					<Route path="*" element={<NotFoundDashboard />} />
 				</Route>
