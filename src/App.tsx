@@ -1,17 +1,14 @@
-import { useContext} from "react";
-// import { Routes, Route } from "react-router-dom";
 import Rout from "./components/Rout";
-import Header from "./components/Header/index.tsx";
-import { AppContext } from "./context/AppContext";
-import MobileHeader from "./components/MobileHeader";
-// @ts-ignore
 import SchoolDashboard from "./schoolDashboard/App.jsx";
 import {  Routes, Route } from "react-router-dom";
 import StudentApp from "./studentDashboard/App"
-
-
+import Contact from "./pages/Contact";
+import Pricing from "./pages/Pricing";
+import Home from "./pages/Home";
+import Blog from "./pages/Blog";
+import Login from "./schoolDashboard/pages/Auth/Login"
 const App = () => {
-	const { showNav } = useContext(AppContext);
+	
 	
 	return (
 		<>
@@ -23,11 +20,19 @@ const App = () => {
     </Routes>
   ) : (
     <div>
-      <Header />
-      {showNav && <MobileHeader />}
-      <div>
-        <Rout />
-      </div>
+      <Routes>
+		<Route element={<Rout />}>
+		       <Route index element={<Home />} />
+				<Route path="/contact" element={<Contact />} />
+				<Route path="/pricing" element={<Pricing />} />
+				<Route path="/blog" element={<Blog />} />
+		
+		</Route>
+		<Route path="/login" element={<Login />} />
+	  </Routes>
+	  
+	  
+      
     </div>
   )}
 </>

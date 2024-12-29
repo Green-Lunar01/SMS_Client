@@ -175,15 +175,26 @@ function Exams() {
                 Search
               </button>
             </div>
-            <div className="md:w-full flex-container my-4 md:my-0 md:gap-[28px] gap-2  w-[50%]">
-              <input
-                placeholder="Term 1"
-                className="dropdown-input md:w-[100px] w-[35%]"
-              />
-              <input
-                placeholder="2023/2024"
-                className="dropdown-input md:w-[150px] w-[35%]"
-              />
+            <div className="w-full flex-container my-4 md:my-0 md:gap-[28px] gap-2  ">
+            <select 
+  className="dropdown-input md:w-[100px] w-[35%] outline-none" 
+  placeholder="Term 1"
+>
+  <option value="" disabled selected>Select Term</option>
+  <option value="option1">Term 1</option>
+  <option value="option2">Term 2</option>
+  <option value="option3">Term 3</option>
+</select>
+            <select 
+  className="dropdown-input md:w-[100px] w-[35%] outline-none" 
+  placeholder="Term 1"
+>
+  <option value="" disabled selected>Select Year </option>
+  <option value="option1"> 2021/2022</option>
+  <option value="option2"> 2019/2020</option>
+  <option value="option3"> 2018/2019</option>
+</select>
+              
               <div className=" flex-container gap-[20px] bg-[#f7f7f7] rounded-[6px] px-4 py-4">
                <button>
                <img className="w-auto"  onClick={exportToExcel} src="/icons/xls.svg" alt="XLS" />
