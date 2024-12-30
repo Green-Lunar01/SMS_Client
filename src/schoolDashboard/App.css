@@ -38,7 +38,7 @@ a {
   color: var(--primary-green);
 }
 
-p,
+/* p,
 h1,
 h2,
 h3,
@@ -49,4 +49,4 @@ span,
 label,
 a {
   color: var(--dark-green);
-}
+} */
