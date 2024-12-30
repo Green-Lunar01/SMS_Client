@@ -7,7 +7,6 @@
 	background-color: #fff;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-	/* Header */
 	.header {
 		display: flex;
 		justify-content: space-between;
@@ -53,7 +52,6 @@
 		}
 	}
 
-	/* School Info */
 	.school-info {
 		text-align: center;
 		margin-bottom: 20px;
@@ -70,31 +68,65 @@
 		}
 	}
 
-	/* Student Info */
 	.student-info {
 		margin-bottom: 20px;
 		display: flex;
 		justify-content: space-between;
 
-		h2 {
-			font-size: 20px;
-			color: #333;
+		>div {
+			border: 1px solid #d9d9d9;
+			width: 400px;
+			padding-bottom: 10px;
+
+			h4 {
+				text-align: center;
+				border-bottom: 1px solid #d9d9d9;
+				padding: 5px;
+				font-size: .9rem;
+				font-weight: 500;
+				margin-bottom: 15px;
+			}
+
+			table {
+				border-collapse: collapse;
+				width: 95%;
+				margin: 0px auto;
+				border: 1px solid #d9d9d9;
+
+				tr:first-of-type {
+
+					th,
+					td {
+						background-color: #F5F5F5;
+					}
+				}
+
+				th,
+				td {
+					padding: 10px 15px;
+					font-size: .85rem;
+					text-align: left;
+				}
+
+				th {
+					font-weight: 500;
+				}
+			}
+
+			h5 {
+				font-weight: 500;
+				font-size: .85rem;
+				margin: 10px 20px;
+			}
 		}
 
-		div p {
-			font-size: 14px;
-			color: #555;
-			margin: 4px 0;
+		.chart-section {
+			margin: 20px 0;
+			text-align: center;
+			width: 600px;
 		}
 	}
 
-	/* Chart Section */
-	.chart-section {
-		margin: 20px 0;
-		text-align: center;
-	}
-
-	/* Scores Table */
 	.scores-table {
 		width: 100%;
 		border-collapse: collapse;
@@ -103,7 +135,7 @@
 		th,
 		td {
 			border: 1px solid #ddd;
-			padding: 8px;
+			padding: 20px;
 			text-align: center;
 			font-size: 14px;
 		}
@@ -122,51 +154,74 @@
 		}
 	}
 
-	/* Summary Section */
 	.summary {
 		border-top: 1px solid #ddd;
 		padding-top: 20px;
 
 		h3 {
-			font-size: 18px;
-			color: #28a745;
+			font-size: 1rem;
+			background-color: var(--primary-green);
+			color: #fff;
+			padding: 10px 20px;
+			width: 100%;
 			margin-bottom: 10px;
 		}
 
 		table {
-			width: 100%;
+			width: 400px;
 			border-collapse: collapse;
 			margin-bottom: 20px;
+
+			th,
+			td {
+				border: 1px solid #ddd;
+				padding: 8px;
+				text-align: center;
+				font-size: 14px;
+			}
+
+			th {
+				background-color: #f8f9fa;
+				color: #333;
+			}
 		}
 
-		table th,
-		table td {
-			border: 1px solid #ddd;
-			padding: 8px;
-			text-align: center;
-			font-size: 14px;
-		}
+		>div {
 
-		table th {
-			background-color: #f8f9fa;
-			color: #333;
-		}
+			>article {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: 15px;
+			}
 
-		div p {
-			font-size: 14px;
-			color: #555;
-			margin: 4px 0;
+			span {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				font-size: .85rem;
+
+				input {
+					border-bottom: 1px solid #d9d9d9;
+					padding: 5px 0;
+				}
+
+				input[type="text"] {
+					min-width: max-content;
+				}
+			}
 		}
 	}
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-	.student-info {
-		flex-direction: column;
-	}
+	.card-component {
+		.student-info {
+			flex-direction: column;
+		}
 
-	.student-info div {
-		margin-top: 10px;
+		.student-info div {
+			margin-top: 10px;
+		}
 	}
 }

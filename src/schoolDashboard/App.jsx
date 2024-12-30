@@ -62,6 +62,9 @@ const Tests = lazy(() => import("./pages/Dashboard/Tests/Tests.jsx"));
 const ReportCard = lazy(() =>
 	import("./pages/Dashboard/ReportCard/ReportCard.jsx")
 );
+const UserAccess = lazy(() =>
+	import("./pages/Dashboard/UserAccess/UserAccess.jsx")
+);
 
 function App() {
 	return (
@@ -136,6 +139,10 @@ function App() {
 					/>
 					<Route path="/dashboard/exams" element={<Exams />} />
 					<Route path="/dashboard/tests" element={<Tests />} />
+					<Route
+						path="/dashboard/useraccess"
+						element={<UserAccess />}
+					/>
 					<Route
 						path="/dashboard/reportcard"
 						element={<ReportCard />}

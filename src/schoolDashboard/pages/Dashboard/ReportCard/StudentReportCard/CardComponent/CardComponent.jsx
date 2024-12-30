@@ -56,12 +56,36 @@ const CardComponent = () => {
 			grade: "E",
 			remark: "Poor",
 		},
-		// Add more subjects as needed
+		{
+			name: "Mathematics",
+			test1: 20,
+			test2: 20,
+			test3: 15,
+			avg: 15,
+			exam: 15,
+			termCum: 15,
+			lastCum: 15,
+			finalCum: 15,
+			grade: "E",
+			remark: "Poor",
+		},
+		{
+			name: "English Language",
+			test1: 20,
+			test2: 20,
+			test3: 15,
+			avg: 15,
+			exam: 15,
+			termCum: 15,
+			lastCum: 15,
+			finalCum: 15,
+			grade: "E",
+			remark: "Poor",
+		},
 	];
 
 	return (
 		<div className="card-component">
-			{/* Header */}
 			<header className="header">
 				<select>
 					<option value="J.S.S 1 A">J.S.S 1 A</option>
@@ -76,32 +100,54 @@ const CardComponent = () => {
 				</div>
 			</header>
 
-			{/* School Info */}
 			<section className="school-info">
 				<h1>Fountain Int'l High School</h1>
 				<p>Omisanjana Area, Ado Ekiti, Ekiti State</p>
 				<p>Website: fihs.com.ng | Mobile: 08034290207</p>
 			</section>
 
-			{/* Student Info */}
+			<h2>ADABEMBE MOJOLAOLUWA DAVID</h2>
+
 			<section className="student-info">
-				<h2>ADABEMBE MOJOLAOLUWA DAVID</h2>
+				<section className="chart-section">
+					<Bar data={chartData} />
+				</section>
+
 				<div>
-					<p>Gender: Male</p>
-					<p>Session and Term: 2023/2024 2nd Term</p>
-					<p>Admission Number: FIHS/23/2409</p>
-					<p>No of times School Opened: 122</p>
-					<p>No of times Present: 118</p>
-					<p>No of times Absent: 4</p>
+					<h4>Student Details</h4>
+					<table>
+						<tr>
+							<th>Gender</th>
+							<td>Male</td>
+						</tr>
+						<tr>
+							<th>Session and Term</th>
+							<td>2023/2024 2nd Term</td>
+						</tr>
+						<tr>
+							<th>Admission Number</th>
+							<td>FIHS/23/2409</td>
+						</tr>
+					</table>
+
+					<h5>Student Attendance</h5>
+					<table>
+						<tr>
+							<th>No of times School Opened:</th>
+							<td>122</td>
+						</tr>
+						<tr>
+							<th>No of times Present:</th>
+							<td>118</td>
+						</tr>
+						<tr>
+							<th>No of times Absent:</th>
+							<td>4</td>
+						</tr>
+					</table>
 				</div>
 			</section>
 
-			{/* Performance Chart */}
-			<section className="chart-section">
-				<Bar data={chartData} />
-			</section>
-
-			{/* Subject Scores */}
 			<table className="scores-table">
 				<thead>
 					<tr>
@@ -137,7 +183,6 @@ const CardComponent = () => {
 				</tbody>
 			</table>
 
-			{/* Summary */}
 			<section className="summary">
 				<h3>Total: 42%</h3>
 				<table>
@@ -159,19 +204,56 @@ const CardComponent = () => {
 							<td>B</td>
 							<td>Good</td>
 						</tr>
+						<tr>
+							<td>50-59</td>
+							<td>C</td>
+							<td>Okay</td>
+						</tr>
 						{/* Add more grading rows */}
 					</tbody>
 				</table>
 				<div>
-					<p>
-						Class Teacher's Comment: He shows respect for teachers
-						and peers.
-					</p>
-					<p>
-						Principal's Comment: Below average result, he needs to
-						pay more attention to his studies.
-					</p>
-					<p>Next Term Begins On: 2024-04-29</p>
+					<article>
+						<span>
+							<b>Class Teacher's Comment:</b>
+							<input
+								type="text"
+								name="commentT"
+								id="commentT"
+								placeholder="He shows respect for teachers and peers."
+							/>
+						</span>
+
+						<span>
+							<b>Signature and Date:</b>
+							<input type="text" name="signT" id="signT" />
+						</span>
+					</article>
+					<article>
+						<span>
+							<b>Principal's Comment:</b>
+							<input
+								type="text"
+								name="commentT"
+								id="commentT"
+								placeholder="Below average result, he needs to pay more attention to his studies."
+							/>
+						</span>
+
+						<span>
+							<b>Signature and Date:</b>
+							<input type="text" name="signT" id="signT" />
+						</span>
+					</article>
+					<span>
+						<b>Next Term Begins On:</b>
+						<input
+							type="date"
+							name="dateT"
+							id="dateT"
+							placeholder="2024-04-29"
+						/>
+					</span>
 				</div>
 			</section>
 		</div>

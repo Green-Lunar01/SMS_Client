@@ -739,9 +739,11 @@ const Dashboard = () => {
 						Report Card
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/useraccess"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/useraccess")
+								? "active"
+								: ""
 						}
 					>
 						<svg
