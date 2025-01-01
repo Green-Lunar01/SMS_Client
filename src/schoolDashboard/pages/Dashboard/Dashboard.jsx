@@ -547,9 +547,11 @@ const Dashboard = () => {
 						Messaging
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/liveclass"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/liveclass")
+								? "active"
+								: ""
 						}
 					>
 						<svg

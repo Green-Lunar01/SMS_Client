@@ -54,6 +54,12 @@ const Timetable = lazy(() =>
 const Messaging = lazy(() =>
 	import("./pages/Dashboard/Messaging/Messaging.jsx")
 );
+const LiveClass = lazy(() =>
+	import("./pages/Dashboard/LiveClass/LiveClass.jsx")
+);
+const LiveMeeting = lazy(() =>
+	import("./pages/Dashboard/LiveClass/LiveMeeting/LiveMeeting.jsx")
+);
 const Questions = lazy(() =>
 	import("./pages/Dashboard/Questions/Questions.jsx")
 );
@@ -132,6 +138,14 @@ function App() {
 					<Route
 						path="/dashboard/messaging"
 						element={<Messaging />}
+					/>
+					<Route
+						path="/dashboard/liveclass"
+						element={<LiveClass />}
+					/>
+					<Route
+						path="/dashboard/liveclass/:id"
+						element={<LiveMeeting />}
 					/>
 					<Route
 						path="/dashboard/questions"
