@@ -29,10 +29,33 @@ const Subject = () => {
 
 						<label htmlFor="subject-class">
 							<p>Subject Class *</p>
-							<select name="subject-class" id="subject-class">
-								<option value="J.S.S 1">J.S.S 1</option>
-								<option value="J.S.S 2">J.S.S 2</option>
-							</select>
+							<div className="class-choice">
+								<input
+									type="checkbox"
+									name="subject-class"
+									id="J.S.S 1"
+									value="J.S.S 1"
+								/>
+								<p>J.S.S 1</p>
+							</div>
+							<div className="class-choice">
+								<input
+									type="checkbox"
+									name="subject-class"
+									id="J.S.S 2"
+									value="J.S.S 2"
+								/>
+								<p>J.S.S 2</p>
+							</div>
+							<div className="class-choice">
+								<input
+									type="checkbox"
+									name="subject-class"
+									id="J.S.S 3"
+									value="J.S.S 3"
+								/>
+								<p>J.S.S 3</p>
+							</div>
 						</label>
 						<label htmlFor="subject-name">
 							<p>Subject Name *</p>
