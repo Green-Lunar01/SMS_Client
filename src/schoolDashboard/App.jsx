@@ -7,74 +7,77 @@ import Login from "./pages/Auth/Login.jsx";
 import ForgotPassword from "./pages/Auth/ForgotPassword.jsx";
 
 const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
-const NotFoundDashboard = lazy(() =>
-	import("./pages/Dashboard/Notfound/Notfound")
+const NotFoundDashboard = lazy(
+	() => import("./pages/Dashboard/Notfound/Notfound"),
 );
-const InsightsDashboard = lazy(() =>
-	import("./pages/Dashboard/Insights/Insights.jsx")
+const InsightsDashboard = lazy(
+	() => import("./pages/Dashboard/Insights/Insights.jsx"),
 );
-const SettingsDashboard = lazy(() =>
-	import("./pages/Dashboard/Settings/Settings.jsx")
+const SettingsDashboard = lazy(
+	() => import("./pages/Dashboard/Settings/Settings.jsx"),
 );
 
 const ClassDashboard = lazy(() => import("./pages/Dashboard/Class/Class.jsx"));
-const ClassDetailsDashboard = lazy(() =>
-	import("./pages/Dashboard/Class/ClassDetails/ClassDetails.jsx")
+const ClassDetailsDashboard = lazy(
+	() => import("./pages/Dashboard/Class/ClassDetails/ClassDetails.jsx"),
 );
-const EditClass = lazy(() =>
-	import("./pages/Dashboard/Class/EditClass/EditClass.jsx")
+const EditClass = lazy(
+	() => import("./pages/Dashboard/Class/EditClass/EditClass.jsx"),
 );
 const Subject = lazy(() => import("./pages/Dashboard/Subject/Subject.jsx"));
 const Students = lazy(() => import("./pages/Dashboard/Students/Students.jsx"));
-const EditStudent = lazy(() =>
-	import("./pages/Dashboard/Students/EditStudent/EditStudent.jsx")
+const EditStudent = lazy(
+	() => import("./pages/Dashboard/Students/EditStudent/EditStudent.jsx"),
 );
-const ViewStudent = lazy(() =>
-	import("./pages/Dashboard/Students/ViewStudent/ViewStudent.jsx")
+const ViewStudent = lazy(
+	() => import("./pages/Dashboard/Students/ViewStudent/ViewStudent.jsx"),
 );
 const Employee = lazy(() => import("./pages/Dashboard/Employee/Employee.jsx"));
-const EditEmployee = lazy(() =>
-	import("./pages/Dashboard/Employee/EditEmployee/EditEmployee.jsx")
+const EditEmployee = lazy(
+	() => import("./pages/Dashboard/Employee/EditEmployee/EditEmployee.jsx"),
 );
-const ViewEmployee = lazy(() =>
-	import("./pages/Dashboard/Employee/ViewEmployee/ViewEmployee.jsx")
+const ViewEmployee = lazy(
+	() => import("./pages/Dashboard/Employee/ViewEmployee/ViewEmployee.jsx"),
 );
 const Fee = lazy(() => import("./pages/Dashboard/Fee/Fee.jsx"));
 const Account = lazy(() => import("./pages/Dashboard/Account/Account.jsx"));
 const Salary = lazy(() => import("./pages/Dashboard/Salary/Salary.jsx"));
-const Attendance = lazy(() =>
-	import("./pages/Dashboard/Attendance/Attendance.jsx")
+const Attendance = lazy(
+	() => import("./pages/Dashboard/Attendance/Attendance.jsx"),
 );
-const Assignment = lazy(() =>
-	import("./pages/Dashboard/Assignment/Assignment.jsx")
+const Assignment = lazy(
+	() => import("./pages/Dashboard/Assignment/Assignment.jsx"),
 );
-const Timetable = lazy(() =>
-	import("./pages/Dashboard/Timetable/TimeTableScreen.jsx")
+const Timetable = lazy(
+	() => import("./pages/Dashboard/Timetable/TimeTableScreen.jsx"),
 );
-const Messaging = lazy(() =>
-	import("./pages/Dashboard/Messaging/Messaging.jsx")
+const Messaging = lazy(
+	() => import("./pages/Dashboard/Messaging/Messaging.jsx"),
 );
-const LiveClass = lazy(() =>
-	import("./pages/Dashboard/LiveClass/LiveClass.jsx")
+const LiveClass = lazy(
+	() => import("./pages/Dashboard/LiveClass/LiveClass.jsx"),
 );
-const LiveMeeting = lazy(() =>
-	import("./pages/Dashboard/LiveClass/LiveMeeting/LiveMeeting.jsx")
+const LiveMeeting = lazy(
+	() => import("./pages/Dashboard/LiveClass/LiveMeeting/LiveMeeting.jsx"),
 );
-const Questions = lazy(() =>
-	import("./pages/Dashboard/Questions/Questions.jsx")
+const Questions = lazy(
+	() => import("./pages/Dashboard/Questions/Questions.jsx"),
 );
 const Exams = lazy(() => import("./pages/Dashboard/Exams/Exams.jsx"));
 const Tests = lazy(() => import("./pages/Dashboard/Tests/Tests.jsx"));
-const ReportCard = lazy(() =>
-	import("./pages/Dashboard/ReportCard/ReportCard.jsx")
+const ReportCard = lazy(
+	() => import("./pages/Dashboard/ReportCard/ReportCard.jsx"),
 );
-const UserAccess = lazy(() =>
-	import("./pages/Dashboard/UserAccess/UserAccess.jsx")
+const UserAccess = lazy(
+	() => import("./pages/Dashboard/UserAccess/UserAccess.jsx"),
 );
+
+import { Toaster } from "react-hot-toast";
 
 function App() {
 	return (
 		<>
+			<Toaster />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/signup" element={<Signup />} />

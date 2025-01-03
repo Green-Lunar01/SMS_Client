@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./Subject.css";
 import ClassesWithSubjects from "./ClassesWithSubjects/ClassesWithSubjects";
+import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown";
 
 const Subject = () => {
 	const [tab, setTab] = useState("create");
+	const classes = ["Class A", "Class B", "Class C", "Class D", "Class E"];
 
 	return (
 		<div className="subject-screen">
@@ -29,33 +31,10 @@ const Subject = () => {
 
 						<label htmlFor="subject-class">
 							<p>Subject Class *</p>
-							<div className="class-choice">
-								<input
-									type="checkbox"
-									name="subject-class"
-									id="J.S.S 1"
-									value="J.S.S 1"
-								/>
-								<p>J.S.S 1</p>
-							</div>
-							<div className="class-choice">
-								<input
-									type="checkbox"
-									name="subject-class"
-									id="J.S.S 2"
-									value="J.S.S 2"
-								/>
-								<p>J.S.S 2</p>
-							</div>
-							<div className="class-choice">
-								<input
-									type="checkbox"
-									name="subject-class"
-									id="J.S.S 3"
-									value="J.S.S 3"
-								/>
-								<p>J.S.S 3</p>
-							</div>
+							<MultiSelectDropdown
+								options={classes}
+								placeholder="Select Classes"
+							/>
 						</label>
 						<label htmlFor="subject-name">
 							<p>Subject Name *</p>
