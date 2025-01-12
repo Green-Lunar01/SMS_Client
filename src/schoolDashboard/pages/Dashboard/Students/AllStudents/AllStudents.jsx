@@ -142,8 +142,7 @@ const AllStudents = ({ studentData }) => {
 				</div>
 				<div className="download-button">
 					<button onClick={handleDownload}>
-						{" "}
-						<TfiDownload /> Download
+						<TfiDownload /> <span>Download</span>
 					</button>
 				</div>
 			</div>

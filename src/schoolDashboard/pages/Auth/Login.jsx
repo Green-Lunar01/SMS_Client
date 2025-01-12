@@ -1,18 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Auth.css";
 import loginMain from "../../assets/login-main.png";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { IoPersonOutline } from "react-icons/io5";
 import { PiStudentLight } from "react-icons/pi";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 
+import { UserContext } from "../../context/userContext";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import Spinner from "../../components/Spinner/Spinner";
+
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
+	const [loading, setLoading] = useState(false);
 	const [role, setRole] = useState("admin");
+
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+	const { setUser, setUserToken } = useContext(UserContext);
+	const navigate = useNavigate();
+
+	const login = async () => {
+		if (!email || !password) {
+			toast.error("All fields are required");
+			return;
+		}
+
+		setLoading(true);
+
+		try {
+			const response = await axios.post(`${BASE_API_URL}/school/signin`, {
+				email,
+				pswd: password,
+			});
+			toast.success("Logged in successfully");
+			// console.log(response);
+			localStorage.setItem("sms_token", response.data.data.token);
+			setUserToken(response.data.data.token);
+			setLoading(false);
+			navigate("/school/dashboard/insights");
+		} catch (err) {
+			toast.error(err.message);
+			console.log(err);
+			setLoading(false);
+		}
+	};
 
 	return (
 		<div className="auth login">
@@ -65,14 +100,20 @@ const Login = () => {
 						/>
 					</label>
 
-					<Link to="/forgotpassword" className="forgot-password">
+					<Link
+						to="/school/forgotpassword"
+						className="forgot-password"
+					>
 						Forgot Password?
 					</Link>
 
-					<button>Login</button>
+					<button onClick={login} disabled={loading}>
+						{loading ? <Spinner /> : "Log In"}
+					</button>
 
 					<h6>
-						Don't have an account? <Link to="/signup">Sign Up</Link>
+						Don't have an account?{" "}
+						<Link to="/school/signup">Sign Up</Link>
 					</h6>
 				</form>
 			</main>

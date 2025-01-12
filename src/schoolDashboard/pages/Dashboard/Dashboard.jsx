@@ -385,9 +385,11 @@ const Dashboard = () => {
 						Salary
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/attendance"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/attendance")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -421,9 +423,11 @@ const Dashboard = () => {
 						Attendance
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/assignment"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/assignment")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -472,9 +476,11 @@ const Dashboard = () => {
 						Assignment
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/timetable"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/timetable")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -512,9 +518,11 @@ const Dashboard = () => {
 						Time Table
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/messaging"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/messaging")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -539,9 +547,11 @@ const Dashboard = () => {
 						Messaging
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/liveclass"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/liveclass")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -580,9 +590,11 @@ const Dashboard = () => {
 						Live Class
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/questions"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/questions")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -606,9 +618,11 @@ const Dashboard = () => {
 						Question Paper
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/exams"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/exams")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -644,9 +658,11 @@ const Dashboard = () => {
 						Exams
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/tests"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/tests")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -691,9 +707,11 @@ const Dashboard = () => {
 						Class Test
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/reportcard"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/reportcard")
+								? "active"
+								: ""
 						}
 					>
 						<svg
@@ -723,9 +741,11 @@ const Dashboard = () => {
 						Report Card
 					</Link>
 					<Link
-						to="/school/dashboard/#"
+						to="/school/dashboard/useraccess"
 						className={
-							isLinkActive("/school/dashboard/#") ? "active" : ""
+							isLinkActive("/school/dashboard/useraccess")
+								? "active"
+								: ""
 						}
 					>
 						<svg
