@@ -1,0 +1,48 @@
+.react-calendar {
+    border: none;
+    width: 100%;
+    background-color: var(--primary-green);
+    padding: 20px;
+}
+
+.react-calendar__navigation {
+    margin-bottom: 0px;
+}
+
+/* Change navigation buttons (prev/next) */
+.react-calendar__navigation button {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+}
+
+.react-calendar__navigation button:hover {
+    background-color: #218838;
+    color: #155724;
+}
+
+/* Change days in the week header */
+.react-calendar__month-view__weekdays {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+/* Style individual day tiles */
+.react-calendar__tile {
+    background-color: var(--primary-green);
+    color: white;
+    transition: 0.2s;
+    height: 40px;
+    width: 40px;
+}
+
+.react-calendar__tile:enabled:hover {
+    background-color: white;
+    color: #155724;
+}
+
+/* Highlight selected day */
+.react-calendar__tile--now {
+    background-color: #ffff76;
+    color: var(--dark-green);
+}
