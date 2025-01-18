@@ -90,9 +90,13 @@ export const navs = [
     title: 'Pricing',
     path: '/pricing'
   },
+  // {
+  //   title: 'Blog',
+  //   path: '/blog'
+  // },
   {
-    title: 'Blog',
-    path: '/blog'
+    title: 'Privacy',
+    path: '/privacy'
   },
   {
     title: 'Contact Us',
