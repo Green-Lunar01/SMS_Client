@@ -4,7 +4,7 @@ const TermsAndCondition = () => {
   return (
     <>
       <div className="bg-[#056323] flex items-center justify-center h-[30vh] text-white">
-        <h1 className="text-4xl font-semibold ">Terms & Conditions</h1>
+        <h1 className="text-4xl font-semibold text-white">Terms & Conditions</h1>
       </div>
 
       <div className="md:max-w-6xl mx-auto py-14 p-5">
