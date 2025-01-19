@@ -23,8 +23,8 @@ const Contact = () => {
   return (
     <section>
       <div className="md:bg-header bg-headerMobile bg-cover bg-top text-center h-[40vh] text-white flex flex-col justify-center items-center">
-        <h1 className="text-2xl md:text-4xl font-bold">Contact Us</h1>
-        <h3 className="md:mt-8 mt-3 mb-4 text-lg md:text-2xl">We’d like to hear from you.</h3>
+        <h1 className="text-2xl md:text-4xl font-bold text-white">Contact Us</h1>
+        <h3 className="md:mt-8 mt-3 mb-4 text-lg md:text-2xl text-white">We’d like to hear from you.</h3>
       </div>
 
       <div className="md:w-[60%] w-[90%] bg-white border shadow-md mx-auto p-10 md:p-14 rounded-lg -mt-32 md:-mt-20 z-10 flex gap-y-10 flex-col-reverse md:flex-row items-start justify-between">

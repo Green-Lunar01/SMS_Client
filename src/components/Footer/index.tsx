@@ -16,7 +16,7 @@ const Footer = () => {
     },
     {
       title: 'Contact Us',
-      path: '/contact-us'
+      path: '/contact'
     },
     {
       title: 'Help',
@@ -29,21 +29,21 @@ const Footer = () => {
   ];
 
   return (
-    <div className="px-[10%] py-10 md:py-[4%] bg-primary-light text-white flex flex-col md:flex-row items-start justify-between">
-      <div className="text-sm md:w-[30%]">
-        <h1 className="text-3xl font-bold">EduSoft</h1>
-        <p className="mt-5">School management system is a product of Greenlunar Nigeria Limited</p>
-        <p className="mt-5">5, Badebo street, Ikeja Lagos Nigeria.</p>
+    <div className="px-5 lg:px-[10%] py-10 md:py-[2%] bg-primary-light text-white flex flex-col lg:flex-row gap-[10%]">
+      <div className="text-sm md:w-[30%] text-white">
+        <img src="/footer-icon.svg" alt="" className='w-[25%] md:w-[30%]' />
+        <p className="mt-5 text-white">School management system is a product of Greenlunar Nigeria Limited</p>
+        <p className="mt-5 text-white">5, Badebo street, Ikeja Lagos Nigeria.</p>
       </div>
 
-      <div className="flex flex-col md:flex-row flex-wrap justify-between gap-[15%] gap-y-7">
+      <div className="flex flex-row flex-wrap justify-start md:gap-20 text-white w-full lg:w-[52%] mt-5 lg:mt-0">
         {navs.map((nav, i) => (
-          <Link key={i} to={nav.path} className="font-light text-sm">
+          <Link key={i} to={nav.path} className="text-white w-[40%] md:w-[25%] text-sm md:text-base">
             {nav.title}
           </Link>
         ))}
-        <br />
-        <div className="flex items-center gap-5 mt-3">
+
+        <div className="flex items-center justify-start md:justify-end gap-5 w-[98%]">
           <a href="#" className="hover:scale-90 duration-300 transition-all">
             <img src="/footer/facebook.svg" alt="" />
           </a>
