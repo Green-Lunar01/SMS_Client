@@ -18,7 +18,8 @@ export default {
         header: "url('/green-bg.png')",
         headerMobile: "url('/green-bg-mobile.png')",
         hero: "url('/white-bg.png')",
-        heroMobile: "url('/mobile-hero.png')"
+        heroMobile: "url('/mobile-hero.png')",
+        helpBg: "url('/help-bg.png')"
       },
     
       keyframes: {

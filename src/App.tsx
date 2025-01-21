@@ -7,6 +7,9 @@ import Pricing from "./pages/Pricing";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import Login from "./schoolDashboard/pages/Auth/Login"
+import TermsAndCondition from "./pages/Terms/index.js";
+import Help from "./pages/Help/index.js";
+import Privacy from "./pages/Privacy/index.js";
 const App = () => {
 	
 	
@@ -26,6 +29,9 @@ const App = () => {
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/pricing" element={<Pricing />} />
 				<Route path="/blog" element={<Blog />} />
+				<Route path="/help" element={<Help />} />
+      <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
+      <Route path="/privacy" element={<Privacy />} />
 		
 		</Route>
 		<Route path="/login" element={<Login />} />
