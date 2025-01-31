@@ -30,8 +30,17 @@
 		display: flex;
 		flex-direction: column;
 
+		.record-table:hover {
+			scrollbar-width: thin;
+			scrollbar-color: var(--primary-green) #f1f1f1;
+			scrollbar-gutter: stable;
+		}
+
 		.record-table {
-			width: 100%;
+			width: calc(100vw - 300px);
+			overflow-x: auto;
+			scrollbar-width: none;
+			padding-bottom: 10px;
 
 			>article {
 				display: flex;
@@ -71,6 +80,7 @@
 				border-bottom: 1px solid #d9d9d9;
 				color: var(--dark-green);
 				font-size: 0.9rem;
+				text-wrap: nowrap;
 			}
 
 			td.status {

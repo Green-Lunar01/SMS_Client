@@ -20,6 +20,12 @@ const SettingsDashboard = lazy(
 const Attendance = lazy(
 	() => import("./pages/Dashboard/Attendance/Attendance.jsx"),
 );
+const StudentTotalAttendance = lazy(
+	() =>
+		import(
+			"./pages/Dashboard/Attendance/StudentAttendance/StudentAttendance.jsx"
+		),
+);
 const Assignment = lazy(
 	() => import("./pages/Dashboard/Assignment/Assignment.jsx"),
 );
@@ -40,12 +46,9 @@ const Questions = lazy(
 );
 const Exams = lazy(() => import("./pages/Dashboard/Exams/Exams.jsx"));
 const Tests = lazy(() => import("./pages/Dashboard/Tests/Tests.jsx"));
-// const ReportCard = lazy(
-// 	() => import("./pages/Dashboard/ReportCard/ReportCard.jsx"),
-// );
-// const UserAccess = lazy(
-// 	() => import("./pages/Dashboard/UserAccess/UserAccess.jsx"),
-// );
+const ReportCard = lazy(
+	() => import("./pages/Dashboard/ReportCard/ReportCard.jsx"),
+);
 
 import { Toaster } from "react-hot-toast";
 import { UserContextProvider } from "./context/userContext.jsx";
@@ -77,6 +80,10 @@ function App() {
 							element={<Attendance />}
 						/>
 						<Route
+							path="/dashboard/attendance/:id"
+							element={<StudentTotalAttendance />}
+						/>
+						<Route
 							path="/dashboard/assignment"
 							element={<Assignment />}
 						/>
@@ -102,14 +109,10 @@ function App() {
 						/>
 						<Route path="/dashboard/exams" element={<Exams />} />
 						<Route path="/dashboard/tests" element={<Tests />} />
-						{/* <Route
-							path="/dashboard/useraccess"
-							element={<UserAccess />}
-						/>
 						<Route
 							path="/dashboard/reportcard"
 							element={<ReportCard />}
-						/> */}
+						/>
 						<Route path="*" element={<NotFoundDashboard />} />
 					</Route>
 				</Routes>
