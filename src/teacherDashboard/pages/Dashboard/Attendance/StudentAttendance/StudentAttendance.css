@@ -4,7 +4,7 @@
 	gap: 40px;
 	padding: 3rem 2rem;
 
-	> aside {
+	>aside {
 		display: flex;
 		align-items: center;
 		gap: 50px;
@@ -18,14 +18,14 @@
 			}
 		}
 
-		> select {
+		>select {
 			border: 1px solid #d9d9d9;
 			padding: 15px 20px;
 			border-radius: 8px;
 		}
 	}
 
-	> main {
+	>main {
 		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
@@ -33,13 +33,13 @@
 		.record-table {
 			width: 100%;
 
-			> article {
+			>article {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 				margin-bottom: 10px;
 
-				> span {
+				>span {
 					display: flex;
 					align-items: center;
 					gap: 10px;
@@ -105,6 +105,8 @@
 				text-align: center;
 				font-weight: bold;
 				color: white;
+				cursor: pointer;
+				transition: all 0.2s ease-in-out;
 			}
 
 			.attendance-status.present {
@@ -119,7 +121,7 @@
 				background-color: #ffbc04;
 			}
 
-			.attendance-status.neutral {
+			.attendance-status.unmarked {
 				background-color: #c4c4c4;
 			}
 		}
@@ -142,7 +144,7 @@
 			padding: 10px 20px;
 			margin-bottom: 10px;
 
-			> p {
+			>p {
 				font-size: 0.9rem;
 
 				span {

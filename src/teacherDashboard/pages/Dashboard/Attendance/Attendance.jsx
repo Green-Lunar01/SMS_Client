@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./Attendance.css";
-import MarkAttendance from "./MarkAttendance/MarkAttendance";
-import StudentAttendance from "./StudentAttendance/StudentAttendance";
-import EmployeeAttendance from "./EmployeeAttendance/EmployeeAttendance";
+// import StudentAttendance from "./StudentAttendance/StudentAttendance";
+import StudentAttendance from "./StudentAttendance/Student2";
 
 const Attendance = () => {
 	const [tab, setTab] = useState("one");
@@ -10,29 +9,10 @@ const Attendance = () => {
 	return (
 		<div className="attendance-screen">
 			<aside>
-				<button
-					onClick={() => setTab("one")}
-					className={tab === "one" ? "active" : ""}
-				>
-					Mark Employee Attendance
-				</button>
-				<button
-					onClick={() => setTab("two")}
-					className={tab === "two" ? "active" : ""}
-				>
-					Student Attendance Report
-				</button>
-				<button
-					onClick={() => setTab("three")}
-					className={tab === "three" ? "active" : ""}
-				>
-					Employee Attendance Report
-				</button>
+				<h2>Attendance</h2>
 			</aside>
 
-			{tab === "one" && <MarkAttendance />}
-			{tab === "two" && <StudentAttendance />}
-			{tab === "three" && <EmployeeAttendance />}
+			<StudentAttendance />
 		</div>
 	);
 };

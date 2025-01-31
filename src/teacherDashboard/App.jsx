@@ -17,24 +17,24 @@ const SettingsDashboard = lazy(
 	() => import("./pages/Dashboard/Settings/Settings.jsx"),
 );
 
-// const Attendance = lazy(
-// 	() => import("./pages/Dashboard/Attendance/Attendance.jsx"),
-// );
-// const Assignment = lazy(
-// 	() => import("./pages/Dashboard/Assignment/Assignment.jsx"),
-// );
+const Attendance = lazy(
+	() => import("./pages/Dashboard/Attendance/Attendance.jsx"),
+);
+const Assignment = lazy(
+	() => import("./pages/Dashboard/Assignment/Assignment.jsx"),
+);
 const Timetable = lazy(
 	() => import("./pages/Dashboard/Timetable/TimeTableScreen.jsx"),
 );
-// const Messaging = lazy(
-// 	() => import("./pages/Dashboard/Messaging/Messaging.jsx"),
-// );
-// const LiveClass = lazy(
-// 	() => import("./pages/Dashboard/LiveClass/LiveClass.jsx"),
-// );
-// const LiveMeeting = lazy(
-// 	() => import("./pages/Dashboard/LiveClass/LiveMeeting/LiveMeeting.jsx"),
-// );
+const Messaging = lazy(
+	() => import("./pages/Dashboard/Messaging/Messaging.jsx"),
+);
+const LiveClass = lazy(
+	() => import("./pages/Dashboard/LiveClass/LiveClass.jsx"),
+);
+const LiveMeeting = lazy(
+	() => import("./pages/Dashboard/LiveClass/LiveMeeting/LiveMeeting.jsx"),
+);
 const Questions = lazy(
 	() => import("./pages/Dashboard/Questions/Questions.jsx"),
 );
@@ -72,19 +72,19 @@ function App() {
 							path="/dashboard/settings"
 							element={<SettingsDashboard />}
 						/>
-						{/* <Route
+						<Route
 							path="/dashboard/attendance"
 							element={<Attendance />}
 						/>
 						<Route
 							path="/dashboard/assignment"
 							element={<Assignment />}
-						/> */}
+						/>
 						<Route
 							path="/dashboard/timetable"
 							element={<Timetable />}
 						/>
-						{/* <Route
+						<Route
 							path="/dashboard/messaging"
 							element={<Messaging />}
 						/>
@@ -95,7 +95,7 @@ function App() {
 						<Route
 							path="/dashboard/liveclass/:id"
 							element={<LiveMeeting />}
-						/> */}
+						/>
 						<Route
 							path="/dashboard/questions"
 							element={<Questions />}
