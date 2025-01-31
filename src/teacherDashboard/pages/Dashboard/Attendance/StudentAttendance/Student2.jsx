@@ -180,7 +180,6 @@ const StudentAttendance = () => {
 							<thead>
 								<tr>
 									<th>Student Name</th>
-									{console.log(filteredRecords[0].records)}
 									{Object.keys(
 										filteredRecords[0].records,
 									).map((week) => (
