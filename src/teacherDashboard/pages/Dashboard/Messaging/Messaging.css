@@ -1,0 +1,128 @@
+.messaging-screen {
+	width: calc(100vw - 300px);
+	flex-grow: 1;
+	flex-shrink: 0;
+
+	> h2 {
+		text-align: center;
+		font-size: 1.5rem;
+		font-weight: 600;
+		margin-block: 2rem;
+	}
+
+	> section {
+		display: flex;
+		gap: 40px;
+		padding: 2rem;
+
+		> aside {
+			border: 1px solid #d9d9d9;
+			border-radius: 4px;
+			padding: 40px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			width: 550px;
+
+			> h3 {
+				font-size: 1rem;
+				font-weight: 600;
+			}
+
+			.form-group {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+
+				input,
+				select {
+					padding: 15px;
+					border: 1px solid #d9d9d9;
+					border-radius: 8px;
+				}
+			}
+
+			> textarea {
+				padding: 15px;
+				border: 1px solid #d9d9d9;
+				border-radius: 8px;
+				font-size: 14px;
+				height: 200px;
+			}
+		}
+
+		> main {
+			width: 100%;
+
+			.select-tab {
+				background-color: #f9f9f9;
+				padding: 20px 40px;
+				display: flex;
+				align-items: center;
+				gap: 40px;
+				border-bottom: 1px solid #d9d9d9;
+
+				button {
+					background-color: #fff;
+					color: #8e98a8;
+					border: 1px solid #d9d9d9;
+					padding: 10px;
+				}
+
+				button:hover,
+				button.active {
+					background-color: var(--primary-green);
+					color: #fff;
+				}
+			}
+
+			.messages-area {
+				padding: 20px;
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+
+				.message-block {
+					h3 {
+						font-size: 1.1rem;
+						font-weight: 700;
+						margin-bottom: 10px;
+					}
+
+					> main {
+						background-color: #f9f9f9;
+						padding: 20px;
+						border-radius: 10px;
+
+						h6 {
+							font-size: 0.9rem;
+							font-weight: 700;
+						}
+
+						p {
+							font-size: 1rem;
+							font-weight: 400;
+						}
+					}
+				}
+				.message-block.sent {
+					> main {
+						background-color: var(--primary-green);
+
+						h6,
+						p {
+							color: #fff;
+						}
+					}
+				}
+				.no-messages {
+					display: flex;
+					flex-direction: column;
+					gap: 10px;
+					align-items: center;
+					margin: 40px auto;
+				}
+			}
+		}
+	}
+}

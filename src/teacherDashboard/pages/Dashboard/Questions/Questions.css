@@ -1,0 +1,259 @@
+.questions-screen {
+	width: calc(100vw - 300px);
+	flex-grow: 1;
+	flex-shrink: 0;
+
+	> aside {
+		display: flex;
+		width: 100%;
+		height: 50px;
+
+		button {
+			background-color: #f7f7f7;
+			color: #000;
+			border: none;
+			padding: 15px 20px;
+			height: 100%;
+			width: 300px;
+			cursor: pointer;
+		}
+
+		button.active,
+		button:hover {
+			background-color: var(--primary-green);
+			color: #fff;
+		}
+	}
+
+	.create-questions {
+		padding: 3rem;
+
+		button {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			align-items: center;
+			margin: 40px auto;
+
+			svg {
+				font-size: 1.4rem;
+			}
+			p {
+				color: inherit;
+			}
+		}
+	}
+
+	.modal-content:has(.create-question-modal) {
+		padding: 0px;
+
+		.modal-close {
+			display: none;
+		}
+	}
+
+	.create-question-modal {
+		max-height: 90vh;
+		max-width: 850px;
+		overflow-y: auto;
+		scrollbar-width: thin;
+
+		> aside {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 20px;
+			border-bottom: 1px solid #d9d9d9;
+
+			h3 {
+				font-size: 1.1rem;
+				font-weight: 600;
+			}
+
+			svg {
+				font-size: 1.7rem;
+				cursor: pointer;
+			}
+		}
+
+		> main {
+			padding: 20px 40px;
+
+			> .top {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 40px;
+				align-items: center;
+
+				.form-group {
+					display: flex;
+					flex-direction: column;
+					gap: 5px;
+
+					label {
+						font-size: 1rem;
+						font-weight: 500;
+					}
+
+					input,
+					select {
+						padding: 15px;
+						border: 1px solid #d9d9d9;
+						border-radius: 4px;
+						height: 50px;
+						width: 150px;
+					}
+				}
+			}
+
+			> .bottom {
+				display: flex;
+				flex-direction: column;
+				gap: 40px;
+				margin-block: 40px;
+
+				> .add-question-btn {
+					display: flex;
+					align-items: center;
+					color: var(--primary-green);
+					gap: 10px;
+
+					svg {
+						border: 1px solid var(--primary-green);
+						padding: 5px;
+						border-radius: 4px;
+						font-size: 2.2rem;
+					}
+				}
+				> .add-question-btn:hover {
+					svg {
+						background-color: var(--primary-green);
+						color: #fff;
+					}
+				}
+
+				> .question-item {
+					.question-row {
+						display: flex;
+						align-items: center;
+
+						.form-group:nth-of-type(1) {
+							flex-grow: 1;
+							display: flex;
+							align-items: center;
+							gap: 20px;
+
+							label {
+								background-color: #f7f7f7;
+								height: 35px;
+								width: 35px;
+								border-radius: 50%;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+							}
+
+							input {
+								background-color: #f7f7f7;
+								width: 100%;
+								padding: 15px 20px;
+								border-radius: 4px;
+								outline: none;
+								height: 50px;
+							}
+						}
+						.form-group:nth-of-type(2) {
+							select {
+								background-color: #f7f7f7;
+								padding: 15px;
+								border-radius: 4px;
+								outline: none;
+								height: 50px;
+							}
+						}
+					}
+
+					.options-row {
+						display: flex;
+						gap: 20px;
+						align-items: center;
+						flex-wrap: wrap;
+						margin-block: 20px;
+
+						> .add-option-btn {
+							display: flex;
+							align-items: center;
+							color: var(--primary-green);
+							gap: 10px;
+
+							svg {
+								border: 1px solid var(--primary-green);
+								padding: 5px;
+								border-radius: 4px;
+								font-size: 1.8rem;
+							}
+						}
+						> .add-option-btn:hover {
+							svg {
+								background-color: var(--primary-green);
+								color: #fff;
+							}
+						}
+
+						.form-group.option {
+							background-color: #f7f7f7;
+							padding: 0px 10px;
+							width: 230px;
+							display: flex;
+							align-items: center;
+
+							input {
+								background-color: #f7f7f7;
+								padding: 10px;
+								outline: none;
+								width: 100%;
+							}
+							svg {
+								font-size: 1.2rem;
+							}
+						}
+					}
+
+					.form-group.answer {
+						display: flex;
+						align-items: center;
+						gap: 10px;
+
+						label {
+							background-color: #ffae3e;
+							color: #fff;
+							padding: 5px 10px;
+							border-radius: 20px;
+						}
+
+						input {
+							background-color: #f7f7f7;
+							padding: 10px;
+							outline: none;
+							width: 100%;
+							height: 50px;
+						}
+
+						.remove-question-btn {
+							cursor: pointer;
+							padding: 5px 10px;
+							border-radius: 4px;
+							background-color: red;
+							color: #fff;
+							height: 50px;
+
+							svg {
+								font-size: 1.4rem;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

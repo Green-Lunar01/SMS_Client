@@ -1,0 +1,50 @@
+.settings-page {
+    width: calc(100vw - 300px);
+    flex-grow: 1;
+    flex-shrink: 0;
+
+    /* Animation styles */
+    .fade-enter {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    .fade-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 300ms, transform 300ms;
+    }
+
+    .fade-exit {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .fade-exit-active {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 300ms, transform 300ms;
+    }
+
+
+    >.tab-nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 40px;
+        padding: 20px 40px;
+        border-bottom: 1px solid var(--primary-green);
+
+        button {
+            border: none;
+            outline: none;
+            background-color: transparent;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button.active {
+            color: var(--primary-green);
+        }
+    }
+}
