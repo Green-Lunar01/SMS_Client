@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Class.css";
 import AllClasses from "./AllClasses/AllClasses";
 import axios from "axios";
@@ -17,10 +17,19 @@ const Class = () => {
 
 	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 	const { userToken } = useContext(UserContext);
-	const { employees, getEmployeeByCategory } = useContext(SchoolContext);
-	const [teacherList, setTeacherList] = useState(
-		getEmployeeByCategory("Teacher"),
-	);
+	const { employees } = useContext(SchoolContext);
+	const [teacherList, setTeacherList] = useState([]);
+
+	const getEmployeeByCategory = (category) => {
+		setTeacherList(
+			employees.filter((employee) => employee.role === category),
+		);
+	};
+
+	useEffect(() => {
+		getEmployeeByCategory("Teacher");
+	}, [employees]);
+
 	const navigate = useNavigate();
 
 	const createClass = async () => {
@@ -49,7 +58,7 @@ const Class = () => {
 			toast.success("class created successfully");
 			setLoading(false);
 		} catch (err) {
-			toast.error(err.message);
+			toast.error(err.response.data.message || err.message);
 			console.log(err);
 			setLoading(false);
 		}

@@ -22,9 +22,10 @@ export function SchoolContextProvider({ children }) {
 				},
 			);
 			setEmployees(response.data.data);
+			console.log(response.data.data);
 			getUniqueCategories(response.data.data);
 		} catch (err) {
-			toast.error(err.response.data.message || err.message);
+			// toast.error(err.response.data.message || err.message);
 			console.log(err);
 		}
 	};
@@ -34,9 +35,10 @@ export function SchoolContextProvider({ children }) {
 			const response = await axios.get(`${BASE_API_URL}/school/classes`, {
 				headers: { Authorization: `${userToken}` },
 			});
+			console.log(response.data.data);
 			setClasses(response.data.data);
 		} catch (err) {
-			toast.error(err.response.data.message || err.message);
+			// toast.error(err.response.data.message || err.message);
 			console.log(err);
 		}
 	};
