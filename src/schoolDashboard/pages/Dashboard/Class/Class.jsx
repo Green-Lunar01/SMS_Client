@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Class.css";
 import AllClasses from "./AllClasses/AllClasses";
 import axios from "axios";
@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../components/Spinner/Spinner";
 import { UserContext } from "../../../context/userContext";
+import { SchoolContext } from "../../../context/schoolContext";
 
 const Class = () => {
 	const [tab, setTab] = useState("create");
@@ -16,6 +17,19 @@ const Class = () => {
 
 	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 	const { userToken } = useContext(UserContext);
+	const { employees } = useContext(SchoolContext);
+	const [teacherList, setTeacherList] = useState([]);
+
+	const getEmployeeByCategory = (category) => {
+		setTeacherList(
+			employees.filter((employee) => employee.role === category),
+		);
+	};
+
+	useEffect(() => {
+		getEmployeeByCategory("Teacher");
+	}, [employees]);
+
 	const navigate = useNavigate();
 
 	const createClass = async () => {
@@ -24,14 +38,16 @@ const Class = () => {
 			return;
 		}
 		setLoading(true);
-		console.log({ userToken });
+		// console.log(className, classTeacher);
+		// setLoading(false);
+		// return;
 
 		try {
 			const response = await axios.post(
 				`${BASE_API_URL}/school/classes/create`,
 				{
 					class_name: className,
-					teacher_id: 0,
+					teacher_id: Number(classTeacher),
 				},
 				{
 					headers: {
@@ -40,10 +56,9 @@ const Class = () => {
 				},
 			);
 			toast.success("class created successfully");
-			console.log(response);
 			setLoading(false);
 		} catch (err) {
-			toast.error(err.message);
+			toast.error(err.response.data.message || err.message);
 			console.log(err);
 			setLoading(false);
 		}
@@ -101,8 +116,11 @@ const Class = () => {
 									setClassTeacher(e.target.value)
 								}
 							>
-								<option value="Mr John">Mr John</option>
-								<option value="Mrs Jane">Mrs Jane</option>
+								{teacherList.map((teacher) => (
+									<option key={teacher.id} value={teacher.id}>
+										{teacher.first_name} {teacher.surname}
+									</option>
+								))}
 							</select>
 						</label>
 

@@ -34,15 +34,15 @@ const MultiSelectDropdown = ({ options = [], placeholder }) => {
 				<ul className="dropdown-options">
 					{options.map((option) => (
 						<li
-							key={option}
+							key={option.id}
 							className={`dropdown-option ${
-								selectedOptions.includes(option)
+								selectedOptions.includes(option.class_name)
 									? "selected"
 									: ""
 							}`}
-							onClick={() => handleOptionClick(option)}
+							onClick={() => handleOptionClick(option.class_name)}
 						>
-							{option}
+							{option.class_name}
 						</li>
 					))}
 				</ul>

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./AllClasses.css";
 import { CiSearch } from "react-icons/ci";
 import { RiEdit2Line, RiDeleteBin6Line } from "react-icons/ri";
 import CircularProgress from "../../../../components/CircularProgress/CircularProgress";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../../../../context/userContext";
 
 const AllClasses = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -27,9 +29,29 @@ const AllClasses = () => {
 			subject: "Fine Art",
 		},
 	];
+	const [allClasses, setAllClasses] = useState([]);
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+	const { userToken } = useContext(UserContext);
 
-	const filteredClasses = classes.filter((classData) =>
-		classData.name.toLowerCase().includes(searchQuery.toLowerCase())
+	const getClasses = async () => {
+		try {
+			const response = await axios.get(`${BASE_API_URL}/school/classes`, {
+				headers: { Authorization: `${userToken}` },
+			});
+			console.log(response.data.data);
+			setAllClasses(response.data.data);
+		} catch (err) {
+			// toast.error(err.response.data.message || err.message);
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		getClasses();
+	}, []);
+
+	const filteredClasses = allClasses.filter((classData) =>
+		classData.class_name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
 	return (
@@ -70,42 +92,46 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
 );
 
 const ClassCard = ({ data }) => {
-	const { name, totalStudents, female, male, teacher, subject, id } = data;
+	const {
+		class_name,
+		totalStudents,
+		female,
+		male,
+		class_teacher,
+		subject,
+		id,
+	} = data;
 
 	return (
 		<div className="class-card">
-			<h3>{name}</h3>
+			<h3>{class_name}</h3>
 			<main>
 				<div className="stats">
 					<div className="stat">
-						<h2>{totalStudents}</h2>
+						<h2>{50}</h2>
 						<p>Students</p>
 					</div>
 					<CircularProgress
 						label="Female"
-						value={female}
-						percentage={
-							Math.round((female / totalStudents) * 10000) / 100
-						}
+						value={20}
+						percentage={Math.round((20 / 50) * 10000) / 100}
 						rotation={-230}
 						bgColor="#e6e6e6"
 						color="#DC44FB"
 					/>
 					<CircularProgress
 						label="Male"
-						value={male}
-						percentage={
-							Math.round((male / totalStudents) * 10000) / 100
-						}
+						value={30}
+						percentage={Math.round((30 / 50) * 10000) / 100}
 						rotation={-230}
 						bgColor="#e6e6e6"
 						color="#7FB2F3"
 					/>
 					<CircularProgress
 						label="Class Teacher"
-						value={teacher}
+						value={class_teacher}
 						percentage={80}
-						text={subject}
+						text={"subject"}
 						rotation={-230}
 						bgColor="#e6e6e6"
 						color="#13A541"

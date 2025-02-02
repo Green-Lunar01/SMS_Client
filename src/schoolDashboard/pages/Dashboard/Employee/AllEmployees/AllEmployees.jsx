@@ -1,45 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./AllEmployees.css";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import { IoEyeOutline } from "react-icons/io5";
 import { RiEdit2Line, RiDeleteBin6Line } from "react-icons/ri";
 import emptyEmployee from "../../../../assets/empty-employee.svg";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Spinner from "../../../../components/Spinner/Spinner";
+import { UserContext } from "../../../../context/userContext";
+import { SchoolContext } from "../../../../context/schoolContext";
 
 const AllEmployees = () => {
 	const [searchTerm, setSearchTerm] = useState("");
-	const employees = [
-		{
-			id: 1,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Teachers",
-		},
-		{
-			id: 2,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Teachers",
-		},
-		{
-			id: 3,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Management",
-		},
-		{
-			id: 4,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Management",
-		},
-	];
+	const [loading, setLoading] = useState(false);
+	const { userToken } = useContext(UserContext);
+	const { employees, employeeCategories } = useContext(SchoolContext);
 
-	const filteredEmployees = employees.filter((employee) =>
-		employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+	const filteredEmployees = employees.filter(
+		(employee) =>
+			employee.first_name
+				.toLowerCase()
+				.includes(searchTerm.toLowerCase()) ||
+			employee.surname.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
-
-	const categories = ["Teachers", "Management"];
 
 	return (
 		<div className="all-employees">
@@ -55,14 +38,14 @@ const AllEmployees = () => {
 				</div>
 			) : (
 				<>
-					{categories.map((category) => (
+					{employeeCategories.map((category) => (
 						<div key={category}>
 							<h3 className="category-title">{category}</h3>
 							<div className="employee-cards">
 								{filteredEmployees
 									.filter(
 										(employee) =>
-											employee.category === category
+											employee.role === category,
 									)
 									.map((employee) => (
 										<div
@@ -71,7 +54,8 @@ const AllEmployees = () => {
 										>
 											<div className="avatar"></div>
 											<p className="employee-name">
-												{employee.name}
+												{employee.first_name}{" "}
+												{employee.surname}
 											</p>
 											<p className="employee-role">
 												<strong>{employee.role}</strong>
