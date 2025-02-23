@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Students.css";
 import AllStudents from "./AllStudents/AllStudents";
-import AddStudent from "./AddStudent/AddStudent";
+import AddStudent from "./AddStudent/AddStudent2";
 import AdmissionLetter from "./AdmissionLetter/AdmissionLetter";
 import PromoteStudent from "./PromoteStudent/PromoteStudent";
 
@@ -51,14 +51,14 @@ const Students = () => {
 			const lastName =
 				lastNames[Math.floor(Math.random() * lastNames.length)];
 			const matricNumber = Math.floor(
-				Math.random() * 1000000000
+				Math.random() * 1000000000,
 			).toString();
 			const classIndex = Math.floor(Math.random() * classes.length);
 			const classTeacherIndex = Math.floor(
-				Math.random() * classTeachers.length
+				Math.random() * classTeachers.length,
 			);
 			const sessionYearIndex = Math.floor(
-				Math.random() * sessionYears.length
+				Math.random() * sessionYears.length,
 			);
 			const dateOfAdmission = generateRandomDate();
 
@@ -85,7 +85,7 @@ const Students = () => {
 		const endDate = new Date();
 		return new Date(
 			startDate.getTime() +
-				Math.random() * (endDate.getTime() - startDate.getTime())
+				Math.random() * (endDate.getTime() - startDate.getTime()),
 		);
 	};
 

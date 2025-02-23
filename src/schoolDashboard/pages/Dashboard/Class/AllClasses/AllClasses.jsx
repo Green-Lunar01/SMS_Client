@@ -35,10 +35,13 @@ const AllClasses = () => {
 
 	const getClasses = async () => {
 		try {
-			const response = await axios.get(`${BASE_API_URL}/school/classes`, {
-				headers: { Authorization: `${userToken}` },
-			});
-			console.log(response.data.data);
+			const response = await axios.get(
+				`${BASE_API_URL}/school/classes/full-details`,
+				{
+					headers: { Authorization: `${userToken}` },
+				},
+			);
+			// console.log(response.data.data);
 			setAllClasses(response.data.data);
 		} catch (err) {
 			// toast.error(err.response.data.message || err.message);
@@ -95,8 +98,8 @@ const ClassCard = ({ data }) => {
 	const {
 		class_name,
 		totalStudents,
-		female,
-		male,
+		female_students,
+		male_students,
 		class_teacher,
 		subject,
 		id,
@@ -108,21 +111,47 @@ const ClassCard = ({ data }) => {
 			<main>
 				<div className="stats">
 					<div className="stat">
-						<h2>{50}</h2>
+						<h2>
+							{Number(female_students) + Number(male_students)}
+						</h2>
 						<p>Students</p>
 					</div>
 					<CircularProgress
 						label="Female"
-						value={20}
-						percentage={Math.round((20 / 50) * 10000) / 100}
+						value={female_students}
+						percentage={
+							typeof male_students === "undefined" ||
+							typeof female_students === "undefined" ||
+							Number(male_students) + Number(female_students) ===
+								0
+								? 0
+								: Math.round(
+										(Number(female_students) /
+											(Number(male_students) +
+												Number(female_students))) *
+											10000,
+									) / 100
+						}
 						rotation={-230}
 						bgColor="#e6e6e6"
 						color="#DC44FB"
 					/>
 					<CircularProgress
 						label="Male"
-						value={30}
-						percentage={Math.round((30 / 50) * 10000) / 100}
+						value={male_students}
+						percentage={
+							typeof male_students === "undefined" ||
+							typeof female_students === "undefined" ||
+							Number(male_students) + Number(female_students) ===
+								0
+								? 0
+								: Math.round(
+										(Number(male_students) /
+											(Number(male_students) +
+												Number(female_students))) *
+											10000,
+									) / 100
+						}
 						rotation={-230}
 						bgColor="#e6e6e6"
 						color="#7FB2F3"

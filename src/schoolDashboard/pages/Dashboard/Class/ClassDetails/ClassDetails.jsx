@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ClassDetails.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { IoMdArrowBack } from "react-icons/io";
+import api from "../../../../lib/axios";
+import { toast } from "react-hot-toast";
 
 const ClassDetails = () => {
 	const [searchQuery, setSearchQuery] = useState("");
+	const { id } = useParams();
 	const students = [
 		{
 			surname: "Joseph",
@@ -51,28 +54,41 @@ const ClassDetails = () => {
 		},
 	];
 
-	const filteredStudents = students.filter(
+	const [classDetails, setClassDetails] = useState([]);
+	const [loading, setLoading] = useState(false);
+
+	const fetchClassDetails = async () => {
+		setLoading(true);
+
+		try {
+			const response = await api.get(`/school/students?class_id=${id}`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			// console.log(response);
+			setClassDetails(response.data.data);
+		} catch (err) {
+			console.error("Error fetching class details:", err);
+			toast.error(
+				"Failed to load class details. Please refresh or try again later.",
+			);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		fetchClassDetails();
+	}, []);
+
+	const filteredStudents = classDetails.filter(
 		(data) =>
 			data.surname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			data.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			data.matricNumber.toLowerCase().includes(searchQuery.toLowerCase())
-	);
-
-	const SearchBar = ({ searchQuery, setSearchQuery }) => (
-		<div className="search-area">
-			<div>
-				<span className="search-bar">
-					<CiSearch />
-					<input
-						type="text"
-						placeholder="Search"
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-					/>
-				</span>
-				<button>Search</button>
-			</div>
-		</div>
+			data.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			data.matric_number
+				.toLowerCase()
+				.includes(searchQuery.toLowerCase()),
 	);
 
 	return (
@@ -82,10 +98,20 @@ const ClassDetails = () => {
 				<Link to="/school/dashboard/class">All Classes</Link>
 			</aside>
 
-			<SearchBar
-				searchQuery={searchQuery}
-				setSearchQuery={setSearchQuery}
-			/>
+			<div className="search-area">
+				<div>
+					<span className="search-bar">
+						<CiSearch />
+						<input
+							type="text"
+							placeholder="Search"
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+						/>
+					</span>
+					<button>Search</button>
+				</div>
+			</div>
 
 			<Link to="/school/dashboard/class" className="back-link">
 				<IoMdArrowBack />
@@ -95,10 +121,10 @@ const ClassDetails = () => {
 				<div className="student-table">
 					<header className="table-header">
 						<div className="table-info">
-							<p>J.S.S 1</p>
-							<p>No of Students: 50</p>
+							<p>{classDetails[0]?.class_name}</p>
+							<p>No of Students: {classDetails.length}</p>
 						</div>
-						<p>Class Teacher: Paul Mark</p>
+						<p>Class Teacher: {classDetails[0]?.class_teacher}</p>
 					</header>
 					<table>
 						<thead>
@@ -114,8 +140,8 @@ const ClassDetails = () => {
 							{filteredStudents.map((student, index) => (
 								<tr key={index}>
 									<td>{student.surname}</td>
-									<td>{student.firstName}</td>
-									<td>{student.matricNumber}</td>
+									<td>{student.first_name}</td>
+									<td>{student.matric_number}</td>
 									<td>{student.gender}</td>
 									<td>{student.schoolFees}</td>
 								</tr>
