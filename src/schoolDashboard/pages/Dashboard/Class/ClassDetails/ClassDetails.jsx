@@ -61,12 +61,14 @@ const ClassDetails = () => {
 		setLoading(true);
 
 		try {
-			const response = await api.get(`/school/students?class_id=${id}`, {
-				headers: {
-					Authorization: `${localStorage.getItem("sms_token")}`,
+			const response = await api.get(
+				`/school/classes/full-details/${id}`,
+				{
+					headers: {
+						Authorization: `${localStorage.getItem("sms_token")}`,
+					},
 				},
-			});
-			// console.log(response);
+			);
 			setClassDetails(response.data.data);
 		} catch (err) {
 			console.error("Error fetching class details:", err);
@@ -82,7 +84,7 @@ const ClassDetails = () => {
 		fetchClassDetails();
 	}, []);
 
-	const filteredStudents = classDetails.filter(
+	const filteredStudents = classDetails?.students?.filter(
 		(data) =>
 			data.surname.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			data.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -121,10 +123,12 @@ const ClassDetails = () => {
 				<div className="student-table">
 					<header className="table-header">
 						<div className="table-info">
-							<p>{classDetails[0]?.class_name}</p>
-							<p>No of Students: {classDetails.length}</p>
+							<p>{classDetails.class_name}</p>
+							<p>
+								No of Students: {classDetails?.students?.length}
+							</p>
 						</div>
-						<p>Class Teacher: {classDetails[0]?.class_teacher}</p>
+						<p>Class Teacher: {classDetails.class_teacher}</p>
 					</header>
 					<table>
 						<thead>
@@ -137,13 +141,13 @@ const ClassDetails = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{filteredStudents.map((student, index) => (
+							{filteredStudents?.map((student, index) => (
 								<tr key={index}>
 									<td>{student.surname}</td>
 									<td>{student.first_name}</td>
 									<td>{student.matric_number}</td>
 									<td>{student.gender}</td>
-									<td>{student.schoolFees}</td>
+									<td>{student.school_fees}</td>
 								</tr>
 							))}
 						</tbody>

@@ -36,12 +36,16 @@ const EditClass = () => {
 
 	const fetchClassDetails = async () => {
 		try {
-			const response = await api.get(`/school/students?class_id=${id}`, {
-				headers: {
-					Authorization: `${localStorage.getItem("sms_token")}`,
+			const response = await api.get(
+				`/school/classes/full-details/${id}`,
+				{
+					headers: {
+						Authorization: `${localStorage.getItem("sms_token")}`,
+					},
 				},
-			});
-			console.log(response);
+			);
+			// console.log(response.data);
+			setClassName(response.data.data.class_name);
 			// setClassDetails(response.data.data);
 		} catch (err) {
 			console.error("Error fetching class details:", err);
@@ -63,25 +67,26 @@ const EditClass = () => {
 			return;
 		}
 		setLoading(true);
-		console.log(className, classTeacher);
-		setLoading(false);
-		return;
+		// console.log(className, classTeacher);
+		// setLoading(false);
+		// return;
 
 		try {
-			const response = await axios.post(
-				`${BASE_API_URL}/school/classes/create`,
+			const response = await axios.put(
+				`${BASE_API_URL}/school/classes/edit/${id}`,
 				{
 					class_name: className,
 					teacher_id: Number(classTeacher),
 				},
 				{
 					headers: {
-						Authorization: `${userToken}`,
+						Authorization: `${localStorage.getItem("sms_token")}`,
 					},
 				},
 			);
-			toast.success("class created successfully");
+			toast.success("Class updated successfully");
 			setLoading(false);
+			navigate("/school/dashboard/class");
 		} catch (err) {
 			toast.error(err.response.data.message || err.message);
 			console.log(err);
@@ -131,6 +136,7 @@ const EditClass = () => {
 						value={classTeacher}
 						onChange={(e) => setClassTeacher(e.target.value)}
 					>
+						<option value="">Update Class Teacher</option>
 						{teacherList.map((teacher) => (
 							<option key={teacher.id} value={teacher.id}>
 								{teacher.first_name} {teacher.surname}
