@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiEdit2Line, RiDeleteBinLine } from "react-icons/ri";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import api from "../../../../lib/axios";
+import { toast } from "react-hot-toast";
 
 const Pagination = ({
 	totalItems,
@@ -42,7 +44,7 @@ const Pagination = ({
 						>
 							{pageNumber}
 						</button>
-					)
+					),
 				)}
 				<button
 					onClick={() => handlePageChange(currentPage + 1)}
@@ -56,11 +58,12 @@ const Pagination = ({
 };
 
 const AllStudents = ({ studentData }) => {
-	const [students, setStudents] = useState(studentData);
+	const [students, setStudents] = useState([]);
 	const [filteredStudents, setFilteredStudents] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [sessionYear, setSessionYear] = useState("");
 	const [searchTerm, setSearchTerm] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const handleSearch = (e) => {
 		setSearchTerm(e.target.value);
@@ -77,29 +80,43 @@ const AllStudents = ({ studentData }) => {
 
 	useEffect(() => {
 		filterStudents();
-	}, [searchTerm, sessionYear]);
+	}, [searchTerm]);
 
 	const fetchStudentData = async () => {
-		const response = await fetch("/api/students");
-		const data = await response.json();
-		setStudents(data);
-		setFilteredStudents(data);
+		setLoading(true);
+
+		try {
+			const response = await api.get(`/school/students`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			// console.log(response.data.data);
+			setStudents(response.data.data);
+		} catch (err) {
+			console.error("Error fetching students:", err);
+			toast.error(
+				"Failed to load students. Please refresh or try again later.",
+			);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const filterStudents = () => {
-		let filtered = students.filter(
+		let filtered = students?.filter(
 			(student) =>
-				student.firstName
+				student.first_name
 					.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
-				student.lastName
+				student.surname
 					.toLowerCase()
-					.includes(searchTerm.toLowerCase())
+					.includes(searchTerm.toLowerCase()),
 		);
 
 		if (sessionYear) {
 			filtered = filtered.filter(
-				(student) => student.sessionYear === sessionYear
+				(student) => student.sessionYear === sessionYear,
 			);
 		}
 
@@ -116,7 +133,7 @@ const AllStudents = ({ studentData }) => {
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 	const currentItems = filteredStudents.slice(
 		indexOfFirstItem,
-		indexOfLastItem
+		indexOfLastItem,
 	);
 
 	return (
@@ -164,27 +181,27 @@ const AllStudents = ({ studentData }) => {
 							</tr>
 						</thead>
 						<tbody>
-							{currentItems.map((student, index) => (
-								<tr key={index}>
-									<td>{student.lastName}</td>
-									<td>{student.firstName}</td>
-									<td>{student.matricNumber}</td>
-									<td>{student.class}</td>
-									<td>{student.classTeacher}</td>
+							{currentItems?.map((student) => (
+								<tr key={student.id}>
+									<td>{student.surname}</td>
+									<td>{student.first_name}</td>
+									<td>{student.matric_number}</td>
+									<td>{student.class_name}</td>
+									<td>{student.class_teacher}</td>
 									<td>{student.dateOfAdmission}</td>
 									<td className="actions">
 										<Link
-											to={`/school/dashboard/viewstudent/${student.matricNumber}`}
+											to={`/school/dashboard/viewstudent/${student.id}`}
 										>
 											<AiOutlineEye />
 										</Link>
 										<Link
-											to={`/school/dashboard/editstudent/${student.matricNumber}`}
+											to={`/school/dashboard/editstudent/${student.id}`}
 										>
 											<RiEdit2Line />
 										</Link>
 										<Link
-											to={`/school/dashboard/students/${student.matricNumber}`}
+											to={`/school/dashboard/students/${student.id}`}
 										>
 											<RiDeleteBinLine />
 										</Link>

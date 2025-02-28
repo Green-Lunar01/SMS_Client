@@ -1,5 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import "./AddNewEmployee.css";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import Spinner from "../../../../components/Spinner/Spinner";
+import { UserContext } from "../../../../context/userContext";
+import { SchoolContext } from "../../../../context/schoolContext";
+import { convertHtmlDateToYMD } from "../../../../utils/dateCoverter";
 
 const AddNewEmployee = () => {
 	const [employeeInfo, setEmployeeInfo] = useState({
@@ -11,16 +17,20 @@ const AddNewEmployee = () => {
 		role: "Principal",
 		mobileNumber: "0812345679",
 		fatherName: "",
-		bloodGroup: "",
-		religion: "Christian",
+		bloodGroup: "A+",
+		religion: "Christianity",
 		dateOfBirth: "22/03/2005",
 		email: "example@gmail.com",
-		gender: "",
+		gender: "male",
 		classField: "",
 		subject: "",
 		education: "",
 		address: "",
 	});
+
+	const { userToken } = useContext(UserContext);
+	const { getEmployees } = useContext(SchoolContext);
+	const [loading, setLoading] = useState(false);
 
 	const inputRef = useRef(null);
 
@@ -38,10 +48,61 @@ const AddNewEmployee = () => {
 		});
 	};
 
+	const createEmployee = async () => {
+		for (const [key, value] of Object.entries(employeeInfo)) {
+			if (!value && key !== "profilePhoto") {
+				// console.log(key, value);
+				toast.error(`All fields are required. Please fill in (${key})`);
+				return;
+			}
+		}
+		setLoading(true);
+
+		const postData = {
+			surname: employeeSurname.value,
+			first_name: employeeFirstName.value,
+			monthly_salary: Number(salary.value),
+			joined_at: convertHtmlDateToYMD(dateOfJoining.value),
+			email: email.value,
+			gender: gender.value,
+			religion: religion.value,
+			role: role.value,
+			phone_number: mobileNumber.value,
+			family_relation: fatherName.value,
+			date_of_birth: convertHtmlDateToYMD(dateOfBirth.value),
+			address: address.value,
+			blood_group: bloodGroup.value,
+			education_level: education.value,
+		};
+
+		// console.log(postData);
+		// setLoading(false);
+		// return;
+
+		try {
+			const response = await axios.post(
+				`${import.meta.env.VITE_BASE_API_URL}/school/employees/create`,
+				postData,
+				{
+					headers: {
+						Authorization: `${userToken}`,
+					},
+				},
+			);
+			toast.success("Employee created successfully");
+			// console.log(response);
+			getEmployees();
+			setLoading(false);
+		} catch (err) {
+			toast.error(err.response.data.message || err.message);
+			console.log(err);
+			setLoading(false);
+		}
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// Handle form submission, e.g., send data to backend
-		console.log("Student Information:", employeeInfo);
+		createEmployee();
 	};
 
 	return (
@@ -57,7 +118,7 @@ const AddNewEmployee = () => {
 							{employeeInfo.profilePhoto ? (
 								<img
 									src={URL.createObjectURL(
-										employeeInfo.profilePhoto
+										employeeInfo.profilePhoto,
 									)}
 									alt="Profile"
 								/>
@@ -193,16 +254,17 @@ const AddNewEmployee = () => {
 								value={employeeInfo.religion}
 								onChange={handleInputChange}
 							>
-								<option value="Christian">Christian</option>
-								<option value="Muslim">Muslim</option>
-								<option value="Hindu">Hindu</option>
+								<option value="Christianity">
+									Christianity
+								</option>
+								<option value="Islam">Islam</option>
 								<option value="Other">Other</option>
 							</select>
 						</div>
 						<div className="form-group">
 							<label htmlFor="dateOfBirth">Date of Birth</label>
 							<input
-								type="text"
+								type="date"
 								id="dateOfBirth"
 								name="dateOfBirth"
 								value={employeeInfo.dateOfBirth}
@@ -214,6 +276,7 @@ const AddNewEmployee = () => {
 							<input
 								type="email"
 								id="email"
+								name="email"
 								value={employeeInfo.email}
 								onChange={handleInputChange}
 							/>
@@ -226,8 +289,9 @@ const AddNewEmployee = () => {
 								value={employeeInfo.gender}
 								onChange={handleInputChange}
 							>
-								<option value="Male">Male</option>
-								<option value="Female">Female</option>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
+								<option value="non-binary">Other</option>
 							</select>
 						</div>
 						<div className="form-group">
@@ -238,6 +302,9 @@ const AddNewEmployee = () => {
 								value={employeeInfo.classField}
 								onChange={handleInputChange}
 							>
+								<option value="" disabled>
+									Select
+								</option>
 								<option value="J.S.S.1">J.S.S.1</option>
 								<option value="J.S.S.2">J.S.S.2</option>
 							</select>
@@ -247,6 +314,7 @@ const AddNewEmployee = () => {
 							<input
 								type="text"
 								id="subject"
+								name="subject"
 								value={employeeInfo.subject}
 								onChange={handleInputChange}
 							/>
@@ -259,18 +327,12 @@ const AddNewEmployee = () => {
 								value={employeeInfo.education}
 								onChange={handleInputChange}
 							>
-								<option value="High School">High School</option>
-								<option value="Associate Degree">
-									Associate Degree
+								<option value="" disabled>
+									Select
 								</option>
-								<option value="Bachelor's Degree">
-									Bachelor's Degree
-								</option>
-								<option value="Master's Degree">
-									Master's Degree
-								</option>
-								<option value="Doctorate">Doctorate</option>
-								<option value="Other">Other</option>
+								<option value="Bsc">Bsc</option>
+								<option value="Hnd">Hnd</option>
+								<option value="Phd">Phd</option>
 							</select>
 						</div>
 						<div className="form-group address">
@@ -278,14 +340,15 @@ const AddNewEmployee = () => {
 							<input
 								type="text"
 								id="address"
+								name="address"
 								value={employeeInfo.address}
 								onChange={handleInputChange}
 							/>
 						</div>
 					</main>
 				</div>
-				<button type="submit" className="submit-btn">
-					Save Changes
+				<button type="submit" className="submit-btn" disabled={loading}>
+					{loading ? <Spinner /> : "Save Changes"}
 				</button>
 			</form>
 		</div>

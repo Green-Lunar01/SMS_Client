@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./AllClasses.css";
 import { CiSearch } from "react-icons/ci";
 import { RiEdit2Line, RiDeleteBin6Line } from "react-icons/ri";
 import CircularProgress from "../../../../components/CircularProgress/CircularProgress";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../../../../context/userContext";
 
 const AllClasses = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -27,9 +29,32 @@ const AllClasses = () => {
 			subject: "Fine Art",
 		},
 	];
+	const [allClasses, setAllClasses] = useState([]);
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+	const { userToken } = useContext(UserContext);
 
-	const filteredClasses = classes.filter((classData) =>
-		classData.name.toLowerCase().includes(searchQuery.toLowerCase())
+	const getClasses = async () => {
+		try {
+			const response = await axios.get(
+				`${BASE_API_URL}/school/classes/full-details`,
+				{
+					headers: { Authorization: `${userToken}` },
+				},
+			);
+			// console.log(response.data.data);
+			setAllClasses(response.data.data);
+		} catch (err) {
+			// toast.error(err.response.data.message || err.message);
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		getClasses();
+	}, []);
+
+	const filteredClasses = allClasses.filter((classData) =>
+		classData.class_name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
 	return (
@@ -70,22 +95,42 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
 );
 
 const ClassCard = ({ data }) => {
-	const { name, totalStudents, female, male, teacher, subject, id } = data;
+	const {
+		class_name,
+		totalStudents,
+		female_students,
+		male_students,
+		class_teacher,
+		subject,
+		id,
+	} = data;
 
 	return (
 		<div className="class-card">
-			<h3>{name}</h3>
+			<h3>{class_name}</h3>
 			<main>
 				<div className="stats">
 					<div className="stat">
-						<h2>{totalStudents}</h2>
+						<h2>
+							{Number(female_students) + Number(male_students)}
+						</h2>
 						<p>Students</p>
 					</div>
 					<CircularProgress
 						label="Female"
-						value={female}
+						value={female_students}
 						percentage={
-							Math.round((female / totalStudents) * 10000) / 100
+							typeof male_students === "undefined" ||
+							typeof female_students === "undefined" ||
+							Number(male_students) + Number(female_students) ===
+								0
+								? 0
+								: Math.round(
+										(Number(female_students) /
+											(Number(male_students) +
+												Number(female_students))) *
+											10000,
+									) / 100
 						}
 						rotation={-230}
 						bgColor="#e6e6e6"
@@ -93,9 +138,19 @@ const ClassCard = ({ data }) => {
 					/>
 					<CircularProgress
 						label="Male"
-						value={male}
+						value={male_students}
 						percentage={
-							Math.round((male / totalStudents) * 10000) / 100
+							typeof male_students === "undefined" ||
+							typeof female_students === "undefined" ||
+							Number(male_students) + Number(female_students) ===
+								0
+								? 0
+								: Math.round(
+										(Number(male_students) /
+											(Number(male_students) +
+												Number(female_students))) *
+											10000,
+									) / 100
 						}
 						rotation={-230}
 						bgColor="#e6e6e6"
@@ -103,9 +158,9 @@ const ClassCard = ({ data }) => {
 					/>
 					<CircularProgress
 						label="Class Teacher"
-						value={teacher}
+						value={class_teacher}
 						percentage={80}
-						text={subject}
+						text={"subject"}
 						rotation={-230}
 						bgColor="#e6e6e6"
 						color="#13A541"
