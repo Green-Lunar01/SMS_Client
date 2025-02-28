@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Students.css";
 import AllStudents from "./AllStudents/AllStudents";
-import AddStudent from "./AddStudent/AddStudent2";
+import AddStudent2 from "./AddStudent/AddStudent2";
 import AdmissionLetter from "./AdmissionLetter/AdmissionLetter";
 import PromoteStudent from "./PromoteStudent/PromoteStudent";
 
@@ -121,7 +121,7 @@ const Students = () => {
 			</aside>
 
 			{tab === "all" && <AllStudents studentData={studentData} />}
-			{tab === "add new" && <AddStudent />}
+			{tab === "add new" && <AddStudent2 />}
 			{tab === "admission letter" && <AdmissionLetter />}
 			{tab === "promote" && <PromoteStudent />}
 		</div>

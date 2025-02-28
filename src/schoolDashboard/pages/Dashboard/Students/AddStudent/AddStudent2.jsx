@@ -7,7 +7,7 @@ import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { SchoolContext } from "../../../../context/SchoolContext";
 
-const AddStudent = () => {
+const AddStudent2 = () => {
 	const [loading, setLoading] = useState(false);
 	const [formData, setFormData] = useState({
 		surname: "",
@@ -467,4 +467,4 @@ const AddStudent = () => {
 	);
 };
 
-export default AddStudent;
+export default AddStudent2;
