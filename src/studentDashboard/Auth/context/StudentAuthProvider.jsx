@@ -75,7 +75,7 @@ const StudentAuthProvider = ({children}) => {
 	const postComment = async (assignmentId, comment) => {
 		try{
 		 const response = await axios.post(`http://tonyicon.com.ng:5000/student/assignments/${assignmentId}/comment`, 
-		   {comment},
+	       {comment},
 		 { 
 		   headers: {Authorization : studentToken}
 		})
