@@ -56,7 +56,7 @@ const Signup = () => {
 					<label htmlFor="password">
 						<span>Password</span>
 						<PasswordInput
-							placeholder="****************"
+							placeholder="**********hi******"
 							id="password"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
