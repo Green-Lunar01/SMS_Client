@@ -149,7 +149,7 @@ const AddNewEmployee = () => {
 
 			// Make API request with FormData
 			const response = await axios.post(
-				`${import.meta.env.VITE_BASE_API_URL}/school/employee/create`,
+				`${import.meta.env.VITE_BASE_API_URL}/school/employees/create`,
 				submitFormData,
 				{
 					headers: {
