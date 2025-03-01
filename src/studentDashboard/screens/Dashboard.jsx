@@ -1,15 +1,54 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import teaching  from "../icons/teaching.svg?react"
+import { useStudAuth } from '../Auth/context/StudentAuthProvider'
+import axios from 'axios'
 // import Calendar from '../components/Calendar'
 import DashboardCalendar from '../components/Calendar/DashboardCalendar'
 function Dashboard() {
+  const {studentToken, getStudentInfo, setStudentToken, studentProfile, setStudentProfile} = useStudAuth()
+ 
+  console.log(typeof studentToken)
+  // const getStudent = async (studentToken) => {
+	
+	// 	try {
+	// 		const response = await axios.get(`http://tonyicon.com.ng:5000/student/overview`,
+	// 		   { headers: { Authorization: `Bearer ${studentToken}` } });
+				
+	// 		console.log(studentToken, "the response:", response)
+			
+	// 	}catch(err){
+	// 		console.error(err)
 
+	// 	}
+
+	// }
+  // getStudent()
+  const getTimetable = async (studentToken) => {
+    console.log("studentToken:", studentToken);
+    try {
+        const response = await axios.get(
+            `http://tonyicon.com.ng:5000/student/timetable`,
+            {
+                headers: {
+                    Authorization: studentToken, // ✅ Directly send the token
+                },
+            }
+        );
+        console.log("timetable res", response);
+    } catch (err) {
+        console.error("Erro3r fetching timetable:", err);
+    }
+};
+  getTimetable(studentToken)
+  console.log(studentProfile)
+  const attendanceOverview = studentProfile.attendance_overview
+  const classesToday = studentProfile.classes_today
   const attendanceCards =  [
     {
       "attendanceType": "ABSENCE",
       "icon": teaching,
       "time": "This month",
-      'count': 10,
+      'count': attendanceOverview?.absent_this_month,
       "color": "#FB8791"
       
     },
@@ -17,7 +56,7 @@ function Dashboard() {
       "attendanceType": "PRESENT",
       "icon": teaching,
       "time": "This month",
-      'count': 56,
+      'count': attendanceOverview?.present_this_month,
       "color": "#6A8BF6"
       
     },
@@ -25,7 +64,7 @@ function Dashboard() {
       "attendanceType": "SESSION PRESENT TOTAL",
       "icon": teaching,
       "time": "2023/2024",
-      'count': 0,
+      'count': attendanceOverview?.present_this_session,
       "color": "#9FA1D8"
       
     },
@@ -40,42 +79,49 @@ function Dashboard() {
     },
    
   ]
+  
   const timeTable = [
     
-    {
-      "subject": "Mathematics",
-      "time": "08:00-09:00",
-      "color": '#B4CF34'
-    },
-    {
-      "subject": "Biology",
-      "time": "10:00-11::00",
-      "color": '#6A8BF6'
-    },
-    {
-      "subject": "English Language",
-      "time": "12:30-01:30",
-      "color": '#FB8791'
-    },
-    {
-      "subject": "Chemistry",
-      "time": "01:30-02:30",
-      "color": '#FBAE44'
-    },
-    {
-      "subject": "History",
-      "time": "02:30-03:00",
-      "color": '#FB8791'
-    },
-    {
-      "subject": "Economics",
-      "time": "04:00-5:00",
-      "color": '#79C1BB'
-    },
+    // {
+    //   "subject": "Mathematics",
+    //   "time": "08:00-09:00",
+    //   "color": '#B4CF34'
+    // },
+    // {
+    //   "subject": "Biology",
+    //   "time": "10:00-11::00",
+    //   "color": '#6A8BF6'
+    // },
+    // {
+    //   "subject": "English Language",
+    //   "time": "12:30-01:30",
+    //   "color": '#FB8791'
+    // },
+    // {
+    //   "subject": "Chemistry",
+    //   "time": "01:30-02:30",
+    //   "color": '#FBAE44'
+    // },
+    // {
+    //   "subject": "History",
+    //   "time": "02:30-03:00",
+    //   "color": '#FB8791'
+    // },
+    // {
+    //   "subject": "Economics",
+    //   "time": "04:00-5:00",
+    //   "color": '#79C1BB'
+    // },
   ]
+ 
+  const timeTableColors = [
+    "#B4CF34", "#6A8BF6", "#FB8791", "#FBAE44", "#FB8791","#79C1BB"
+  ]
+ 
+
   return (
     <div className='w-full'>
-      {/* hiwirehjwfrlguwe;rofqjirghqero */}
+
     <div className='w-full flex justify-center'>
       <div className='lg:w-[93%] w-[85%] flex flex-col  gap-[51px] justify-start p-0 bg-white  my-[48px]'>
         <div className='lg:w-full lg:flex-row flex flex-col justify-center  gap-[16px]'> 
@@ -88,6 +134,7 @@ function Dashboard() {
               className=' flex flex-col  items-center lg:w-[27%]  h-[172px] rounded-[7px] pt-[19px]'
               style={{ backgroundColor: card.color }}
             >
+           
              <div className='w-11/12 flex flex-col gap-[22px] lg:w-[80%] h-[132px]'>
                 <p className='font-semibold text-[14px]  text-white'> {card.attendanceType}</p>
                 <div className='flex w-full justify-between items-center'>
@@ -113,14 +160,14 @@ function Dashboard() {
                   <h1 className='text-[14px] font-bold text-[#08190e] pt-[20px] pl-[20px]'>Today Classes</h1>
                   <div className='flex lg:justify-normal justify-center pt-[24px] md:pl-[24px] gap-[17px] flex-wrap mb-[20px]'>
                       {
-                        timeTable.map((subjectTime) => (
+                        classesToday?.map((subjectTime, index) => (
                         
-                            <div className='flex flex-col gap-[20px] justify-center md:w-[152px] w-[42%] h-[125px] text-center text-white ' style={{backgroundColor: subjectTime.color}} >
+                            <div  key={index} className='flex flex-col gap-[20px] justify-center md:w-[152px] w-[42%] h-[125px] text-center text-white ' style={{backgroundColor: timeTableColors[index % timeTableColors.length]}} >
                               <p>
-                                {subjectTime.subject}
+                                {subjectTime.subject_name}
                               </p>
                               <p>
-                                {subjectTime.time}
+                                {subjectTime.duration}
                               </p>
                             </div>
 

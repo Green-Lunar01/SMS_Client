@@ -1,7 +1,20 @@
+import { FaComment } from "react-icons/fa6";
+import { useStudAuth } from "../Auth/context/StudentAuthProvider";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
+import { useEffect, useState } from "react";
+
 
 function Layout({ children, showModal, setShowModal }) {
+   const {postComment, commentId} = useStudAuth()
+   const [comment, setComment] = useState("")
+    useEffect(() => {
+      console.log(comment, commentId)
+      
+    }, [comment])
+
+
+
   return (
     <div className="">
       {showModal && (
@@ -15,7 +28,9 @@ function Layout({ children, showModal, setShowModal }) {
               </button>
             </div>
             <div className="flex-container border-b">
-              <textarea
+              <textarea onChange={(e) => {
+                   setComment(e.target.value)
+              }}
                 className="w-full h-[293px] px-[32px] py-[24px]"
                 placeholder="Enter Comment"
               ></textarea>
@@ -26,6 +41,7 @@ function Layout({ children, showModal, setShowModal }) {
                 <img src="/icons/gallery.svg" />
               </div>
               <button
+                onClick={() => postComment(commentId, comment)}
                 type="button"
                 className="w-[54px] h-[37px] rounded-[4px] py-2 px-[17px] flex-container text-center bg-[#D9D9D9]"
               >
