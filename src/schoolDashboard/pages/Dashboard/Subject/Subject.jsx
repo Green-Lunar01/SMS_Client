@@ -16,6 +16,7 @@ const Subject = () => {
 	const [teacher, setTeacher] = useState();
 	const [subject, setSubject] = useState();
 	const [teacherList, setTeacherList] = useState([]);
+	const [selectedClasses, setSelectedClasses] = useState([]);
 	const [loading, setLoading] = useState(false);
 
 	const getEmployeeByCategory = (category) => {
@@ -29,27 +30,33 @@ const Subject = () => {
 	}, [employees]);
 
 	const createSubject = async () => {
-		if (!subject) {
+		if (!subject || !teacher || selectedClasses.length === 0) {
 			toast.error("All fields are required");
 			return;
 		}
 		setLoading(true);
 
+		const data = {
+			subject_name: subject,
+			teacher_id: Number(teacher),
+			class_ids: selectedClasses,
+		};
+
 		try {
 			const response = await axios.post(
-				`${BASE_API_URL}/school/subjects/create`,
-				{
-					subject_name: subject,
-				},
+				`${BASE_API_URL}/school/subjects/create-asign`,
+				data,
 				{
 					headers: {
 						Authorization: `${userToken}`,
 					},
 				},
 			);
-			console.log(response);
-			toast.success("class created successfully");
+			toast.success("Subject created successfully");
 			setLoading(false);
+			setSelectedClasses([]);
+			setSubject("");
+			setTeacher("");
 		} catch (err) {
 			toast.error(err.response.data.message || err.message);
 			console.log(err);
@@ -114,6 +121,8 @@ const Subject = () => {
 							<MultiSelectDropdown
 								options={classes}
 								placeholder="Select Classes"
+								selectedOptions={selectedClasses}
+								setSelectedOptions={setSelectedClasses}
 							/>
 						</label>
 						<label htmlFor="subject-name">
@@ -131,8 +140,10 @@ const Subject = () => {
 							<select
 								name="subject-teacher"
 								id="subject-teacher"
+								value={teacher}
 								onChange={(e) => setTeacher(e.target.value)}
 							>
+								<option value="">Select Teacher</option>
 								{teacherList.map((teacher) => (
 									<option value={teacher.id} key={teacher.id}>
 										{teacher.first_name} {teacher.surname}

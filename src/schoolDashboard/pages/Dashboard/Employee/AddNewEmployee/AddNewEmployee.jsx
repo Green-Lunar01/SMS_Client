@@ -4,105 +4,197 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import Spinner from "../../../../components/Spinner/Spinner";
 import { UserContext } from "../../../../context/userContext";
-import { SchoolContext } from "../../../../context/schoolContext";
-import { convertHtmlDateToYMD } from "../../../../utils/dateCoverter";
+import { SchoolContext } from "../../../../context/SchoolContext";
 
 const AddNewEmployee = () => {
-	const [employeeInfo, setEmployeeInfo] = useState({
+	const [loading, setLoading] = useState(false);
+	const [formData, setFormData] = useState({
 		profilePhoto: null,
-		employeeSurname: "Jesus",
-		employeeFirstName: "William",
-		salary: "5000",
-		dateOfJoining: "22/03/2023",
-		role: "Principal",
-		mobileNumber: "0812345679",
-		fatherName: "",
-		bloodGroup: "A+",
+		surname: "",
+		first_name: "",
+		monthly_salary: "",
+		joined_at: "",
+		role: "Teacher",
+		phone_number: "",
+		family_relation: "",
+		blood_group: "A+",
 		religion: "Christianity",
-		dateOfBirth: "22/03/2005",
-		email: "example@gmail.com",
+		date_of_birth: "",
+		email: "",
 		gender: "male",
-		classField: "",
+		class_id: "",
 		subject: "",
-		education: "",
+		education_level: "",
 		address: "",
 	});
 
 	const { userToken } = useContext(UserContext);
-	const { getEmployees } = useContext(SchoolContext);
-	const [loading, setLoading] = useState(false);
-
+	const { getEmployees, classes } = useContext(SchoolContext);
 	const inputRef = useRef(null);
 
+	// Helper function for date formatting
+	const formatDateForAPI = (dateString) => {
+		if (!dateString) return "";
+		const date = new Date(dateString);
+		return date.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+	};
+
 	const handleInputChange = (e) => {
-		setEmployeeInfo({
-			...employeeInfo,
-			[e.target.name]: e.target.value,
+		const { name, value, type, checked } = e.target;
+		setFormData({
+			...formData,
+			[name]: type === "checkbox" ? checked : value,
 		});
 	};
 
 	const handlePhotoUpload = (e) => {
-		setEmployeeInfo({
-			...employeeInfo,
+		setFormData({
+			...formData,
 			profilePhoto: e.target.files[0],
 		});
 	};
 
-	const createEmployee = async () => {
-		for (const [key, value] of Object.entries(employeeInfo)) {
-			if (!value && key !== "profilePhoto") {
-				// console.log(key, value);
-				toast.error(`All fields are required. Please fill in (${key})`);
-				return;
-			}
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		// Define required fields
+		const requiredFields = [
+			"surname",
+			"first_name",
+			"monthly_salary",
+			"joined_at",
+			"role",
+			"phone_number",
+			"email",
+			"gender",
+			"religion",
+			"date_of_birth",
+		];
+
+		// Check for empty required fields
+		const missingRequiredFields = requiredFields.filter(
+			(field) => !formData[field],
+		);
+
+		if (missingRequiredFields.length > 0) {
+			toast.error(
+				`The following required fields are missing: ${missingRequiredFields.join(", ")}`,
+			);
+			return;
 		}
+
 		setLoading(true);
 
-		const postData = {
-			surname: employeeSurname.value,
-			first_name: employeeFirstName.value,
-			monthly_salary: Number(salary.value),
-			joined_at: convertHtmlDateToYMD(dateOfJoining.value),
-			email: email.value,
-			gender: gender.value,
-			religion: religion.value,
-			role: role.value,
-			phone_number: mobileNumber.value,
-			family_relation: fatherName.value,
-			date_of_birth: convertHtmlDateToYMD(dateOfBirth.value),
-			address: address.value,
-			blood_group: bloodGroup.value,
-			education_level: education.value,
-		};
-
-		// console.log(postData);
-		// setLoading(false);
-		// return;
-
 		try {
+			// Create FormData object for the entire request
+			const submitFormData = new FormData();
+
+			// Add all text fields to FormData
+			submitFormData.append("surname", formData.surname);
+			submitFormData.append("first_name", formData.first_name);
+			submitFormData.append(
+				"monthly_salary",
+				Number(formData.monthly_salary),
+			);
+			submitFormData.append(
+				"joined_at",
+				formatDateForAPI(formData.joined_at),
+			);
+			submitFormData.append("email", formData.email);
+			submitFormData.append("gender", formData.gender);
+			submitFormData.append("religion", formData.religion);
+			submitFormData.append("role", formData.role);
+			submitFormData.append("phone_number", formData.phone_number);
+
+			// Add optional fields only if they have values
+			if (formData.family_relation) {
+				submitFormData.append(
+					"family_relation",
+					formData.family_relation,
+				);
+			}
+
+			submitFormData.append(
+				"date_of_birth",
+				formatDateForAPI(formData.date_of_birth),
+			);
+
+			if (formData.address) {
+				submitFormData.append("address", formData.address);
+			}
+
+			if (formData.blood_group) {
+				submitFormData.append("blood_group", formData.blood_group);
+			}
+
+			if (formData.education_level) {
+				submitFormData.append(
+					"education_level",
+					formData.education_level,
+				);
+			}
+
+			if (formData.subject) {
+				submitFormData.append("subject", formData.subject);
+			}
+
+			if (formData.class_id) {
+				submitFormData.append("class_id", Number(formData.class_id));
+			}
+
+			// Add profile photo if it exists
+			if (formData.profilePhoto) {
+				submitFormData.append("profile_photo", formData.profilePhoto);
+			}
+
+			// Make API request with FormData
 			const response = await axios.post(
-				`${import.meta.env.VITE_BASE_API_URL}/school/employees/create`,
-				postData,
+				`${import.meta.env.VITE_BASE_API_URL}/school/employee/create`,
+				submitFormData,
 				{
 					headers: {
 						Authorization: `${userToken}`,
+						"Content-Type": "multipart/form-data",
 					},
 				},
 			);
-			toast.success("Employee created successfully");
-			// console.log(response);
-			getEmployees();
-			setLoading(false);
+
+			toast.success("Employee added successfully");
+			getEmployees(); // Refresh employee list
+			resetForm(); // Reset form after successful submission
 		} catch (err) {
-			toast.error(err.response.data.message || err.message);
-			console.log(err);
+			toast.error(err.response?.data?.message || "An error occurred");
+			console.error("Error creating employee:", err);
+		} finally {
 			setLoading(false);
 		}
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		createEmployee();
+	// Reset form to initial state
+	const resetForm = () => {
+		setFormData({
+			profilePhoto: null,
+			surname: "",
+			first_name: "",
+			monthly_salary: "",
+			joined_at: "",
+			role: "Teacher",
+			phone_number: "",
+			family_relation: "",
+			blood_group: "A+",
+			religion: "Christianity",
+			date_of_birth: "",
+			email: "",
+			gender: "male",
+			class_id: "",
+			subject: "",
+			education_level: "",
+			address: "",
+		});
+		// Clear file input
+		if (inputRef.current) {
+			inputRef.current.value = null;
+		}
 	};
 
 	return (
@@ -115,10 +207,10 @@ const AddNewEmployee = () => {
 					<h3>Employee Information</h3>
 					<main>
 						<div className="profile-photo">
-							{employeeInfo.profilePhoto ? (
+							{formData.profilePhoto ? (
 								<img
 									src={URL.createObjectURL(
-										employeeInfo.profilePhoto,
+										formData.profilePhoto,
 									)}
 									alt="Profile"
 								/>
@@ -133,42 +225,45 @@ const AddNewEmployee = () => {
 								onChange={handlePhotoUpload}
 								ref={inputRef}
 							/>
-							<button onClick={() => inputRef.current.click()}>
+							<button
+								type="button"
+								onClick={() => inputRef.current.click()}
+							>
 								Upload Photo
 							</button>
 						</div>
 						<div className="form-group">
-							<label htmlFor="employeeSurname">
-								Employee Surname
-							</label>
+							<label htmlFor="surname">Employee Surname</label>
 							<input
 								type="text"
-								id="employeeSurname"
-								name="employeeSurname"
-								value={employeeInfo.employeeSurname}
+								id="surname"
+								name="surname"
+								value={formData.surname}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="employeeFirstName">
+							<label htmlFor="first_name">
 								Employee First Name
 							</label>
 							<input
 								type="text"
-								id="employeeFirstName"
-								name="employeeFirstName"
-								value={employeeInfo.employeeFirstName}
+								id="first_name"
+								name="first_name"
+								value={formData.first_name}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="salary">Monthly Salary</label>
+							<label htmlFor="monthly_salary">
+								Monthly Salary
+							</label>
 							<input
-								type="text"
+								type="number"
 								placeholder="Enter Amount"
-								id="salary"
-								name="salary"
-								value={employeeInfo.salary}
+								id="monthly_salary"
+								name="monthly_salary"
+								value={formData.monthly_salary}
 								onChange={handleInputChange}
 							/>
 						</div>
@@ -177,7 +272,7 @@ const AddNewEmployee = () => {
 							<select
 								id="role"
 								name="role"
-								value={employeeInfo.role}
+								value={formData.role}
 								onChange={handleInputChange}
 							>
 								<option value="Teacher">Teacher</option>
@@ -188,26 +283,24 @@ const AddNewEmployee = () => {
 							</select>
 						</div>
 						<div className="form-group">
-							<label htmlFor="dateOfJoining">
-								Date of Joining
-							</label>
+							<label htmlFor="joined_at">Date of Joining</label>
 							<input
 								type="date"
-								id="dateOfJoining"
-								name="dateOfJoining"
-								value={employeeInfo.dateOfJoining}
+								id="joined_at"
+								name="joined_at"
+								value={formData.joined_at}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="mobileNumber">
+							<label htmlFor="phone_number">
 								Mobile No for SMS/WhatsApp
 							</label>
 							<input
 								type="text"
-								id="mobileNumber"
-								name="mobileNumber"
-								value={employeeInfo.mobileNumber}
+								id="phone_number"
+								name="phone_number"
+								value={formData.phone_number}
 								onChange={handleInputChange}
 							/>
 						</div>
@@ -217,23 +310,23 @@ const AddNewEmployee = () => {
 					<h3>Other Information</h3>
 					<main>
 						<div className="form-group">
-							<label htmlFor="fatherName">
+							<label htmlFor="family_relation">
 								Father / Husband Name
 							</label>
 							<input
 								type="text"
-								id="fatherName"
-								name="fatherName"
-								value={employeeInfo.fatherName}
+								id="family_relation"
+								name="family_relation"
+								value={formData.family_relation}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="bloodGroup">Blood Group</label>
+							<label htmlFor="blood_group">Blood Group</label>
 							<select
-								name="bloodGroup"
-								id="bloodGroup"
-								value={employeeInfo.bloodGroup}
+								name="blood_group"
+								id="blood_group"
+								value={formData.blood_group}
 								onChange={handleInputChange}
 							>
 								<option value="A+">A+</option>
@@ -251,7 +344,7 @@ const AddNewEmployee = () => {
 							<select
 								id="religion"
 								name="religion"
-								value={employeeInfo.religion}
+								value={formData.religion}
 								onChange={handleInputChange}
 							>
 								<option value="Christianity">
@@ -262,12 +355,12 @@ const AddNewEmployee = () => {
 							</select>
 						</div>
 						<div className="form-group">
-							<label htmlFor="dateOfBirth">Date of Birth</label>
+							<label htmlFor="date_of_birth">Date of Birth</label>
 							<input
 								type="date"
-								id="dateOfBirth"
-								name="dateOfBirth"
-								value={employeeInfo.dateOfBirth}
+								id="date_of_birth"
+								name="date_of_birth"
+								value={formData.date_of_birth}
 								onChange={handleInputChange}
 							/>
 						</div>
@@ -277,16 +370,16 @@ const AddNewEmployee = () => {
 								type="email"
 								id="email"
 								name="email"
-								value={employeeInfo.email}
+								value={formData.email}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="Gender">Gender</label>
+							<label htmlFor="gender">Gender</label>
 							<select
 								name="gender"
 								id="gender"
-								value={employeeInfo.gender}
+								value={formData.gender}
 								onChange={handleInputChange}
 							>
 								<option value="male">Male</option>
@@ -295,18 +388,19 @@ const AddNewEmployee = () => {
 							</select>
 						</div>
 						<div className="form-group">
-							<label htmlFor="classField">Class</label>
+							<label htmlFor="class_id">Class</label>
 							<select
-								name="classField"
-								id="classField"
-								value={employeeInfo.classField}
+								name="class_id"
+								id="class_id"
+								value={formData.class_id}
 								onChange={handleInputChange}
 							>
-								<option value="" disabled>
-									Select
-								</option>
-								<option value="J.S.S.1">J.S.S.1</option>
-								<option value="J.S.S.2">J.S.S.2</option>
+								<option value="">Select Class</option>
+								{classes?.map((c) => (
+									<option key={c.id} value={c.id}>
+										{c.class_name}
+									</option>
+								))}
 							</select>
 						</div>
 						<div className="form-group">
@@ -315,21 +409,21 @@ const AddNewEmployee = () => {
 								type="text"
 								id="subject"
 								name="subject"
-								value={employeeInfo.subject}
+								value={formData.subject}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="education">Education Level</label>
+							<label htmlFor="education_level">
+								Education Level
+							</label>
 							<select
-								name="education"
-								id="education"
-								value={employeeInfo.education}
+								name="education_level"
+								id="education_level"
+								value={formData.education_level}
 								onChange={handleInputChange}
 							>
-								<option value="" disabled>
-									Select
-								</option>
+								<option value="">Select Education</option>
 								<option value="Bsc">Bsc</option>
 								<option value="Hnd">Hnd</option>
 								<option value="Phd">Phd</option>
@@ -341,14 +435,14 @@ const AddNewEmployee = () => {
 								type="text"
 								id="address"
 								name="address"
-								value={employeeInfo.address}
+								value={formData.address}
 								onChange={handleInputChange}
 							/>
 						</div>
 					</main>
 				</div>
 				<button type="submit" className="submit-btn" disabled={loading}>
-					{loading ? <Spinner /> : "Save Changes"}
+					{loading ? <Spinner /> : "Add Employee"}
 				</button>
 			</form>
 		</div>

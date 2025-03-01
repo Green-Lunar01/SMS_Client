@@ -2,16 +2,27 @@ import React, { useState } from "react";
 import "./MultiSelectDropdown.css";
 import { toast } from "react-hot-toast";
 
-const MultiSelectDropdown = ({ options = [], placeholder }) => {
-	const [selectedOptions, setSelectedOptions] = useState([]);
+const MultiSelectDropdown = ({
+	options = [],
+	placeholder,
+	selectedOptions,
+	setSelectedOptions,
+}) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [selectedOptionsNames, setSelectedOptionsNames] = useState([]);
 
 	const handleOptionClick = (option) => {
 		setSelectedOptions(
 			(prev) =>
-				prev.includes(option)
-					? prev.filter((selected) => selected !== option) // Remove if already selected
-					: [...prev, option], // Add if not selected
+				prev.includes(option.id)
+					? prev.filter((selected) => selected !== option.id) // Remove if already selected
+					: [...prev, option.id], // Add if not selected
+		);
+
+		setSelectedOptionsNames((prev) =>
+			prev.includes(option.class_name)
+				? prev.filter((selected) => selected !== option.class_name)
+				: [...prev, option.class_name],
 		);
 	};
 
@@ -27,7 +38,7 @@ const MultiSelectDropdown = ({ options = [], placeholder }) => {
 		<div className="multi-select-dropdown">
 			<div className="dropdown-field" onClick={toggleDropdown}>
 				{selectedOptions.length > 0
-					? selectedOptions.join(", ")
+					? selectedOptionsNames.join(", ")
 					: placeholder}
 			</div>
 			{isDropdownOpen && options.length > 0 && (
@@ -36,11 +47,11 @@ const MultiSelectDropdown = ({ options = [], placeholder }) => {
 						<li
 							key={option.id}
 							className={`dropdown-option ${
-								selectedOptions.includes(option.class_name)
+								selectedOptions.includes(option.id)
 									? "selected"
 									: ""
 							}`}
-							onClick={() => handleOptionClick(option.class_name)}
+							onClick={() => handleOptionClick(option)}
 						>
 							{option.class_name}
 						</li>

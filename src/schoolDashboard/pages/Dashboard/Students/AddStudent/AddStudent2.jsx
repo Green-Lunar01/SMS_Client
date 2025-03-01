@@ -6,6 +6,7 @@ import "./AddStudent.css";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { SchoolContext } from "../../../../context/SchoolContext";
+import { useNavigate } from "react-router-dom";
 
 const AddStudent2 = () => {
 	const [loading, setLoading] = useState(false);
@@ -41,6 +42,7 @@ const AddStudent2 = () => {
 	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 	const { userToken } = useContext(UserContext);
 	const { classes } = useContext(SchoolContext);
+	const navigate = useNavigate();
 
 	const inputRef = useRef(null);
 
@@ -102,10 +104,10 @@ const AddStudent2 = () => {
 		}
 
 		setLoading(true);
-		console.log("Form Data: ", {
-			...formData,
-			class_id: Number(formData.class_id),
-		});
+		// console.log("Form Data: ", {
+		// 	...formData,
+		// 	class_id: Number(formData.class_id),
+		// });
 		// setLoading(false);
 		// return;
 
@@ -121,6 +123,7 @@ const AddStudent2 = () => {
 			);
 			toast.success("Student added successfully");
 			setLoading(false);
+			navigate("/school/dashboard/students");
 		} catch (err) {
 			toast.error(err.response?.data?.message || "An error occurred");
 			console.log(err);
@@ -205,9 +208,7 @@ const AddStudent2 = () => {
 								value={formData.class_id}
 								onChange={handleInputChange}
 							>
-								<option value="" disabled>
-									Select Class
-								</option>
+								<option value="">Select Class</option>
 								{classes?.map((c) => (
 									<option key={c.id} value={c.id}>
 										{c.class_name}
@@ -226,8 +227,9 @@ const AddStudent2 = () => {
 								<option value="" disabled>
 									Select Gender
 								</option>
-								<option value="Male">Male</option>
-								<option value="Female">Female</option>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
+								<option value="non-binary">Non-binary</option>
 							</select>
 						</div>
 						<div className="form-group">
@@ -278,10 +280,10 @@ const AddStudent2 = () => {
 								<option value="" disabled>
 									Select Religion
 								</option>
-								<option value="christianity">
+								<option value="Christianity">
 									Christianity
 								</option>
-								<option value="islam">Islam</option>
+								<option value="Islam">Islam</option>
 								<option value="Other">Other</option>
 							</select>
 						</div>
@@ -380,13 +382,17 @@ const AddStudent2 = () => {
 						</div>
 						<div className="form-group">
 							<label htmlFor="fathers_education">Education</label>
-							<input
-								type="text"
+							<select
 								name="fathers_education"
 								id="fathers_education"
 								value={formData.fathers_education}
 								onChange={handleInputChange}
-							/>
+							>
+								<option value="">Select Education</option>
+								<option value="Bsc">Bsc</option>
+								<option value="Hnd">Hnd</option>
+								<option value="Phd">Phd</option>
+							</select>
 						</div>
 						<div className="form-group">
 							<label htmlFor="fathers_address">Address</label>
@@ -439,13 +445,17 @@ const AddStudent2 = () => {
 						</div>
 						<div className="form-group">
 							<label htmlFor="mothers_education">Education</label>
-							<input
-								type="text"
+							<select
 								name="mothers_education"
 								id="mothers_education"
 								value={formData.mothers_education}
 								onChange={handleInputChange}
-							/>
+							>
+								<option value="">Select Education</option>
+								<option value="Bsc">Bsc</option>
+								<option value="Hnd">Hnd</option>
+								<option value="Phd">Phd</option>
+							</select>
 						</div>
 						<div className="form-group">
 							<label htmlFor="mothers_address">Address</label>

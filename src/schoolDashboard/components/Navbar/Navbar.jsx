@@ -7,11 +7,17 @@ import { FiBell } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdMenu, IoIosLogIn } from "react-icons/io";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { toast } from "react-hot-toast";
 
 const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 	const [openProfileMenu, setOpenProfileMenu] = useState(false);
 
 	const navigate = useNavigate();
+	const handleLogout = () => {
+		toast("Logging out...");
+		localStorage.setItem("sms_token", null);
+		navigate("/school/login");
+	};
 
 	return (
 		<nav className="navbar">
@@ -48,7 +54,7 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 								<IoSettingsOutline />
 								<p>General Settings</p>
 							</Link>
-							<span>
+							<span onClick={handleLogout}>
 								<IoIosLogIn />
 								<p>Logout</p>
 							</span>
