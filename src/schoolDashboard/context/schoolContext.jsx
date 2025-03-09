@@ -12,6 +12,8 @@ export function SchoolContextProvider({ children }) {
 	const { userToken } = useContext(UserContext);
 	const [employeeCategories, setEmployeeCategories] = useState([]);
 	const [classes, setClasses] = useState([]);
+	const [subjects, setSubjects] = useState([]);
+	const [sessions, setSessions] = useState([]);
 
 	const getEmployees = async () => {
 		try {
@@ -43,9 +45,26 @@ export function SchoolContextProvider({ children }) {
 		}
 	};
 
+	const getSubjects = async () => {
+		try {
+			const response = await axios.get(
+				`${BASE_API_URL}/school/subjects`,
+				{
+					headers: { Authorization: `${userToken}` },
+				},
+			);
+			console.log("SUBJECTS: ", response.data.data);
+			setSubjects(response.data.data);
+		} catch (err) {
+			// toast.error(err.response.data.message || err.message);
+			console.log(err);
+		}
+	};
+
 	useEffect(() => {
 		getEmployees();
 		getClasses();
+		getSubjects();
 	}, []);
 
 	const getUniqueCategories = (data) => {
@@ -75,6 +94,11 @@ export function SchoolContextProvider({ children }) {
 				getEmployeeByCategory,
 				classes,
 				setClasses,
+				subjects,
+				setSubjects,
+				getSubjects,
+				sessions,
+				setSessions,
 			}}
 		>
 			{children}

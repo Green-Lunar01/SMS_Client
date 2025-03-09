@@ -1,42 +1,76 @@
-// CreateTimeTableEntry.js
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../TimeTableScreen.css";
+import api from "../../../../lib/axios";
+import { toast } from "react-hot-toast";
+import { SchoolContext } from "../../../../context/schoolContext";
 
-const CreateTimeTableEntry = ({ onSubmit }) => {
+const CreateTimeTableEntry = () => {
 	const initialFormState = {
-		subjectName: "",
-		time: "",
-		dayOfWeek: "Monday",
-		class: "JSS1 A",
-		period: "1",
-		teacher: "Brandi Moore",
-		session: "2024/2025",
-		term: "2nd Term",
+		subject_id: "",
+		duration: "",
+		day: "",
+		class_id: "",
+		period: "",
+		teacher_id: "",
+		term: "",
+		sessionId: JSON.parse(localStorage.getItem("sms_school_session")).id,
 	};
 
 	const [formData, setFormData] = useState(initialFormState);
+	const { subjects, classes, employees } = useContext(SchoolContext);
+	const [teacherList, setTeacherList] = useState([]);
+	const [submitting, setSubmitting] = useState(false);
 
-	const handleSubmit = (e) => {
+	const getEmployeeByCategory = (category) => {
+		setTeacherList(
+			employees.filter((employee) => employee.role === category),
+		);
+	};
+
+	useEffect(() => {
+		getEmployeeByCategory("Teacher");
+	}, [employees]);
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		// console.log(formData);
 
-		// Basic validation
-		if (!formData.subjectName || !formData.time) {
-			alert("Please fill in all required fields");
+		if (
+			!formData.subject_id ||
+			!formData.duration ||
+			!formData.day ||
+			!formData.period ||
+			!formData.class_id ||
+			!formData.term
+		) {
+			toast.error("Please fill in all required fields");
 			return;
 		}
 
-		onSubmit(formData);
+		setSubmitting(true);
 
-		// Reset form after submission
-		setFormData(initialFormState);
-	};
-
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]: value,
-		}));
+		try {
+			const response = await api.post(
+				"/school/timetable/create",
+				formData,
+				{
+					headers: {
+						Authorization: `${localStorage.getItem("sms_token")}`,
+					},
+				},
+			);
+			toast.success("Time Table Entry Created Successfully");
+		} catch (error) {
+			console.log(error);
+			toast.error(
+				error.response.data.message ||
+					error.message ||
+					"Failed to create time table entry. Please try again.",
+			);
+		} finally {
+			setSubmitting(false);
+			setFormData(initialFormState);
+		}
 	};
 
 	return (
@@ -45,42 +79,63 @@ const CreateTimeTableEntry = ({ onSubmit }) => {
 			<form onSubmit={handleSubmit} className="create-entry-form">
 				<div className="form-row">
 					<div className="form-group">
-						<label htmlFor="subjectName">Subject Name</label>
-						<input
-							type="text"
-							name="subjectName"
-							id="subjectName"
-							placeholder="Subject Name"
-							value={formData.subjectName}
-							onChange={handleChange}
-						/>
-					</div>
-
-					<div className="form-group">
-						<label htmlFor="time">Time</label>
-						<input
-							type="text"
-							name="time"
-							id="time"
-							placeholder="Time (e.g., 8:00-9:00)"
-							value={formData.time}
-							onChange={handleChange}
-						/>
-					</div>
-
-					<div className="form-group">
-						<label htmlFor="dayOfWeek">Day of Week</label>
+						<label htmlFor="subject_id">Subject Name</label>
 						<select
-							name="dayOfWeek"
-							id="dayOfWeek"
-							value={formData.dayOfWeek}
-							onChange={handleChange}
+							name="subject_id"
+							id="subject_id"
+							value={formData.subject_id}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									subject_id: Number(e.target.value),
+								})
+							}
 						>
-							<option value="Monday">Monday</option>
-							<option value="Tuesday">Tuesday</option>
-							<option value="Wednesday">Wednesday</option>
-							<option value="Thursday">Thursday</option>
-							<option value="Friday">Friday</option>
+							<option value="">Select Subject</option>
+							{subjects.map((subject) => (
+								<option key={subject.id} value={subject.id}>
+									{subject.subject_name}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div className="form-group">
+						<label htmlFor="duration">Time</label>
+						<input
+							type="text"
+							name="duration"
+							id="duration"
+							placeholder="Time (e.g., 08:00-09:00)"
+							value={formData.duration}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									duration: e.target.value,
+								})
+							}
+						/>
+					</div>
+
+					<div className="form-group">
+						<label htmlFor="day">Day of Week</label>
+						<select
+							name="day"
+							id="day"
+							value={formData.day}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									day: e.target.value,
+								})
+							}
+						>
+							<option value="">Select Day</option>
+							<option value="monday">Monday</option>
+							<option value="tuesday">Tuesday</option>
+							<option value="wednesday">Wednesday</option>
+							<option value="thursday">Thursday</option>
+							<option value="friday">Friday</option>
 						</select>
 					</div>
 
@@ -89,12 +144,20 @@ const CreateTimeTableEntry = ({ onSubmit }) => {
 						<select
 							name="class"
 							id="class"
-							value={formData.class}
-							onChange={handleChange}
+							value={formData.class_id}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									class_id: Number(e.target.value),
+								})
+							}
 						>
-							<option value="JSS1 A">JSS1 A</option>
-							<option value="JSS2 A">JSS2 A</option>
-							<option value="JSS3 A">JSS3 A</option>
+							<option value="">Select Class</option>
+							{classes.map((classItem) => (
+								<option key={classItem.id} value={classItem.id}>
+									{classItem.class_name}
+								</option>
+							))}
 						</select>
 					</div>
 
@@ -104,8 +167,14 @@ const CreateTimeTableEntry = ({ onSubmit }) => {
 							name="period"
 							id="period"
 							value={formData.period}
-							onChange={handleChange}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									period: Number(e.target.value),
+								})
+							}
 						>
+							<option value="">Select Period</option>
 							{[1, 2, 3, 4, 5, 6].map((num) => (
 								<option key={num} value={num}>
 									{num}
@@ -119,18 +188,52 @@ const CreateTimeTableEntry = ({ onSubmit }) => {
 						<select
 							name="teacher"
 							id="teacher"
-							value={formData.teacher}
-							onChange={handleChange}
+							value={formData.teacher_id}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									teacher_id: Number(e.target.value),
+								})
+							}
 						>
-							<option value="Brandi Moore">Brandi Moore</option>
-							<option value="John Smith">John Smith</option>
-							<option value="Jane Doe">Jane Doe</option>
+							<option value="">Select Teacher</option>
+							{teacherList.map((teacher) => (
+								<option key={teacher.id} value={teacher.id}>
+									{teacher.first_name} {teacher.surname}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div className="form-group">
+						<label htmlFor="term">Term</label>
+						<select
+							name="term"
+							id="term"
+							value={formData.term}
+							onChange={(e) =>
+								setFormData({
+									...formData,
+									term: Number(e.target.value),
+								})
+							}
+						>
+							<option value="">Select Term</option>
+							{[1, 2, 3].map((term) => (
+								<option key={term} value={term}>
+									{term}
+								</option>
+							))}
 						</select>
 					</div>
 				</div>
 
-				<button type="submit" className="primary-btn">
-					Save
+				<button
+					type="submit"
+					className="primary-btn"
+					disabled={submitting}
+				>
+					{submitting ? "Creating..." : "Create"}
 				</button>
 			</form>
 		</div>
