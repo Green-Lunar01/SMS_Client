@@ -33,6 +33,72 @@ const Assignment = () => {
 	const [filterTeacher, setFilterTeacher] = useState("");
 	const [loading, setLoading] = useState(false);
 
+	const [comments, setComments] = useState([]);
+	const [commentText, setCommentText] = useState("");
+	const [selectedAssignment, setSelectedAssignment] = useState(null);
+	const [submittingComment, setSubmittingComment] = useState(false);
+	const [loadingComments, setLoadingComments] = useState(false);
+
+	const openCommentModal = (assignment) => {
+		setSelectedAssignment(assignment);
+		setIsModal2Open(true);
+		fetchComments(assignment.id);
+	};
+
+	const fetchComments = async (assignmentId) => {
+		setLoadingComments(true);
+		try {
+			const response = await api.get(
+				`/school/assignments/${assignmentId}/comments`,
+				{
+					headers: {
+						Authorization: `${localStorage.getItem("sms_token")}`,
+					},
+				},
+			);
+			setComments(response.data.data || []);
+		} catch (err) {
+			console.log(err);
+			toast.error("Error fetching comments");
+		} finally {
+			setLoadingComments(false);
+		}
+	};
+
+	const submitComment = async () => {
+		if (!commentText.trim()) {
+			toast.error("Comment cannot be empty");
+			return;
+		}
+
+		setSubmittingComment(true);
+		try {
+			const response = await api.post(
+				`/school/assignments/${selectedAssignment.id}/comment`,
+				{
+					comment: commentText,
+				},
+				{
+					headers: {
+						Authorization: `${localStorage.getItem("sms_token")}`,
+					},
+				},
+			);
+			toast.success("Comment added successfully");
+			setCommentText("");
+			fetchComments(selectedAssignment.id);
+		} catch (err) {
+			console.log(err);
+			toast.error(
+				err.response?.data?.message ||
+					err.message ||
+					"Error adding comment",
+			);
+		} finally {
+			setSubmittingComment(false);
+		}
+	};
+
 	const getEmployeeByCategory = (category) => {
 		setTeacherList(
 			employees.filter((employee) => employee.role === category),
@@ -105,18 +171,24 @@ const Assignment = () => {
 		}
 	};
 
+	const formatDate = (dateString) => {
+		return dateString.split("T")[0];
+	};
+
 	const fetchAssignments = async () => {
 		setLoading(true);
 		try {
-			const response = await api.get(
-				`/school/assignments?date=${filterDate}&class_id=${filterClass}&teacher_id=${filterTeacher}`,
-				{
-					headers: {
-						Authorization: `${localStorage.getItem("sms_token")}`,
-					},
+			const response = await api.get(`/school/assignments`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
 				},
-			);
-			console.log(response);
+				params: {
+					date: formatDate(filterDate),
+					class_id: Number(filterClass),
+					teacher_id: Number(filterTeacher),
+				},
+			});
+			// console.log(response.data.assignments);
 			if (response.data.assignments.length === 0) {
 				toast.error(
 					"No assignments found for the selected combination",
@@ -201,110 +273,51 @@ const Assignment = () => {
 				<Spinner />
 			) : (
 				<main>
-					<article>
-						<div className="top">
-							<div style={{ backgroundColor: "#F3FEF7" }}>
-								<img src={personImg} alt="" />
-								<span>
-									<h6>Robert</h6>
-									<p>Teacher</p>
-								</span>
-							</div>
-							<div style={{ backgroundColor: "#E9EFFF" }}>
-								<img src={bookImg} alt="" />
-								<span>
-									<h6>English Language</h6>
-									<p>Subject</p>
-								</span>
-							</div>
-							<div style={{ backgroundColor: "#FFF5EF" }}>
-								<img src={teachImg} alt="" />
-								<span>
-									<h6>J.S.S.1</h6>
-									<p>Class</p>
-								</span>
-							</div>
-							<div style={{ backgroundColor: "#E6E6E6" }}>
-								<img src={calendarImg} alt="" />
-								<span>
-									<h6>21</h6>
-									<p>month year</p>
-								</span>
-							</div>
+					{assignments.map((assignment) => (
+						<article key={assignment.id}>
+							<div className="top">
+								<div style={{ backgroundColor: "#F3FEF7" }}>
+									<img src={personImg} alt="" />
+									<span>
+										<h6>{assignment.teacher_name}</h6>
+										<p>Teacher</p>
+									</span>
+								</div>
+								<div style={{ backgroundColor: "#E9EFFF" }}>
+									<img src={bookImg} alt="" />
+									<span>
+										<h6>{assignment.subject_name}</h6>
+										<p>Subject</p>
+									</span>
+								</div>
+								<div style={{ backgroundColor: "#FFF5EF" }}>
+									<img src={teachImg} alt="" />
+									<span>
+										<h6>{assignment.class_name}</h6>
+										<p>Class</p>
+									</span>
+								</div>
+								<div style={{ backgroundColor: "#E6E6E6" }}>
+									<img src={calendarImg} alt="" />
+									<span>
+										<h6>{formatDate(assignment.date)}</h6>
+										<p>Date</p>
+									</span>
+								</div>
 
-							<span onClick={() => setIsModal2Open(true)}>
-								<LiaCommentDots />
-								<p>Add Comments</p>
-							</span>
-						</div>
-						<div className="bottom">
-							<h4>Assignment</h4>
-							<p>
-								Lorem ipsum dolor sit amet consectetur
-								adipisicing elit. Nesciunt, nobis aut?
-								Inventore, consequatur ullam, aut obcaecati
-								quas, cum esse molestiae debitis dolor beatae
-								eius rem. Quod dolor voluptatum magni nulla!
-								Commodi, sint natus. Eos mollitia quasi quidem,
-								eaque ad eius labore repellendus vel! Omnis
-								magni accusantium eaque velit consectetur rerum,
-								esse, sunt fugiat animi deserunt necessitatibus
-								provident sapiente mollitia accusamus.
-							</p>
-						</div>
-					</article>
-					<article>
-						<div className="top">
-							<div style={{ backgroundColor: "#F3FEF7" }}>
-								<img src={personImg} alt="" />
-								<span>
-									<h6>Robert</h6>
-									<p>Teacher</p>
+								<span
+									onClick={() => openCommentModal(assignment)}
+								>
+									<LiaCommentDots />
+									<p>Add Comments</p>
 								</span>
 							</div>
-							<div style={{ backgroundColor: "#E9EFFF" }}>
-								<img src={bookImg} alt="" />
-								<span>
-									<h6>English Language</h6>
-									<p>Subject</p>
-								</span>
+							<div className="bottom">
+								<h4>Assignment</h4>
+								<p>{assignment.details}</p>
 							</div>
-							<div style={{ backgroundColor: "#FFF5EF" }}>
-								<img src={teachImg} alt="" />
-								<span>
-									<h6>J.S.S.1</h6>
-									<p>Class</p>
-								</span>
-							</div>
-							<div style={{ backgroundColor: "#E6E6E6" }}>
-								<img src={calendarImg} alt="" />
-								<span>
-									<h6>21</h6>
-									<p>month year</p>
-								</span>
-							</div>
-
-							<span onClick={() => setIsModal2Open(true)}>
-								<LiaCommentDots />
-								<p>Add Comments</p>
-							</span>
-						</div>
-						<div className="bottom">
-							<h4>Assignment</h4>
-							<p>
-								Lorem ipsum dolor sit amet consectetur
-								adipisicing elit. Nesciunt, nobis aut?
-								Inventore, consequatur ullam, aut obcaecati
-								quas, cum esse molestiae debitis dolor beatae
-								eius rem. Quod dolor voluptatum magni nulla!
-								Commodi, sint natus. Eos mollitia quasi quidem,
-								eaque ad eius labore repellendus vel! Omnis
-								magni accusantium eaque velit consectetur rerum,
-								esse, sunt fugiat animi deserunt necessitatibus
-								provident sapiente mollitia accusamus.
-							</p>
-						</div>
-					</article>
+						</article>
+					))}
 				</main>
 			)}
 
@@ -417,7 +430,98 @@ const Assignment = () => {
 						<h3>Add Comment</h3>
 						<RiCloseLine onClick={closeModal2} />
 					</aside>
-					<main></main>
+					<main>
+						{loadingComments ? (
+							<div className="loading-comments">
+								<Spinner />
+							</div>
+						) : (
+							<>
+								<div className="comments-list">
+									{comments.length > 0 ? (
+										comments.map((comment) => (
+											<div
+												key={comment.id}
+												className="comment-item"
+											>
+												<div className="comment-avatar">
+													{comment.commenter_name.charAt(
+														0,
+													)}
+												</div>
+												<div className="comment-content">
+													<p className="comment-text">
+														{comment.comment}
+													</p>
+													<div className="comment-meta">
+														<span className="comment-author">
+															{
+																comment.commenter_name
+															}
+														</span>
+														<span className="comment-date">
+															{new Date(
+																comment.created_at,
+															).toLocaleString()}
+														</span>
+													</div>
+												</div>
+											</div>
+										))
+									) : (
+										<div className="no-comments">
+											No comments yet
+										</div>
+									)}
+								</div>
+								<div className="comment-form">
+									<div className="comment-input-container">
+										<div className="comment-avatar">
+											{user?.first_name?.charAt(0) || "U"}
+										</div>
+										<textarea
+											className="comment-input"
+											placeholder="Enter comment"
+											value={commentText}
+											onChange={(e) =>
+												setCommentText(e.target.value)
+											}
+										></textarea>
+									</div>
+									<div className="comment-controls">
+										<div className="comment-emojis">
+											<span role="img" aria-label="smile">
+												😀
+											</span>
+											<span className="attachment-icon">
+												<svg
+													width="20"
+													height="20"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													strokeWidth="2"
+													strokeLinecap="round"
+													strokeLinejoin="round"
+												>
+													<path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" />
+												</svg>
+											</span>
+										</div>
+										<button
+											className="send-comment-btn"
+											onClick={submitComment}
+											disabled={submittingComment}
+										>
+											{submittingComment
+												? "Sending..."
+												: "Send"}
+										</button>
+									</div>
+								</div>
+							</>
+						)}
+					</main>
 				</div>
 			</Modal>
 		</div>

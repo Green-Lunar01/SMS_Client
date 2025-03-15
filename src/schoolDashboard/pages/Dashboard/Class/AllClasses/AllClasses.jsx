@@ -6,6 +6,7 @@ import CircularProgress from "../../../../components/CircularProgress/CircularPr
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../../../context/userContext";
+import { toast } from "react-hot-toast";
 
 const AllClasses = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -53,6 +54,24 @@ const AllClasses = () => {
 		getClasses();
 	}, []);
 
+	const deleteClass = async (id) => {
+		toast("Deleting class...");
+
+		try {
+			const response = await axios.delete(
+				`${BASE_API_URL}/school/classes/delete/${id}`,
+				{
+					headers: { Authorization: `${userToken}` },
+				},
+			);
+			toast.success("Class deleted successfully");
+			getClasses();
+		} catch (err) {
+			console.log(err);
+			toast.error(err.response.data.message || err.message);
+		}
+	};
+
 	const filteredClasses = allClasses.filter((classData) =>
 		classData.class_name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
@@ -66,7 +85,11 @@ const AllClasses = () => {
 			<div className="class-list">
 				{filteredClasses.length > 0 ? (
 					filteredClasses.map((classData, index) => (
-						<ClassCard key={index} data={classData} />
+						<ClassCard
+							key={index}
+							data={classData}
+							deleteClass={deleteClass}
+						/>
 					))
 				) : (
 					<p>No classes found.</p>
@@ -94,7 +117,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
 	</div>
 );
 
-const ClassCard = ({ data }) => {
+const ClassCard = ({ data, deleteClass }) => {
 	const {
 		class_name,
 		totalStudents,
@@ -176,7 +199,7 @@ const ClassCard = ({ data }) => {
 					>
 						<RiEdit2Line />
 					</Link>
-					<button className="delete">
+					<button className="delete" onClick={() => deleteClass(id)}>
 						<RiDeleteBin6Line />
 					</button>
 				</div>

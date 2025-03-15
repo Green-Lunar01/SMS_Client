@@ -75,7 +75,6 @@ const AllStudents = () => {
 	};
 
 	useEffect(() => {
-		// Fetch student data from an API later
 		fetchStudentData();
 	}, []);
 
@@ -123,6 +122,23 @@ const AllStudents = () => {
 
 		setFilteredStudents(filtered);
 		setCurrentPage(1);
+	};
+
+	const deleteStudent = async (id) => {
+		toast("Deleting student...");
+
+		try {
+			const response = await api.delete(`/school/students/delete/${id}`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			toast.success("Student deleted successfully");
+			fetchStudentData();
+		} catch (err) {
+			console.log(err);
+			toast.error(err.response.data.message || err.message);
+		}
 	};
 
 	const handleDownload = () => {
@@ -218,11 +234,18 @@ const AllStudents = () => {
 												>
 													<RiEdit2Line />
 												</Link>
-												<Link
-													to={`/school/dashboard/students/${student.id}`}
+												<p
+													onClick={() =>
+														deleteStudent(
+															student.id,
+														)
+													}
+													style={{
+														cursor: "pointer",
+													}}
 												>
 													<RiDeleteBinLine />
-												</Link>
+												</p>
 											</td>
 										</tr>
 									))}
