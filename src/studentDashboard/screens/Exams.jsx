@@ -1,15 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import AssessmentTable from "../components/ResultTables/AssessmentTable";
 import Chart  from "../components/Chart/Chart";
+import { useStudAuth } from "../Auth/context/StudentAuthProvider";
 function Exams() {
   const [visible, setVisible] = useState(true);
   const [value, setValue] = useState("");
   const inputRef = useRef(null);
+  const {exams, getExams} = useStudAuth()
 
+  console.log("My Exams: ", exams)
+  useEffect(() => {
+    getExams()
+
+  })
   const exportToCSV = () => {
     const csvData = examTable.map(row => ({
       Subject: row.subject,
@@ -213,7 +220,7 @@ function Exams() {
           <div className="lg:w-10/12 w-full mt-4 mb-5">
             <h3 className="font-bold text-[14px]">J.S.S 1</h3>
             <div className=" w-full overflow-x-auto">
-            <AssessmentTable tableData={examTable} />
+            <AssessmentTable tableData={exams} />
             </div>
             {/* <Chart /> */}
           </div>

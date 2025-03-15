@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import Sendermsg from '../components/messages/Sendermsg';
 import Receivermsg from '../components/messages/Receivermsg';
+import { useStudAuth } from '../Auth/context/StudentAuthProvider';
 
 const Messaging = () => {
   const [currentMsg, setCurrentMsg] = useState('All Messages');
+   const {getAllMsg, setAllMsg, allMsg} = useStudAuth()
   const msgtype = ["All Messages", "Sent Messages", "Received Messages"];
-
+  useEffect(() => {
+     getAllMsg()
+    
+  
+  }, [allMsg])
+ 
   const handleMsg = () => {
     setCurrentMsg('sender-message');
   }
@@ -75,10 +82,17 @@ const Messaging = () => {
               </div>
               
             </div>
-            <div className='w-full flex justify-start'>
+            <div className='w-full flex flex-col justify-start'>
              
               {
-               currentMsg === "All Messages" && <Sendermsg />
+               currentMsg === "All Messages" && 
+                allMsg.map((msg, index) => {
+                  return (
+                    <Sendermsg msg={msg.message} />
+                  )
+
+                })
+               
               }
               {
                currentMsg === "Sent Messages" && <Sendermsg />

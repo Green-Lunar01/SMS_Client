@@ -8,13 +8,15 @@ import  { yupResolver} from "@hookform/resolvers/yup"
 import 'react-calendar/dist/Calendar.css'; 
 import axios from "axios"
 import { useStudAuth } from '../Auth/context/StudentAuthProvider';
+// import { TfiRuler } from 'react-icons/tfi';
 
 
 function Assignment({showModal,  handleModal}) {
-  const {studentToken, setCommentId} = useStudAuth()
+  const {studentToken, setCommentId, getComments, getAllMsg} = useStudAuth()
   const [showCalendar, setShowCalendar] = useState(false); // Toggle calendar visibility
   const [selectedDate, setSelectedDate] = useState(null);
   const [assignments, setAssignments ] = useState([])
+  const [loading, setLoading] = useState(false)
   const handleDateChange = (date) => {
     setSelectedDate(date.toLocaleDateString('en-GB'));
     setShowCalendar(false); // Close calendar after selecting a date
@@ -34,10 +36,11 @@ function Assignment({showModal,  handleModal}) {
   }
  
   const getAssignment = async () => {
+    setLoading(true)
 
     console.log("Current date:", formatDate(selectedDate), studentToken)
     try {
-      const response =  await axios.get(`http://tonyicon.com.ng:5000/student/get-assignments`, 
+      const response =  await axios.get(`https://edusoft.tonyicon.com.ng/student/get-assignments`, 
        { params: { date: formatDate(selectedDate) },
        headers: {Authorization: studentToken}
       
@@ -48,6 +51,8 @@ function Assignment({showModal,  handleModal}) {
       
     }catch(err){
       console.error(err)
+    }finally{
+      setLoading(false)
     }
   }
  
@@ -100,14 +105,15 @@ function Assignment({showModal,  handleModal}) {
                 )}
                 </div>
                   <div>
-                    <button  onClick={() =>  getAssignment()}  type='button' className='text-[14px] font-semibold w-[127px] h-[55px] rounded-[10px] text-[#fff] bg-[#13A541]'> Search</button>
+                    <button  onClick={() => { getAssignment(); getAllMsg()}}  type='button' className='flex justify-center items-center text-[14px] text-center font-semibold w-[127px] h-[55px] rounded-[10px] text-[#fff] bg-[#13A541] '> {loading ? <div className="w-8 h-8 rounded-full border-4 border-white border-r-[#7a4303] animate-spin"></div>
+ : <>Search</>}</button>
 
                   </div>
                 </div>
               </div>
           </div>
         </section>
-        <section className='w-full flex flex-col'>
+        <section className='w-full h-auto flex flex-col'>
           <h1>All</h1>
           {
             assignments.map((assignment, index) => {
@@ -147,7 +153,7 @@ function Assignment({showModal,  handleModal}) {
                     </div>
                     <div className='flex items-center gap-3 pr-3 py-2'>
                      <button type='button' onClick={() => {handleModal();
-                     setCommentId(assignment.id)
+                     setCommentId(assignment.id); getComments(assignment.id)
                      }}><img src='/icons/comment.svg'/></button> 
                      <p  className='font-normal text-[12px]'>Add Comment</p>
                     </div>
@@ -164,6 +170,15 @@ function Assignment({showModal,  handleModal}) {
 
             })
           }
+         { (!assignments || assignments.length === 0) && 
+         <section className='w-full h-auto  flex justify-center items-center'>
+          <div className='dummyDiv flex flex-col gap-8 my-[60px]'>
+             <img src='/icons/dummy.svg'/>
+             <h1 className='font-normal text-[16px] text-center'>
+              Search for an assignment...
+             </h1>
+          </div>
+        </section> } 
         </section>
         
       </div>

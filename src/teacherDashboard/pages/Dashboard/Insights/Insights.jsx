@@ -1,39 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Insights.css";
+import {useState} from "react"
 import SummaryCard from "../../../components/SummaryCard/SummaryCard";
 import LineChart from "../../../components/LineChart/LineChart";
 import BarChart from "../../../components/BarChart/BarChart";
 import Calendar from "../../../components/Calendar/Calendar";
 import AttendanceReport from "../../../components/AttendanceReport/AttendanceReport";
 import NewAdmissions from "../../../components/NewAdmissions/NewAdmissions";
+import { useTeacherAuth } from "../../../Auth/context/TeacherAuthProvider";
+// import { useStudAuth } from "../../../../studentDashboard/Auth/context/StudentAuthProvider";
 
 const Insights = () => {
-	const todayClasses = [
-		{
-			id: 1,
-			subject: "English",
-			time: "08:00am - 10:00am",
-			class: "J.S.S 2",
-		},
-		{
-			id: 2,
-			subject: "English",
-			time: "10:00am - 12:00pm",
-			class: "J.S.S 1",
-		},
-		{
-			id: 3,
-			subject: "English",
-			time: "02:00pm - 04:00pm",
-			class: "S.S 1",
-		},
-	];
+	
+	const {teacherProfile} = useTeacherAuth()
+	const attendanceOverview = teacherProfile.attendance_overview
+	console.log("attendance:", attendanceOverview, "teacheProfile:", teacherProfile)
+	// const [teacherOverview, setTeacherOverview] = ([])
+	// useEffect(() => {
+	// 	if (teacherProfile?.attendance_overview) {
+	// 		setTeacherOverview(teacherProfile.attendance_overview);
+	// 	}
+	// }, [teacherProfile]);
+	// const todayClasses = [
+	// 	{
+	// 		id: 1,
+	// 		subject: "English",
+	// 		time: "08:00am - 10:00am",
+	// 		class: "J.S.S 2",
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		subject: "English",
+	// 		time: "10:00am - 12:00pm",
+	// 		class: "J.S.S 1",
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		subject: "English",
+	// 		time: "02:00pm - 04:00pm",
+	// 		class: "S.S 1",
+	// 	},
+	// ];
+	const todayClasses = teacherProfile.classes_today
+	console.log("classes today:", todayClasses)
 	return (
 		<div className="insights">
 			<div className="summary-cards">
 				<SummaryCard
 					title="ABSENCE"
-					count={10}
+					count={attendanceOverview.absent_this_month}
 					month="This month"
 					color="#5554AB"
 					icon={
@@ -77,7 +92,7 @@ const Insights = () => {
 				/>
 				<SummaryCard
 					title="PRESENT"
-					count={26}
+					count={attendanceOverview.present_this_month}
 					month="This month"
 					color="#9FA1D8"
 					icon={
@@ -121,7 +136,7 @@ const Insights = () => {
 				/>
 				<SummaryCard
 					title="LEAVE"
-					count={0}
+					count={attendanceOverview.late_this_month}
 					month="This month"
 					color="#FB8791"
 					icon={
@@ -165,7 +180,7 @@ const Insights = () => {
 				/>
 				<SummaryCard
 					title="SESSION PRESENT TOTAL"
-					count={0}
+					count={attendanceOverview.present_this_session}
 					month="This month"
 					color="#6A8BF6"
 					icon={
@@ -212,13 +227,18 @@ const Insights = () => {
 				<div className="classes-container">
 					<h2>Today Classes</h2>
 					<article>
-						{todayClasses.map((todayClass) => (
-							<div key={todayClass.id} className="class">
-								<h4>{todayClass.subject}</h4>
-								<p>{todayClass.time}</p>
-								<p>{todayClass.class}</p>
-							</div>
-						))}
+						{
+							todayClasses === null || todayClasses.length === 0 ?
+							<div>No Classes Today</div> : 
+							todayClasses.map((todayClass) => (
+								<div key={todayClass.subject_name} className="class">
+									<h4>{todayClass.subject_name}</h4>
+									<p>{todayClass.duration}</p>
+									<p>{todayClass.class_name}</p>
+								</div>
+							))
+						}
+						
 					</article>
 				</div>
 				<div className="calendar-container">

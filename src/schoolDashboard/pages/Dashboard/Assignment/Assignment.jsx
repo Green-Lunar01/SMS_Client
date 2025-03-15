@@ -10,6 +10,7 @@ import { RiCloseLine } from "react-icons/ri";
 
 const Assignment = () => {
 	const [assignments, setAssignments] = useState([]);
+	 
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 

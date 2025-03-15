@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const UserContext = createContext({});
 
 export function UserContextProvider({ children }) {
-	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL || "http://tonyicon.com.ng:5000/";
 
 	const [user, setUser] = useState(() => {
 		const storedProfile = localStorage.getItem("sms_user");

@@ -8,21 +8,7 @@ function Dashboard() {
   const {studentToken, getStudentInfo, setStudentToken, studentProfile, setStudentProfile} = useStudAuth()
  
   console.log(typeof studentToken)
-  // const getStudent = async (studentToken) => {
-	
-	// 	try {
-	// 		const response = await axios.get(`http://tonyicon.com.ng:5000/student/overview`,
-	// 		   { headers: { Authorization: `Bearer ${studentToken}` } });
-				
-	// 		console.log(studentToken, "the response:", response)
-			
-	// 	}catch(err){
-	// 		console.error(err)
 
-	// 	}
-
-	// }
-  // getStudent()
   const getTimetable = async (studentToken) => {
     console.log("studentToken:", studentToken);
     try {

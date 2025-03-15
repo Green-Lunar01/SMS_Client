@@ -15,7 +15,8 @@ import { UserContext } from "../../context/userContext";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Spinner from "../../components/Spinner/Spinner";
-
+import { useTeacherAuth } from "../../../teacherDashboard/Auth/context/TeacherAuthProvider";
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL || "https://edusoft.tonyicon.com.ng";
 const Login = () => {
 	const navigate = useNavigate();
 	
@@ -26,8 +27,9 @@ const Login = () => {
 
 	const [matricNumber, setMatricNumber] = useState("")
 	const {studentToken , setStudentToken, setStudentProfile, studentProfile} = useStudAuth()
+	const {teacherToken, setTeacherToken, teacherProfile, setTeacherProfile} = useTeacherAuth()
 
-	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL || "http://tonyicon.com.ng:5000";
+	
 	const { setUser, setUserToken } = useContext(UserContext);
 	
 	const schema = yup.object().shape({
@@ -38,18 +40,14 @@ const Login = () => {
 
 	const login = async () => {
 		console.log(role)
-
-		// if (!email || !password) {
-		// 	toast.error("All fields are required");
-		// 	return;
-		// }	
+	
 
 		setLoading(true);
 
 		if (role === "student"){
 			console.log("hi student")
 			try {
-				const response = await axios.post(`http://tonyicon.com.ng:5000/student/signin`, {
+				const response = await axios.post(`https://edusoft.tonyicon.com.ng/student/signin`, {
 				    matric_no: matricNumber,
 					pswd: password,
 				});
@@ -87,7 +85,47 @@ const Login = () => {
 		}
 		
 	};
-	
+	const teacherLogin = async () => {
+		if (!email || !password) {
+		  toast.error("All fields are required");
+		  return;
+		}
+	  
+		setLoading(true);
+	  
+		try {
+		  const response = await axios.post(`${BASE_API_URL}/teachers/signin`, {
+			email,
+			pswd: password,
+		  });
+	  
+		 
+		  const teacherToken = response.data.data.token;
+		  setTeacherToken(teacherToken);
+		  setTeacherProfile(response.data.data)
+		  console.log("Teacher response:", response.data.data, "Teacher Info:", teacherProfile)
+		  localStorage.setItem("teacher_sms_token", teacherToken);
+		  localStorage.setItem("teacher_sms_info", JSON.stringify(response.data.data))
+
+	  
+		  toast.success("Logged in successfully");
+		  console.log("Teacher token:", teacherToken);
+	  
+		 
+		  setTimeout(() => {
+			window.location.href = "/teacher/dashboard/insights";
+		  }, 500);
+		} catch (err) {
+		  console.error("Login Error:", err);
+		  
+		  
+		  const errorMessage = err.response?.data?.message || "An error occurred. Please try again.";
+		  toast.error(errorMessage);
+		} finally {
+		  setLoading(false); 
+		}
+	  };
+	  
 	
 	return (
 		<div className="auth login">
@@ -126,7 +164,7 @@ const Login = () => {
 								<input
 									
 									id="email"
-									placeholder="email@example.com"
+									placeholder="Matric Number"
 									value={matricNumber}
 									onChange={(e) => setMatricNumber(e.target.value)}
 								/>
@@ -173,27 +211,20 @@ const Login = () => {
 						/>
 					</label>
 
-					{
-						role === "student" ? null : (<Link
+					<Link
 							to="/school/forgotpassword"
 							className="forgot-password"
 						>
 							Forgot Password?
-						</Link>)
-					}
-					
+					</Link>
 
-					<button onClick={login} disabled={loading}>
+					<button onClick={teacherLogin} disabled={loading}>
 						{loading ? <Spinner /> : "Log In"}
 					</button>
-					{
-						role === "student" ? null : (
-							<h6>
+					<h6>
 						Don't have an account?{" "}
 						<Link to="/school/signup">Sign Up</Link>
 					</h6>
-						)
-					}
 					
 				</form>)
 				}

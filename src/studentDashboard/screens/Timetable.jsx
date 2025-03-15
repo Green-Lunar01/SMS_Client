@@ -269,7 +269,7 @@ function Timetable() {
         <td
           key={`${day.day}-${colIndex}`}
           style={{
-            backgroundColor: tableColors[(rowIndex + colIndex) % tableColors.length] // Vary color based on row and column index
+            backgroundColor: tableColors[(rowIndex + colIndex) % tableColors.length] 
           }}
           className="border-0 h-[144px] p-2 text-center w-[600px]"
         >

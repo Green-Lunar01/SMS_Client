@@ -1,18 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import AssessmentTable from "../components/ResultTables/AssessmentTable";
+import { useStudAuth } from "../Auth/context/StudentAuthProvider";
 function Exams() {
+
+  const {test, getTest} = useStudAuth()
   const [visible, setVisible] = useState(true);
   const [value, setValue] = useState("");
   const inputRef = useRef(null);
-
+ useEffect(() => {
+  getTest()
+ })
+ console.log("Test Results: ", test)
   const exportToCSV = () => {
-    const csvData = examTable.map(row => ({
-      Subject: row.subject,
-      Session: row.session,
+    const csvData = test.map(row => ({
+      Subject: row.subject_name,
+      Session: row.session_name,
       Class: row.class,
       Term: row.term,
       "Total Marks": row.totalMarks,
@@ -30,7 +36,7 @@ function Exams() {
 
   // Export to Excel
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(examTable);
+    const worksheet = XLSX.utils.json_to_sheet(test);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Exams");
 
@@ -43,13 +49,13 @@ function Exams() {
   const exportToPDF = () => {
     const doc = new jsPDF();
     const tableColumn = ["Subject", "Session", "Class", "Term", "Total Marks", "Obtained"];
-    const tableRows = examTable.map(row => [
-      row.subject,
-      row.session,
-      row.class,
+    const tableRows = test.map(row => [
+      row.subject_name,
+      row.session_name,
+      row.class_name,
       row.term,
-      row.totalMarks,
-      row.marksObtained,
+      row.total_mark,
+      row.score,
     ]);
 
     doc.autoTable({ head: [tableColumn], body: tableRows });
@@ -209,7 +215,7 @@ function Exams() {
           <div className="lg:w-10/12 w-full mt-4 mb-5">
             <h3 className="font-bold text-[14px]">J.S.S 1</h3>
             <div className="w-full overflow-x-auto">
-            <AssessmentTable tableData={examTable} />
+            <AssessmentTable tableData={test} />
             </div>
             
           </div>

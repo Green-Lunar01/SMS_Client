@@ -17,12 +17,12 @@ function AssessmentTable({tableData}) {
     <tbody>
       {tableData.map((row, index) => (
         <tr className="border-b border-t-[1px]" key={index}>
-          <td className="exam-td w-[50%] pl-[17px] ">{row.subject}</td> {/* Adjusted width */}
-          <td className="exam-td">{row.session}</td>
-          <td className="exam-td">{row.class}</td>
-          <td className="exam-td">{row.term}</td>
-          <td className="exam-td pl-[30px]">{row.totalMarks}</td>
-          <td className="text-center" >{row.marksObtained}</td>
+          <td className="exam-td w-[50%] pl-[17px] ">{row.subject_name}</td> {/* Adjusted width */}
+          <td className="exam-td">{row.session_name}</td>
+          <td className="exam-td">{row.class_name}</td>
+          <td className="exam-td text-center">{row.term}{row.term === 1 ? "st" : row.term === 2 ? "nd" : row.term === 3 ? "rd" : "th"}</td>
+          <td className="exam-td pl-[30px]">{row.total_mark}</td>
+          <td className="text-center" >{row.score}</td>
         </tr>
       ))}
     </tbody>

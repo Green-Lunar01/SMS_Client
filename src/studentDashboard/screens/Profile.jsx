@@ -3,11 +3,16 @@ import {useForm} from "react-hook-form"
 import  { yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import axios from 'axios'
+import {toast} from "react-hot-toast";
 import { useStudAuth } from '../Auth/context/StudentAuthProvider'
-
+import { useState } from 'react'
+import { BiShow } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
 const Profile = () => {
    const {studentToken, studentProfile} =  useStudAuth()
+   const [password, setPassword] = useState("")
    const studentUserProfile = studentProfile.user
+   const [showPassword, setShowPassword] = useState(false)
 //    console.log("student profile", studentUserProfile)
    const formatDate = (theDate) => {
     const dateString = theDate
@@ -16,12 +21,16 @@ const Profile = () => {
  }
     const updatedStudentSchema = yup.object().shape({
             username: yup.string().required("Enter your username"),
-            password: yup.string().required("Enter your password")
+            password: yup.string().min(8, "Password must be at least 8 characters* ").required("Enter your password")
         })
     const {register, handleSubmit, formState: {errors}} = useForm({resolver: yupResolver (updatedStudentSchema)})
+    const [loading, setLoading]= useState(false)
+    const [message, setMessage]= useState("")
     const updateStudentInfo = async (data) => {
+        setLoading(true)
+        const toastId = toast.loading("Updating Password")
         try{
-            console.log(data)
+            console.log("my data:", data)
             const response = await axios.put(`http://tonyicon.com.ng:5000/student/update-credentials`, 
                 data, {
                     headers: {"Content-Type": "application/json",
@@ -29,10 +38,17 @@ const Profile = () => {
                     }
                 }
             )
+            console.log('Update Info Response:', response.data)
+            toast.success(response.data.message, {id: toastId})
+            setPassword(data.password)
+            setMessage(response.data.message)
 
         }catch (err) {
             console.error(err)
+            toast.error("An Error Occured", {id: toastId})
 
+        }finally{
+            setLoading(false)
         }
         console.log("my updatedStudentSchema", data, studentToken)
 
@@ -49,6 +65,7 @@ const Profile = () => {
         <div className='lg:w-full  lg:flex-row flex flex-col   gap-[16px] bg-white'> 
           <h1 className='w-full py-3 text-[#08190E] text-center font-bold text-[24px] '>
             Update Profile
+            
           </h1>
           
 
@@ -68,17 +85,25 @@ const Profile = () => {
                     </div>
                     <div>
                         <h1 className='text-[#13A541] text-center font-bold text-[14px]'>Password</h1>
-                        <p className='font-normal text-[14px] text-center'>Dallas Terry's Password</p>
+                        <p className='font-normal text-[14px] text-center'>{password ? password : <>Password</>}</p>
                     </div>
                 </div>
                 <form onSubmit={handleSubmit(updateStudentInfo)} className='flex flex-col sm:w-[50%]  '>
                     <label className='font-semibold text-[14px]'> Username</label>
-                    <input {...register("username")} type='text' placeholder='Enter your name' className='py-[18px] px-[27px] border-[1px] rounded-[6px] border-[#d9d9d9] mt-[10px]'/>
+                    <input {...register("username")} type='text' placeholder='Enter your name' className='py-[18px] px-[12px] border-[1px] rounded-[6px] border-[#d9d9d9] mt-[10px]'/>
                     <label className='font-semibold text-[14px] mt-[27px]'> Password</label>
-                    <input  {...register("password")} type='password' placeholder='Enter your password' className='py-[18px] px-[27px] border-[1px] rounded-[6px] border-[#d9d9d9] mt-[10px]'/>
+                    <div className='relative w-full'>
+                        <input  {...register("password")} type={showPassword ? "text" : "password"} placeholder='Enter your password' className='w-full py-[18px] px-[12px] border-[1px] rounded-[6px] border-[#d9d9d9] mt-[10px]'/>
+                        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+                        <p onClick={() => setShowPassword(!showPassword)} className="absolute top-[32px] right-4 ">{showPassword ? <BiShow /> : <BiHide />} </p>
+                    </div>
+                    
                     <div className='flex justify-center'>
-                        <button  type="submit" className='  mt-[53px] text-white bg-[#13A541] py-[17px] px-[40px] rounded-[10px]'>
-                        Update
+                        <button  type="submit" className='flex justify-center items-center w-[150px] mt-[53px] text-white bg-[#13A541] py-[17px] px-[40px] rounded-[10px]'>
+                        
+                        {loading ? <div className="w-6 h-6 rounded-full border-4 border-white border-r-[#7a4303] animate-spin"></div>
+ : <>Update</>}
+                       
                        </button>
                     </div>
                 </form>

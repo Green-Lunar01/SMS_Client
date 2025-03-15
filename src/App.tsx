@@ -12,40 +12,49 @@ import TermsAndCondition from "./pages/Terms/index.js";
 import Help from "./pages/Help/index.js";
 import Privacy from "./pages/Privacy/index.js";
 import StudentAuthProvider from "./studentDashboard/Auth/context/StudentAuthProvider.jsx";
+import TeacherAuthProvider  from "./teacherDashboard/Auth/context/TeacherAuthProvider.jsx";
 const App = () => {
 	return (
 		<>
 		<StudentAuthProvider>
+			<TeacherAuthProvider>
 					{window.location.pathname.startsWith("/student") ? (
-				<StudentApp />
-			) : window.location.pathname.startsWith("/school") ? (
-				<Routes>
-				<Route path="/school/*" element={<SchoolDashboard />} />
-				</Routes>
-			): window.location.pathname.startsWith("/teacher") ? (
-				<Routes>
-					<Route path="/teacher/*" element={<TeacherDashboard />} />
-				</Routes>
-			) : (
-				<div>
-				<Routes>
-					<Route element={<Rout />}>
-						<Route index element={<Home />} />
-							<Route path="/contact" element={<Contact />} />
-							<Route path="/pricing" element={<Pricing />} />
-							<Route path="/blog" element={<Blog />} />
-							<Route path="/help" element={<Help />} />
-				<Route path="/terms-and-conditions" element={<TermsAndCondition />} />
-				<Route path="/privacy" element={<Privacy />} />
+						<StudentApp />
+					) : window.location.pathname.startsWith("/school") ? (
+						<Routes>
+						<Route path="/school/*" element={<SchoolDashboard />} />
+						</Routes>
+					): window.location.pathname.startsWith("/teacher") ? (
+						<Routes>
+							<Route path="/teacher/*" element={<TeacherDashboard />} />
+						</Routes>
+					) : (
+						<div>
+						<Routes>
+							<Route element={<Rout />}>
+								<Route index element={<Home />} />
+									<Route path="/contact" element={<Contact />} />
+									<Route path="/pricing" element={<Pricing />} />
+									<Route path="/blog" element={<Blog />} />
+									<Route path="/help" element={<Help />} />
+						<Route path="/terms-and-conditions" element={<TermsAndCondition />} />
+						<Route path="/privacy" element={<Privacy />} />
+							
+							</Route>
+							<Route path="/login" element={<Login />} />
+						</Routes>
+						
+						
+						
+						</div>
+					)}
+
+			
+			
+			
+			</TeacherAuthProvider>
+		    
 					
-					</Route>
-					<Route path="/login" element={<Login />} />
-				</Routes>
-				
-				
-				
-				</div>
-			)}
 
 
 		</StudentAuthProvider>
