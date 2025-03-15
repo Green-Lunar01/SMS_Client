@@ -7,11 +7,14 @@ import emptyEmployee from "../../../../assets/empty-employee.svg";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../../context/userContext";
 import { SchoolContext } from "../../../../context/schoolContext";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const AllEmployees = () => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const { userToken } = useContext(UserContext);
 	const { employees } = useContext(SchoolContext);
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
 	const filteredEmployees = employees.filter(
 		(employee) =>
@@ -33,6 +36,29 @@ const AllEmployees = () => {
 
 	// Get unique role categories
 	const uniqueRoles = Object.keys(employeesByRole);
+
+	const deleteEmployee = async (id) => {
+		toast("Deleting employee...");
+
+		try {
+			const response = await axios.delete(
+				`${BASE_API_URL}/school/employees/delete/${id}`,
+				{
+					headers: { Authorization: `${userToken}` },
+				},
+			);
+			// console.log(response);
+			toast.success("Employee deleted successfully");
+			window.location.reload();
+		} catch (err) {
+			toast.error(
+				err.response.data.message ||
+					err.message ||
+					"Failed to delete employee, please refresh and try again.",
+			);
+			console.log(err);
+		}
+	};
 
 	return (
 		<div className="all-employees">
@@ -80,7 +106,12 @@ const AllEmployees = () => {
 											>
 												<RiEdit2Line />
 											</Link>
-											<button className="action-button delete">
+											<button
+												className="action-button delete"
+												onClick={() =>
+													deleteEmployee(employee.id)
+												}
+											>
 												<RiDeleteBin6Line />
 											</button>
 										</div>
