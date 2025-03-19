@@ -128,7 +128,7 @@ const AllStudents = () => {
 		toast("Deleting student...");
 
 		try {
-			const response = await api.delete(`/school/students/delete/${id}`, {
+			const response = await api.delete(`/school/student/delete/${id}`, {
 				headers: {
 					Authorization: `${localStorage.getItem("sms_token")}`,
 				},

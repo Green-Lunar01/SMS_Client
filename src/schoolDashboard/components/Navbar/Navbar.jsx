@@ -24,6 +24,7 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 	const [currentSession, setCurrentSession] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
+	const [schoolProfile, setSchoolProfile] = useState({});
 
 	const navigate = useNavigate();
 
@@ -166,13 +167,29 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 		session.session_name.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
+	// const fetchSchoolProfile = async () => {
+	// 	try {
+	// 		const response = await api.get("/school/profile", {
+	// 			headers: {
+	// 				Authorization: `${localStorage.getItem("sms_token")}`,
+	// 			},
+	// 		});
+	// 		// console.log("SCHOOL PROFILE: ", response.data.data);
+	// 		setSchoolProfile(response.data.data);
+	// 	} catch (error) {
+	// 		console.error("Error fetching school profile:", error);
+	// 		toast.error("Error fetching school profile");
+	// 	}
+	// };
+
 	// Load sessions when component mounts
 	useEffect(() => {
 		if (
 			localStorage.getItem("sms_token") &&
 			localStorage.getItem("sms_token") !== "null"
 		) {
-			fetchSessions();
+			// fetchSessions();
+			fetchSchoolProfile();
 		}
 	}, []);
 

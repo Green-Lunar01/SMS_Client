@@ -777,7 +777,7 @@ const Dashboard = () => {
 								</svg>
 								Report Card
 							</Link>
-							<Link
+							{/* <Link
 								to="/school/dashboard/useraccess"
 								className={
 									isLinkActive("/school/dashboard/useraccess")
@@ -815,7 +815,7 @@ const Dashboard = () => {
 									/>
 								</svg>
 								Users Access
-							</Link>
+							</Link> */}
 						</aside>
 
 						<Suspense fallback={<Spinner />}>
