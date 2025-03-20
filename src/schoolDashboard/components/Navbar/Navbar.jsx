@@ -188,8 +188,8 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 			localStorage.getItem("sms_token") &&
 			localStorage.getItem("sms_token") !== "null"
 		) {
-			// fetchSessions();
-			fetchSchoolProfile();
+			fetchSessions();
+			// fetchSchoolProfile();
 		}
 	}, []);
 

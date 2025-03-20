@@ -57,7 +57,6 @@ const Questions = () => {
 					Authorization: `${localStorage.getItem("sms_token")}`,
 				},
 			});
-			console.log("SESSIONS: ", response.data.data);
 			setSessions(response.data.data);
 		} catch (error) {
 			console.error("Error fetching sessions:", error);
@@ -248,31 +247,32 @@ const Questions = () => {
 		setSubmitting(true);
 
 		try {
-			// Submit each question individually
-			for (const question of questions) {
-				const requestBody = {
-					subjectId: parseInt(selectedSubject),
-					sessionId: parseInt(selectedSession),
-					term: parseInt(selectedTerm),
-					classId: parseInt(selectedClass),
-					question: question.question,
-					questionType: question.type,
-					options:
-						question.type === "multiple_choice"
-							? question.options.filter(
-									(opt) => opt.trim() !== "",
-								)
-							: [],
-					correctAnswer: question.answer,
-					examDuration: examDuration,
-				};
+			// Prepare question data array
+			const questionData = questions.map((question) => ({
+				question: question.question,
+				questionType: question.type,
+				options:
+					question.type === "multiple_choice"
+						? question.options.filter((opt) => opt.trim() !== "")
+						: [],
+				correctAnswer: question.answer,
+			}));
 
-				await api.post("/school-exam/set-question", requestBody, {
-					headers: {
-						Authorization: `${localStorage.getItem("sms_token")}`,
-					},
-				});
-			}
+			// Create a single request with all questions
+			const requestBody = {
+				subjectId: parseInt(selectedSubject),
+				sessionId: parseInt(selectedSession),
+				term: parseInt(selectedTerm),
+				classId: parseInt(selectedClass),
+				examDuration: examDuration,
+				questionData: questionData,
+			};
+
+			await api.post("/school-exam/set-questions", requestBody, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
 
 			toast.success("Questions saved successfully!");
 			closeModal();

@@ -19,10 +19,10 @@ const Messaging = () => {
 	const [loading, setLoading] = useState(false);
 	const [sending, setSending] = useState(false);
 
-	// Get classes, teachers, and students from context
-	const { classes, students, employees } = useContext(SchoolContext);
+	const { classes, employees } = useContext(SchoolContext);
 	const { user } = useContext(UserContext);
 	const [teachers, setTeachers] = useState([]);
+	const [students, setStudents] = useState([]);
 
 	// Fetch teachers
 	const getEmployeeByCategory = (category) => {
@@ -32,6 +32,26 @@ const Messaging = () => {
 	useEffect(() => {
 		getEmployeeByCategory("Teacher");
 	}, [employees]);
+
+	const fetchStudents = async () => {
+		setLoading(true);
+
+		try {
+			const response = await api.get(`/school/students`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			setStudents(response.data.data);
+		} catch (err) {
+			console.error("Error fetching students:", err);
+			toast.error(
+				"Failed to load students. Please refresh or try again later.",
+			);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	// Fetch messages
 	const fetchMessages = async () => {
@@ -54,6 +74,7 @@ const Messaging = () => {
 
 	// Fetch messages on component mount
 	useEffect(() => {
+		fetchStudents();
 		fetchMessages();
 	}, []);
 
@@ -66,11 +87,11 @@ const Messaging = () => {
 				filtered = messages;
 			} else if (viewTab === "sent") {
 				filtered = messages.filter(
-					(message) => message.sender_id === user.id,
+					(message) => message.sender_role === "admin",
 				);
 			} else if (viewTab === "received") {
 				filtered = messages.filter(
-					(message) => message.sender_id !== user.id,
+					(message) => message.sender_role !== "admin",
 				);
 			}
 
@@ -78,7 +99,7 @@ const Messaging = () => {
 		} else {
 			setFilteredMessages([]);
 		}
-	}, [messages, viewTab, user]);
+	}, [messages, viewTab]);
 
 	// Format date
 	const formatDate = (dateString) => {
@@ -299,7 +320,7 @@ const Messaging = () => {
 							<>
 								{filteredMessages.map((message) => {
 									const isSentByUser =
-										message.sender_id === user.id;
+										message.sender_role === "admin";
 									return (
 										<div
 											className={
