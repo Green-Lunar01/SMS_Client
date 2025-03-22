@@ -28,7 +28,7 @@ const Benefits = () => {
 
   return (
     <div className="flex flex-col lg:flex-row items-center gap-5 px-5 md:px-16 my-10 justify-between">
-      <div className="text-center w-full md:w-[50%]">
+      <div className="text-center w-full lg:w-[50%]">
         <h1 className="text-xl font-semibold text-primary-light">Benefits</h1>
         <p className="text-3xl my-7 leading-9 text-secondary-bold">
           See how we can improve your School management.
@@ -42,7 +42,7 @@ const Benefits = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-7 p-3 md:border rounded-md md:w-[47%]">
+      <div className="flex flex-col gap-7 px-3 py-5 md:border rounded-md lg:w-[47%]">
         {benefits.map((data, i) => (
           <div
             className="flex items-center gap-8 border-b border-b-primary-light px-3 py-5"
@@ -61,7 +61,7 @@ const Benefits = () => {
                   alt={data.title}
                   className="w-10 hover:scale-110 duration-300 transition-all block md:hidden"
                 />
-                <h1 className="text-primary-light mb-3">{data.title}</h1>
+                <h1 className="text-primary-light mb-2 text-lg font-semibold">{data.title}</h1>
               </div>
               <p className="text-sm">{data.caption}</p>
             </div>

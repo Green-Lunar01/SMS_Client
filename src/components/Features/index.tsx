@@ -29,14 +29,20 @@ const Features = () => {
       src: '/features/feature-e.png',
       caption:
         'EduSoft is built with the highest security standards and cloud-based technology to ensure data privacy and scalability. Access your system from anywhere, anytime, on any device.'
-    }
+    },
+        {
+      title: 'Affordable',
+      src: '/features/feature-f.png',
+      caption:
+        'The smart choice for schools that want top-notch management without breaking the bank.'
+    },
   ];
 
   return (
     <div className="md:px-16 py-10">
       <div className="md:border rounded-md border-primary-light text-center p-5 md:p-10">
-        <h1 className="text-primary-light text-xl font-semibold">Features</h1>
-        <p className="text-sm mt-5 md:w-[40%] mx-auto text-secondary-bold font-light">
+        <h1 className="text-primary-light text-2xl font-semibold">Features</h1>
+        <p className="text-base mt-5 md:w-[40%] mx-auto text-secondary-bold font-light">
           Our comprehensive platform seamlessly integrates all aspects of school administration,
           from academics and attendance to finance and communication, into one user-friendly
           interface.
@@ -53,8 +59,8 @@ const Features = () => {
                 />
               </div>
               <div className="px-5 py-6">
-                <h1 className="text-primary-light">{feature.title}</h1>
-                <p className="text-sm mt-3 text-secondary-bold opacity-40 text-left">
+                <h1 className="text-primary-light text-xl font-semibold">{feature.title}</h1>
+                <p className="text-base mt-3 text-secondary-bold opacity-40 text-left">
                   {feature.caption}
                 </p>
               </div>
