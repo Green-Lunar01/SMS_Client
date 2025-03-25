@@ -26,7 +26,6 @@
         >.top {
             display: flex;
             align-items: flex-start;
-            justify-content: space-between;
 
             h3 {
                 font-size: 1.2rem;
@@ -35,6 +34,7 @@
                 border-radius: 50%;
                 height: 100px;
                 width: 100px;
+                margin-inline: auto;
                 text-align: center;
                 display: flex;
                 align-items: center;
@@ -167,5 +167,63 @@
 
     .subjects-modal:hover {
         scrollbar-width: thin;
+    }
+
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
+        width: 100%;
+    }
+
+    .subjects-modal .loading-container {
+        min-height: 150px;
+    }
+
+    .subjects-modal .edit-class-card select {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #D9D9D9;
+        border-radius: 4px;
+        margin-bottom: 5px;
+    }
+
+    .subjects-modal .edit-class-card span p {
+        margin-bottom: 0;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    .primary-btn {
+        background-color: var(--primary-green);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .primary-btn:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+    .subjects-modal .edit-class-card li span {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .subjects-modal .edit-class-card li {
+        margin-block: 15px;
+    }
+
+    .subjects-modal .edit-class-card li svg {
+        color: #e74c3c;
+    }
+
+    .subjects-modal .edit-class-card li svg:hover {
+        color: #c0392b;
     }
 }
