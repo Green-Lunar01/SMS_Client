@@ -1,16 +1,20 @@
 import React from 'react'
+import { useEffect, useState } from "react";
 import { useStudAuth } from '../../Auth/context/StudentAuthProvider'
-
-const Sendermsg = ({msg}) => {
+import "./css/msg.css"
+const Sendermsg = ({animate,date, msg, recipient}) => {
   
+
+ 
+
   return (
-    <div className=' flex flex-col gap-[10px]  sender mx-[17px]'>
+    <div  id="msg-animate"  className={`flex flex-col gap-[10px] mx-[17px] mt-4 receiver `}>
                   <h1 className='font-semibold text-[14px]'>
-                     Today
+                    {date}
                   </h1>
-                  <div className='w-flex flex-col  items-center px-[10px] bg-[#13A541] h-auto rounded-[11px] py-[10px]'>
+                  <div   className={`flex-col  items-center px-[10px] bg-[#13A541] h-auto rounded-[11px] py-[10px]`}>
                     <div className=' flex flex-col gap-[10px] '>
-                      <h1 className='text-white  font-bold text-[12px]'>To Duke Okoro </h1>
+                      <h1 className='text-white  font-bold text-[12px]'>To {recipient} </h1>
                       <div className='relative w-full flex  gap-3 items-start '>
                           <img className='w-[28px]' src='/images/persona.svg'/>
                           <p className='min-w-[50px] font-normal text-[14px] text-white mb-4'>

@@ -23,6 +23,10 @@ const StudentTotalAttendance = () => {
 				"Week 4": ["P", "A", "P", "P", "A"],
 				"Week 5": ["A", "P", "P", "P", "A"],
 				"Week 6": ["P", "P", "P", "P", "A"],
+				"Week 6": ["P", "P", "P", "P", "A"],
+				"Week 6": ["P", "P", "P", "P", "A"],
+				"Week 6": ["P", "P", "P", "P", "A"],
+				"Week 6": ["P", "P", "P", "P", "A"],
 			},
 		},
 	];
@@ -39,7 +43,7 @@ const StudentTotalAttendance = () => {
 
 	useEffect(() => {
 		filterRecords();
-	}, [searchQuery, classSelected]);
+	}, []);
 
 	const fetchRecordsData = async () => {
 		const response = await fetch("/api/Records");

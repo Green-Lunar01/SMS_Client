@@ -20,6 +20,48 @@ const StudentAuthProvider = ({children}) => {
 		const storedComments = localStorage.getItem("all_comments")
 		return storedComments !== null && storedComments !== "" ? JSON.parse(storedComments) : ""
 	})
+	  const [allStudents, setAllStudents] = useState(() => {
+		const storedStudents = localStorage.getItem("all_students_");
+		return storedStudents !== null && storedStudents !== ""
+		  ? JSON.parse(storedStudents)
+		  : {};
+	  });
+	  const getStudents = async () => {
+		try {
+		  const response = await axios.get(`${BASE_API_URL}data/students`, {
+			headers: { Authorization: studentToken },
+		  });
+	
+		  setAllStudents(response.data.data);
+		  localStorage.setItem("all_students_", JSON.stringify(response.data.data));
+		  console.log(allStudents);
+		} catch (err) {
+		  console.error(err);
+		}
+	  };
+
+	  const [allTeachers, setAllTeachers] = useState(() => {
+		const storedTeachers = localStorage.getItem("all_teachers_");
+		return storedTeachers !== null && storedTeachers !== ""
+		  ? JSON.parse(storedTeachers)
+		  : [];
+	  });
+	  const getTeachers = async () => {
+		try {
+		  const response = await axios.get(
+			`https://edusoft.tonyicon.com.ng/data/teachers`,
+			{
+			  headers: { Authorization: studentToken },
+			}
+		  );
+	
+		  setAllTeachers(response.data.data);
+		  localStorage.setItem("all_teachers_", JSON.stringify(response.data.data));
+		  console.log("My teachers:", allTeachers);
+		} catch (err) {
+		  console.error(err);
+		}
+	  };
     const navigate = useNavigate()
 	const getStudentInfo = async (token) => {
 		console.log(token)
@@ -35,6 +77,7 @@ const StudentAuthProvider = ({children}) => {
 		}
 
 	}
+	
 	const [arrOfMaxClass, setMaxClassArr] = useState(() => {
 		// Check if data exists in localStorage when the component mounts
 		const storedData = localStorage.getItem("highest_classes_today");
@@ -44,6 +87,8 @@ const StudentAuthProvider = ({children}) => {
 		const storedTimetable =  localStorage.getItem("student_timetable");
 		return storedTimetable  ? JSON.parse(storedTimetable) : {}
 	})
+	const [date, setDate] = useState()
+	const [currentSession, setCurrentSession] = useState("")
 	
 	const getTimetable = async () => {
 		try {
@@ -71,6 +116,10 @@ const StudentAuthProvider = ({children}) => {
 				setStudentTimetable(response.data.data)
 				localStorage.setItem("student_timetable", JSON.stringify(response.data.data))
 			}
+			const filterSession = studentProfile.academic_sessions.find((session) => (
+				session.isactive === true
+			))
+			setCurrentSession(filterSession)
 	
 		} catch (err) {
 			console.error(err);
@@ -175,35 +224,135 @@ const StudentAuthProvider = ({children}) => {
 		  console.error(err);
 		}
 	  };
-	
-	
 
+	  const [allSessions, setAllSessions] = useState(studentProfile?.academic_sessions || []);
+	  
 
-
-
-
-const logout = async () => {
-		try {
-			window.location.href = "/login"
-		    setStudentProfile(null);
-			setStudentToken(null);
-			localStorage.removeItem("student_sms_token");
-			localStorage.removeItem("student_sms_timetable");
-			localStorage.removeItem("student_sms_info");
 		
-			toast("Logged out successfully!");
-			window.location.href = "/login"
-		} catch (error) {
-			console.log(error);
-		}
-	};
+		//   const getAllSession = async () => {
+		// 	try {
+		// 	  const response = await axios.get(`${BASE_API_URL}school/academic-sessions`, {
+		// 		headers: { Authorization: studentToken },
+		// 	  });
+		  
+			
+		// 	  setAllSessions(response.data.data);
+		// 	  localStorage.setItem("all_academic_sessions", JSON.stringify(response.data.data));
+		  
+		// 	} catch (err) {
+		// 	  console.error("Error fetching academic sessions:", err);
+		// 	}
+		//   };
+	
+		const sendMessage = async (data) => {
+			setLoading(true); // Set loading state
+			const toastId = toast.loading("Sending message..."); // Show loading toast
+		
+			try {
+			  const response = await axios.post(
+				`${BASE_API_URL}school-messages/send`,
+				data,
+				{ headers: { Authorization: studentToken } }
+			  );
+		
+			  if (response.status === 200 || response.status === 201) {
+				toast.success("Message sent successfully", { id: toastId });
+				await getMessages(); // Fetch messages after sending successfully
+			  } else {
+				toast.error(response.data.message || "Failed to send message", {
+				  id: toastId,
+				});
+			  }
+			} catch (err) {
+			  const errorMessage =
+				err.response?.data?.message ||
+				"Error sending message. Please try again.";
+			  toast.error(errorMessage, { id: toastId });
+			  console.error("Error sending message:", err);
+			} finally {
+			  setLoading(false); // Reset loading state
+			}
+		  };
+		
+		  const [messages, setMessages] = useState(() => {
+		   
+			const storedMessages = localStorage.getItem("student_messages");
+			return storedMessages ? JSON.parse(storedMessages) : [];
+		  });
+		
+		  const getMessages = async () => {
+			setLoading(true); 
+			const toastId = toast.loading("Fetching messages..."); 
+		
+			try {
+			  const response = await axios.get(`${BASE_API_URL}school-messages`, {
+				headers: { Authorization: studentToken },
+			  });
+		
+			  if (response.status === 200) {
+				toast.success("Messages retrieved successfully", { id: toastId });
+		
+			   
+				setMessages(response.data.data);
+				localStorage.setItem("student_messages", JSON.stringify(response.data.data));
+			  } else {
+				toast.error("Failed to retrieve messages", { id: toastId });
+			  }
+			} catch (err) {
+			  toast.error("Error fetching messages. Please try again.", {
+				id: toastId,
+			  });
+			  console.error("Error fetching messages:", err);
+			} finally {
+			  setLoading(false); 
+			}
+		  };
 
+
+
+
+// const logout = async () => {
+// 		try {
+// 			window.location.href = "/login"
+// 		    setStudentProfile(null);
+// 			setStudentToken(null);
+// 			localStorage.removeItem("student_sms_token");
+// 			localStorage.removeItem("student_sms_timetable");
+// 			localStorage.removeItem("student_sms_info");
+		
+// 			toast("Logged out successfully!");
+// 			window.location.href = "/login"
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+	// };
+ const logout = async () => {
+	try {
+	  setStudentToken(null);
+	  setStudentProfile(null);
+  
+	  localStorage.clear(); // Clears all stored data in localStorage
+  
+	  toast.success("Logged out successfully!");
+	  
+	  window.location.href = "/login";
+	} catch (error) {
+	  console.log(error);
+	}
+  };
     
 
   return (
     <StudentUserContext.Provider
         value={{
             studentToken,
+			getMessages,
+			sendMessage,
+			getStudents,
+			messages,
+			allStudents,
+			allTeachers,
+			getTeachers,
             setStudentToken,
             studentProfile,
             setStudentProfile,
@@ -223,7 +372,11 @@ const logout = async () => {
 			getTest, 
 			test,
 			exams,
-			getExams
+			setExams,
+			getExams,
+			currentSession,
+			allSessions,
+		
 
 
         }}

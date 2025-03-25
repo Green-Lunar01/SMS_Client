@@ -7,8 +7,8 @@ import LogoutIcon from "../icons/logout.svg?react";
 import { useStudAuth } from "../Auth/context/StudentAuthProvider";
 // import { useNavigate } from 'react-router';
 const Header = () => {
-  const {studentToken, studentProfile, logout} = useStudAuth()
-  const studentUserProfile = studentProfile.user
+  const { studentToken, studentProfile, logout } = useStudAuth();
+  const studentUserProfile = studentProfile.user;
   // console.log("what is:,", studentUserProfile)
   const [showMenu, setShowMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -48,8 +48,8 @@ const Header = () => {
             <img src="/icons/message2.svg" />
             <div className="flex items-center gap-2 ">
               <p className="hidden sm:block font-normal text-[#08190E]">
-                {studentUserProfile.surname} 
-                {studentUserProfile.first_name} 
+                {studentUserProfile.surname}
+                {studentUserProfile.first_name}
               </p>
               <div className="relative  ">
                 <div
@@ -58,8 +58,12 @@ const Header = () => {
                   onMouseLeave={handleProfileMenu}
                 >
                   <img
-                    className=" md:w-14 md:h-14 h-[45px] w-[45px] py-[1px] rounded-[50%]"
-                    src={studentUserProfile.profile_photo}
+                    className="md:w-14 md:h-14 h-[45px] w-[45px] py-[1px] rounded-[50%]"
+                    src={
+                      studentUserProfile.profile_photo || 
+                      "/images/person.png"
+                    }
+                    alt="Profile"
                   />
                   {showProfileMenu && (
                     <div className="absolute md:w-[174px] -left-[70px] shadow-md ">
@@ -80,7 +84,10 @@ const Header = () => {
              w-full py-[10px] px-[6px] hover:bg-[#13A541] bg-white hover:text-white gap-4"
                         >
                           <LogoutIcon />
-                          <button onClick={logout} className="font-normal text-[14px] flex items-center">
+                          <button
+                            onClick={logout}
+                            className="font-normal text-[14px] flex items-center"
+                          >
                             Logout
                           </button>
                         </div>

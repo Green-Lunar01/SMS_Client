@@ -5,15 +5,18 @@ import axios from 'axios'
 // import Calendar from '../components/Calendar'
 import DashboardCalendar from '../components/Calendar/DashboardCalendar'
 function Dashboard() {
-  const {studentToken, getStudentInfo, setStudentToken, studentProfile, setStudentProfile} = useStudAuth()
+  const {studentToken, getStudentInfo, setStudentToken, studentProfile, setStudentProfile, getMessages, getStudents, allStudents} = useStudAuth()
  
   console.log(typeof studentToken)
-
+  useEffect(() => {
+    getStudents()
+   
+  }, [])
   const getTimetable = async (studentToken) => {
-    console.log("studentToken:", studentToken);
+    console.log("studentToken:", studentToken, allStudents);
     try {
         const response = await axios.get(
-            `http://tonyicon.com.ng:5000/student/timetable`,
+            `https://edusoft.tonyicon.com.ng/student/timetable`,
             {
                 headers: {
                     Authorization: studentToken, // ✅ Directly send the token

@@ -12,7 +12,14 @@ import { useTeacherAuth } from "../../../Auth/context/TeacherAuthProvider";
 
 const Insights = () => {
 	
-	const {teacherProfile} = useTeacherAuth()
+	const {teacherProfile, getAllClasses, overview, getTeachers, getSubjects, classID, getAllStudentAttendance, currentSession} = useTeacherAuth()
+	useEffect(() => {
+		getAllClasses()
+		getSubjects()
+		overview()
+		getTeachers()
+		getAllStudentAttendance(classID, currentSession);
+	}, [])
 	const attendanceOverview = teacherProfile.attendance_overview
 	console.log("attendance:", attendanceOverview, "teacheProfile:", teacherProfile)
 	// const [teacherOverview, setTeacherOverview] = ([])
@@ -42,7 +49,7 @@ const Insights = () => {
 	// 	},
 	// ];
 	const todayClasses = teacherProfile.classes_today
-	console.log("classes today:", todayClasses)
+	console.log("classes today:", todayClasses, )
 	return (
 		<div className="insights">
 			<div className="summary-cards">

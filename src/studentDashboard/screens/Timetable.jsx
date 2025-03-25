@@ -3,7 +3,7 @@ import { useStudAuth } from '../Auth/context/StudentAuthProvider'
 import {useEffect} from 'react'
 
 function Timetable() {
-  const {getTimetable, arrOfMaxClass, studentTimetable} = useStudAuth()
+  const {getTimetable, arrOfMaxClass, studentTimetable, currentSession, studentProfile} = useStudAuth()
   useEffect(() => {
     getTimetable()
   }, [])
@@ -225,15 +225,15 @@ function Timetable() {
                 </div>
                 <p className='font-medium text-[16px]'>Time Table</p>
               </div>
-              <p className='font-medium text-[16px]'>2024/2025</p>
+              <p className='font-medium text-[16px]'>{currentSession.session_name}</p>
 
             </section>
             <section className='w-full px-[40px] h-[64px] flex justify-between items-center bg-gradient-to-b from-[#fff] to-[#F0F4F9] border-[1px] border-[#D2E7FF] shadow-[0px_4px_1.3px_0px_#EAEFF5]'>
               <div className='lg:w-[126px] flex items-center justify-between'>
                 
-                <p className='font-medium text-[16px]'>JSS 1A</p>
+                <p className='font-medium text-[16px]'>{studentProfile.user.class_name}</p>
               </div>
-              <p className='font-medium text-[16px]'>Term 2</p>
+              <p className='font-medium text-[16px]'>Term {studentProfile.user.current_term}</p>
 
             </section>
             <section className="overflow-x-auto md:overflow-visible">

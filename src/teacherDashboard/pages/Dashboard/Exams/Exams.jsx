@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Exams.css";
 import CreateNewExams from "./CreateNewExams/CreateNewExams";
 import ExamResults from "./ExamResults/ExamResults";
+import { useTeacherAuth } from "../../../Auth/context/TeacherAuthProvider";
 
 const Exams = () => {
+	const {allClasses, classID, sessions, allSubjects} = useTeacherAuth();
+	useEffect(()=> {
+       console.log("Exam page: ", allClasses, classID, sessions, allSubjects)
+	}, [])
 	const [tab, setTab] = useState("one");
 
 	return (

@@ -7,7 +7,7 @@ import { useTeacherAuth } from "../../../../Auth/context/TeacherAuthProvider";
 import axios from "axios"
 
 const TimeTable = ({ data, onDelete, onEdit }) => {
-    const {getTimetable,timeTable, arrOfMaxClass, teacherToken} = useTeacherAuth()
+    const {getTimetable,timeTable, arrOfMaxClass, teacherToken, currentSession, teacherProfile} = useTeacherAuth()
 	const periods = [1, 2, 3, 4, 5, 6];
 	const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 	const formatTimetable = (data) => {
@@ -18,11 +18,12 @@ const TimeTable = ({ data, onDelete, onEdit }) => {
 	};
 	const weekTimetable = formatTimetable(timeTable)
 
-
+	const activeSession = teacherProfile?.academic_sessions.find(session => session.isactive === true);
+	const activeSessionName = activeSession ? activeSession.session_name : "No active session";
 	useEffect(() => {
 		getTimetable()
-		console.log("this week timetable:", weekTimetable)
-	})
+		console.log("this week timetable:", weekTimetable, "curent session", activeSessionName)
+	}, [])
 	// useEffect(() => {
 	// 	console.log("On TimeTable Mount: ", timeTable)
 	// }, [])
@@ -53,9 +54,9 @@ const TimeTable = ({ data, onDelete, onEdit }) => {
 			<div className="timetable-header">
 				<h3>Time Table</h3>
 				<div className="timetable-info">
-					<span>2024/2025</span>
-					<span>JSS1 A</span>
-					<span>Term 2</span>
+					<span>{activeSessionName}</span>
+					{/* <span>{teacherProfile.user.class_name}</span> */}
+					<span>Term {teacherProfile.user.current_term} </span>
 				</div>
 			</div>
 
