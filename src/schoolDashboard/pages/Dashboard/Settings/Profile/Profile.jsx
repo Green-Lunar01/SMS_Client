@@ -93,7 +93,7 @@ const Profile = () => {
 
 			toast.success("Profile updated successfully");
 			setLoading(false);
-			navigate("/school/dashboard/insights");
+			window.location.reload();
 		} catch (err) {
 			console.error("Error updating profile:", err);
 			toast.error(
