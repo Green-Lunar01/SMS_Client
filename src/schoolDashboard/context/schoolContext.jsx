@@ -2,6 +2,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { UserContext } from "./userContext";
+import api from "../lib/axios";
 
 export const SchoolContext = createContext({});
 
@@ -14,6 +15,7 @@ export function SchoolContextProvider({ children }) {
 	const [classes, setClasses] = useState([]);
 	const [subjects, setSubjects] = useState([]);
 	const [sessions, setSessions] = useState([]);
+	const [schoolProfile, setSchoolProfile] = useState({});
 
 	const getEmployees = async () => {
 		try {
@@ -61,10 +63,26 @@ export function SchoolContextProvider({ children }) {
 		}
 	};
 
+	const fetchSchoolProfile = async () => {
+		try {
+			const response = await api.get("/school/profile", {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			console.log("SCHOOL PROFILE: ", response.data.data);
+			setSchoolProfile(response.data.data);
+		} catch (error) {
+			console.error("Error fetching school profile:", error);
+			toast.error("Error fetching school profile");
+		}
+	};
+
 	useEffect(() => {
 		getEmployees();
 		getClasses();
 		getSubjects();
+		fetchSchoolProfile();
 	}, []);
 
 	const getUniqueCategories = (data) => {
@@ -99,6 +117,8 @@ export function SchoolContextProvider({ children }) {
 				getSubjects,
 				sessions,
 				setSessions,
+				schoolProfile,
+				setSchoolProfile,
 			}}
 		>
 			{children}

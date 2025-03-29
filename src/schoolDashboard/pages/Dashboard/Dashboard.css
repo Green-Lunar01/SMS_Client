@@ -45,6 +45,14 @@
 
     >main {
         display: flex;
+
+        >* {
+            padding-top: 20px;
+        }
+
+        >aside {
+            padding-top: 0px;
+        }
     }
 
     >.notification-screen {

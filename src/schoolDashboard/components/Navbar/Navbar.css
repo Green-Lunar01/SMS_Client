@@ -5,6 +5,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 40px;
+    border-bottom: 1px solid #D9D9D9;
 
     .logo {
         display: flex;

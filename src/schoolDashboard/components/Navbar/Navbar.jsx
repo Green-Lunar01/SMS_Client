@@ -19,12 +19,12 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 	const [openModal, setOpenModal] = useState(false);
 	const [setupModalScreen, setSetupModalScreen] = useState(1);
 	const [selectedSession, setSelectedSession] = useState(0);
-	const { sessions, setSessions } = useContext(SchoolContext);
+	const { sessions, setSessions, schoolProfile, setSchoolProfile } =
+		useContext(SchoolContext);
 	const [newSessionName, setNewSessionName] = useState("");
 	const [currentSession, setCurrentSession] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [schoolProfile, setSchoolProfile] = useState({});
 
 	const navigate = useNavigate();
 
@@ -167,21 +167,6 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 		session.session_name.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
-	// const fetchSchoolProfile = async () => {
-	// 	try {
-	// 		const response = await api.get("/school/profile", {
-	// 			headers: {
-	// 				Authorization: `${localStorage.getItem("sms_token")}`,
-	// 			},
-	// 		});
-	// 		// console.log("SCHOOL PROFILE: ", response.data.data);
-	// 		setSchoolProfile(response.data.data);
-	// 	} catch (error) {
-	// 		console.error("Error fetching school profile:", error);
-	// 		toast.error("Error fetching school profile");
-	// 	}
-	// };
-
 	// Load sessions when component mounts
 	useEffect(() => {
 		if (
@@ -189,7 +174,6 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 			localStorage.getItem("sms_token") !== "null"
 		) {
 			fetchSessions();
-			// fetchSchoolProfile();
 		}
 	}, []);
 
@@ -393,11 +377,15 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 				</div>
 
 				<div className="profile">
-					<p>Hope College</p>
+					<p>{schoolProfile.school_name}</p>
 					<img
-						src={school}
+						src={schoolProfile.photo}
 						alt=""
 						onClick={() => setOpenProfileMenu(!openProfileMenu)}
+						onError={(e) => {
+							e.target.onerror = null; // Prevent looping
+							e.target.src = school;
+						}}
 					/>
 
 					{openProfileMenu && (
