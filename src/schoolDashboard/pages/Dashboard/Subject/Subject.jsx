@@ -1,11 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Subject.css";
 import ClassesWithSubjects from "./ClassesWithSubjects/ClassesWithSubjects";
 import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown";
+import { SchoolContext } from "../../../context/schoolContext";
+import { UserContext } from "../../../context/userContext";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import Spinner from "../../../components/Spinner/Spinner";
 
 const Subject = () => {
 	const [tab, setTab] = useState("create");
-	const classes = ["Class A", "Class B", "Class C", "Class D", "Class E"];
+	const { classes, employees } = useContext(SchoolContext);
+	const { userToken } = useContext(UserContext);
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+	const [teacher, setTeacher] = useState();
+	const [subject, setSubject] = useState();
+	const [teacherList, setTeacherList] = useState([]);
+	const [selectedClasses, setSelectedClasses] = useState([]);
+	const [loading, setLoading] = useState(false);
+
+	const getEmployeeByCategory = (category) => {
+		setTeacherList(
+			employees.filter((employee) => employee.role === category),
+		);
+	};
+
+	useEffect(() => {
+		getEmployeeByCategory("Teacher");
+	}, [employees]);
+
+	const createSubject = async () => {
+		if (!subject || !teacher || selectedClasses.length === 0) {
+			toast.error("All fields are required");
+			return;
+		}
+		setLoading(true);
+
+		const data = {
+			subject_name: subject,
+			teacher_id: Number(teacher),
+			class_ids: selectedClasses,
+		};
+
+		try {
+			const response = await axios.post(
+				`${BASE_API_URL}/school/subjects/create-asign`,
+				data,
+				{
+					headers: {
+						Authorization: `${userToken}`,
+					},
+				},
+			);
+			toast.success("Subject created successfully");
+			setLoading(false);
+			setSelectedClasses([]);
+			setSubject("");
+			setTeacher("");
+		} catch (err) {
+			toast.error(err.response.data.message || err.message);
+			console.log(err);
+			setLoading(false);
+		}
+	};
+
+	const assignSubject = async () => {
+		if (!subject) {
+			toast.error("All fields are required");
+			return;
+		}
+		setLoading(true);
+
+		try {
+			const response = await axios.post(
+				`${BASE_API_URL}/school/subjects/assign`,
+				{
+					teacher_id: teacher,
+					subject_id: 0,
+					class_ids: [0],
+				},
+				{
+					headers: {
+						Authorization: `${userToken}`,
+					},
+				},
+			);
+			toast.success("Class assigned successfully");
+			setLoading(false);
+		} catch (err) {
+			toast.error(err.response.data.message || err.message);
+			console.log(err);
+			setLoading(false);
+		}
+	};
 
 	return (
 		<div className="subject-screen">
@@ -34,6 +121,8 @@ const Subject = () => {
 							<MultiSelectDropdown
 								options={classes}
 								placeholder="Select Classes"
+								selectedOptions={selectedClasses}
+								setSelectedOptions={setSelectedClasses}
 							/>
 						</label>
 						<label htmlFor="subject-name">
@@ -42,17 +131,34 @@ const Subject = () => {
 								type="text"
 								id="subject-name"
 								placeholder="e.g N40,000"
+								value={subject}
+								onChange={(e) => setSubject(e.target.value)}
 							/>
 						</label>
 						<label htmlFor="subject-teacher">
 							<p>Select Subject Teacher *</p>
-							<select name="subject-teacher" id="subject-teacher">
-								<option value="Mr John">Mr John</option>
-								<option value="Mrs Jane">Mrs Jane</option>
+							<select
+								name="subject-teacher"
+								id="subject-teacher"
+								value={teacher}
+								onChange={(e) => setTeacher(e.target.value)}
+							>
+								<option value="">Select Teacher</option>
+								{teacherList.map((teacher) => (
+									<option value={teacher.id} key={teacher.id}>
+										{teacher.first_name} {teacher.surname}
+									</option>
+								))}
 							</select>
 						</label>
 
-						<button>Create Assign Subject</button>
+						<button onClick={createSubject} disabled={loading}>
+							{loading ? (
+								<Spinner />
+							) : (
+								"Create and Assign Subject"
+							)}
+						</button>
 					</div>
 				</>
 			)}

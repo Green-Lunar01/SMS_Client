@@ -4,7 +4,7 @@
 	flex-shrink: 0;
 	padding: 3rem 2rem;
 
-	> .top {
+	>.top {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
@@ -45,19 +45,20 @@
 			border: 1px solid #ffc527;
 			width: 180px;
 		}
+
 		.download-btn:hover {
 			border: 1px solid #fabb0c;
 			background-color: #fabb0c;
 		}
 	}
 
-	> .bottom {
+	>.bottom {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
 		margin-block: 40px;
 
-		> span {
+		>span {
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
@@ -69,7 +70,7 @@
 			}
 		}
 
-		> main {
+		>main {
 			padding: 0px 40px;
 
 			header {
@@ -86,5 +87,78 @@
 				padding: 20px;
 			}
 		}
+	}
+
+	.loading-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 300px;
+		width: 100%;
+	}
+
+	.no-data {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 300px;
+		width: 100%;
+		font-size: 1.1rem;
+		color: #777;
+	}
+
+	.questions-list {
+		margin-top: 20px;
+	}
+
+	.question-item {
+		margin-bottom: 20px;
+	}
+
+	.question-text {
+		font-weight: 500;
+		font-size: 1.05rem;
+		margin-bottom: 10px;
+	}
+
+	.question-number {
+		font-weight: 600;
+		margin-right: 8px;
+	}
+
+	.options-list {
+		margin-left: 30px;
+		margin-top: 10px;
+	}
+
+	.option {
+		margin-bottom: 8px;
+	}
+
+	.option span {
+		font-weight: 600;
+		margin-right: 8px;
+	}
+
+	.form-row select,
+	.form-row button {
+		cursor: pointer;
+	}
+
+	button:disabled {
+		opacity: 0.7;
+		cursor: not-allowed;
+	}
+
+	.download-btn:disabled {
+		opacity: 0.7;
+		cursor: not-allowed;
+	}
+
+	/* Make sure the exam paper looks good for printing */
+	#exam-paper {
+		background-color: white;
+		padding: 20px;
+		width: 100%;
 	}
 }

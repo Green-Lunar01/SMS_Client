@@ -1,45 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./AllEmployees.css";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import { IoEyeOutline } from "react-icons/io5";
 import { RiEdit2Line, RiDeleteBin6Line } from "react-icons/ri";
 import emptyEmployee from "../../../../assets/empty-employee.svg";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../../../context/userContext";
+import { SchoolContext } from "../../../../context/schoolContext";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const AllEmployees = () => {
 	const [searchTerm, setSearchTerm] = useState("");
-	const employees = [
-		{
-			id: 1,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Teachers",
-		},
-		{
-			id: 2,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Teachers",
-		},
-		{
-			id: 3,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Management",
-		},
-		{
-			id: 4,
-			name: "Robert Donnelly",
-			role: "Management",
-			category: "Management",
-		},
-	];
+	const { userToken } = useContext(UserContext);
+	const { employees } = useContext(SchoolContext);
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
-	const filteredEmployees = employees.filter((employee) =>
-		employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+	const filteredEmployees = employees.filter(
+		(employee) =>
+			employee.first_name
+				.toLowerCase()
+				.includes(searchTerm.toLowerCase()) ||
+			employee.surname.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
-	const categories = ["Teachers", "Management"];
+	// Group employees by role
+	const employeesByRole = filteredEmployees.reduce((groups, employee) => {
+		const role = employee.role;
+		if (!groups[role]) {
+			groups[role] = [];
+		}
+		groups[role].push(employee);
+		return groups;
+	}, {});
+
+	// Get unique role categories
+	const uniqueRoles = Object.keys(employeesByRole);
+
+	const deleteEmployee = async (id) => {
+		toast("Deleting employee...");
+
+		try {
+			const response = await axios.delete(
+				`${BASE_API_URL}/school/employees/delete/${id}`,
+				{
+					headers: { Authorization: `${userToken}` },
+				},
+			);
+			// console.log(response);
+			toast.success("Employee deleted successfully");
+			window.location.reload();
+		} catch (err) {
+			toast.error(
+				err.response.data.message ||
+					err.message ||
+					"Failed to delete employee, please refresh and try again.",
+			);
+			console.log(err);
+		}
+	};
 
 	return (
 		<div className="all-employees">
@@ -55,46 +74,49 @@ const AllEmployees = () => {
 				</div>
 			) : (
 				<>
-					{categories.map((category) => (
-						<div key={category}>
-							<h3 className="category-title">{category}</h3>
+					{uniqueRoles.map((role) => (
+						<div key={role}>
+							<h3 className="category-title">{role}</h3>
 							<div className="employee-cards">
-								{filteredEmployees
-									.filter(
-										(employee) =>
-											employee.category === category
-									)
-									.map((employee) => (
-										<div
-											key={employee.id}
-											className="employee-card"
-										>
-											<div className="avatar"></div>
-											<p className="employee-name">
-												{employee.name}
-											</p>
-											<p className="employee-role">
-												<strong>{employee.role}</strong>
-											</p>
-											<div className="actions">
-												<Link
-													to={`/school/dashboard/viewemployee/${employee.id}`}
-													className="action-button view"
-												>
-													<IoEyeOutline />
-												</Link>
-												<Link
-													to={`/school/dashboard/editemployee/${employee.id}`}
-													className="action-button edit"
-												>
-													<RiEdit2Line />
-												</Link>
-												<button className="action-button delete">
-													<RiDeleteBin6Line />
-												</button>
-											</div>
+								{employeesByRole[role].map((employee) => (
+									<div
+										key={employee.id}
+										className="employee-card"
+									>
+										<div className="avatar">
+											<img src={employee.profile_photo} />
 										</div>
-									))}
+										<p className="employee-name">
+											{employee.first_name}{" "}
+											{employee.surname}
+										</p>
+										<p className="employee-role">
+											<strong>{employee.role}</strong>
+										</p>
+										<div className="actions">
+											<Link
+												to={`/school/dashboard/viewemployee/${employee.id}`}
+												className="action-button view"
+											>
+												<IoEyeOutline />
+											</Link>
+											<Link
+												to={`/school/dashboard/editemployee/${employee.id}`}
+												className="action-button edit"
+											>
+												<RiEdit2Line />
+											</Link>
+											<button
+												className="action-button delete"
+												onClick={() =>
+													deleteEmployee(employee.id)
+												}
+											>
+												<RiDeleteBin6Line />
+											</button>
+										</div>
+									</div>
+								))}
 							</div>
 						</div>
 					))}

@@ -1,56 +1,180 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Messaging.css";
 import noMessages from "../../../assets/no-messages.png";
+import api from "../../../lib/axios";
+import { toast } from "react-hot-toast";
+import Spinner from "../../../components/Spinner/Spinner";
+import { SchoolContext } from "../../../context/schoolContext";
+import { UserContext } from "../../../context/userContext";
 
 const Messaging = () => {
 	const [messageTo, setMessageTo] = useState("");
 	const [messageBody, setMessageBody] = useState("");
-	const [specificClass, setSpecificClass] = useState("");
-	const [specificTeacher, setSpecificTeacher] = useState("");
-	const [specificStudent, setSpecificStudent] = useState("");
+	const [specificClassId, setSpecificClassId] = useState("");
+	const [specificTeacherId, setSpecificTeacherId] = useState("");
+	const [specificStudentId, setSpecificStudentId] = useState("");
 	const [viewTab, setViewTab] = useState("all");
+	const [messages, setMessages] = useState([]);
 	const [filteredMessages, setFilteredMessages] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [sending, setSending] = useState(false);
 
-	const allMessages = [
-		{
-			id: 1,
-			date: "01/01/2023",
-			from: "John Doe",
-			to: "",
-			text: "Hello, I'm John Doe. How can I help you today?",
-			type: "recieved",
-		},
-		{
-			id: 2,
-			date: "01/01/2023",
-			from: "",
-			to: "All Students",
-			text: "Happy New Year",
-			type: "sent",
-		},
-		{
-			id: 3,
-			date: "01/01/2023",
-			from: "",
-			to: "All Teachers",
-			text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis voluptates officiis suscipit at mollitia, reiciendis ad vitae totam veniam maiores excepturi laborum nemo sit assumenda hic, consequatur tempore eligendi illum.",
-			type: "sent",
-		},
-	];
+	const { classes, employees } = useContext(SchoolContext);
+	const { user } = useContext(UserContext);
+	const [teachers, setTeachers] = useState([]);
+	const [students, setStudents] = useState([]);
 
-	const filterMessages = (messages, viewTab) => {
-		return messages.filter((message) => {
-			if (viewTab === "all") return true;
-			if (viewTab === "sent" && message.type === "sent") return true;
-			if (viewTab === "recieved" && message.type === "recieved")
-				return true;
-			return false;
-		});
+	// Fetch teachers
+	const getEmployeeByCategory = (category) => {
+		setTeachers(employees.filter((employee) => employee.role === category));
 	};
 
 	useEffect(() => {
-		setFilteredMessages(filterMessages(allMessages, viewTab));
-	}, [viewTab]);
+		getEmployeeByCategory("Teacher");
+	}, [employees]);
+
+	const fetchStudents = async () => {
+		setLoading(true);
+
+		try {
+			const response = await api.get(`/school/students`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			setStudents(response.data.data);
+		} catch (err) {
+			console.error("Error fetching students:", err);
+			toast.error(
+				"Failed to load students. Please refresh or try again later.",
+			);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// Fetch messages
+	const fetchMessages = async () => {
+		setLoading(true);
+		try {
+			const response = await api.get("/school-messages", {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			console.log("MESSAGES: ", response.data.data);
+			setMessages(response.data.data || []);
+		} catch (err) {
+			console.error(err);
+			toast.error("Error fetching messages");
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// Fetch messages on component mount
+	useEffect(() => {
+		fetchStudents();
+		fetchMessages();
+	}, []);
+
+	// Filter messages based on the selected tab
+	useEffect(() => {
+		if (messages.length > 0) {
+			let filtered = [];
+
+			if (viewTab === "all") {
+				filtered = messages;
+			} else if (viewTab === "sent") {
+				filtered = messages.filter(
+					(message) => message.sender_role === "admin",
+				);
+			} else if (viewTab === "received") {
+				filtered = messages.filter(
+					(message) => message.sender_role !== "admin",
+				);
+			}
+
+			setFilteredMessages(filtered);
+		} else {
+			setFilteredMessages([]);
+		}
+	}, [messages, viewTab]);
+
+	// Format date
+	const formatDate = (dateString) => {
+		if (!dateString) return "";
+		const date = new Date(dateString);
+		return date.toLocaleDateString();
+	};
+
+	// Handle send message
+	const handleSendMessage = async () => {
+		if (!messageTo) {
+			toast.error("Please select a recipient");
+			return;
+		}
+
+		if (!messageBody.trim()) {
+			toast.error("Please enter a message");
+			return;
+		}
+
+		setSending(true);
+
+		try {
+			let recipientId = 0;
+			let recipientRole = "";
+			let classId = 0;
+
+			// Set recipient details based on selection
+			if (messageTo === "all_students") {
+				recipientRole = "student";
+			} else if (messageTo === "all_teachers") {
+				recipientRole = "teacher";
+			} else if (messageTo === "specific_class") {
+				recipientRole = "class";
+				classId = specificClassId;
+			} else if (messageTo === "specific_teacher") {
+				recipientRole = "teacher";
+				recipientId = specificTeacherId;
+			} else if (messageTo === "specific_student") {
+				recipientRole = "student";
+				recipientId = specificStudentId;
+			}
+
+			const messageData = {
+				recipientId: parseInt(recipientId) || 0,
+				recipientRole,
+				classId: parseInt(classId) || 0,
+				message: messageBody,
+			};
+			console.log(messageData);
+
+			await api.post("/school-messages/send", messageData, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+
+			toast.success("Message sent successfully");
+			setMessageBody("");
+
+			// Refresh messages
+			await fetchMessages();
+
+			// Reset form
+			setMessageTo("");
+			setSpecificClassId("");
+			setSpecificTeacherId("");
+			setSpecificStudentId("");
+		} catch (err) {
+			console.error(err);
+			toast.error(err.response?.data?.message || "Error sending message");
+		} finally {
+			setSending(false);
+		}
+	};
 
 	return (
 		<div className="messaging-screen">
@@ -65,72 +189,86 @@ const Messaging = () => {
 						<select
 							name="messageTo"
 							id="messageTo"
+							value={messageTo}
 							onChange={(e) => setMessageTo(e.target.value)}
 						>
-							<option value="teachers">All Teachers</option>
-							<option value="students">All Students</option>
-							<option value="specific class">
+							<option value="">Select Recipient</option>
+							<option value="all_teachers">All Teachers</option>
+							<option value="all_students">All Students</option>
+							<option value="specific_class">
 								Specific Class
 							</option>
-							<option value="specific teacher">
+							<option value="specific_teacher">
 								Specific Teacher
 							</option>
-							<option value="specific student">
+							<option value="specific_student">
 								Specific Student
 							</option>
 						</select>
 					</div>
 
-					{messageTo === "specific class" && (
+					{messageTo === "specific_class" && (
 						<div className="form-group">
 							<label htmlFor="class">Class*</label>
 							<select
 								name="class"
 								id="class"
+								value={specificClassId}
 								onChange={(e) =>
-									setSpecificClass(e.target.value)
+									setSpecificClassId(e.target.value)
 								}
 							>
-								<option value="class 1">Class 1</option>
-								<option value="class 2">Class 2</option>
-								<option value="class 3">Class 3</option>
-								<option value="class 4">Class 4</option>
+								<option value="">Select Class</option>
+								{classes.map((classItem) => (
+									<option
+										key={classItem.id}
+										value={classItem.id}
+									>
+										{classItem.class_name}
+									</option>
+								))}
 							</select>
 						</div>
 					)}
 
-					{messageTo === "specific teacher" && (
+					{messageTo === "specific_teacher" && (
 						<div className="form-group">
 							<label htmlFor="teacher">Teacher*</label>
 							<select
 								name="teacher"
 								id="teacher"
+								value={specificTeacherId}
 								onChange={(e) =>
-									setSpecificTeacher(e.target.value)
+									setSpecificTeacherId(e.target.value)
 								}
 							>
-								<option value="teacher 1">Teacher 1</option>
-								<option value="teacher 2">Teacher 2</option>
-								<option value="teacher 3">Teacher 3</option>
-								<option value="teacher 4">Teacher 4</option>
+								<option value="">Select Teacher</option>
+								{teachers.map((teacher) => (
+									<option key={teacher.id} value={teacher.id}>
+										{teacher.first_name} {teacher.surname}
+									</option>
+								))}
 							</select>
 						</div>
 					)}
 
-					{messageTo === "specific student" && (
+					{messageTo === "specific_student" && (
 						<div className="form-group">
-							<label htmlFor="student">student*</label>
+							<label htmlFor="student">Student*</label>
 							<select
 								name="student"
 								id="student"
+								value={specificStudentId}
 								onChange={(e) =>
-									setSpecificStudent(e.target.value)
+									setSpecificStudentId(e.target.value)
 								}
 							>
-								<option value="student 1">student 1</option>
-								<option value="student 2">student 2</option>
-								<option value="student 3">student 3</option>
-								<option value="student 4">student 4</option>
+								<option value="">Select Student</option>
+								{students.map((student) => (
+									<option key={student.id} value={student.id}>
+										{student.first_name} {student.surname}
+									</option>
+								))}
 							</select>
 						</div>
 					)}
@@ -140,10 +278,17 @@ const Messaging = () => {
 						id="messageBody"
 						placeholder="Write your message here"
 						maxLength={500}
+						value={messageBody}
 						onChange={(e) => setMessageBody(e.target.value)}
 					></textarea>
 
-					<button className="primary-btn">Send Message</button>
+					<button
+						className="primary-btn"
+						onClick={handleSendMessage}
+						disabled={sending}
+					>
+						{sending ? "Sending..." : "Send Message"}
+					</button>
 				</aside>
 
 				<main>
@@ -161,37 +306,55 @@ const Messaging = () => {
 							Sent Messages
 						</button>
 						<button
-							className={viewTab === "recieved" ? "active" : ""}
-							onClick={() => setViewTab("recieved")}
+							className={viewTab === "received" ? "active" : ""}
+							onClick={() => setViewTab("received")}
 						>
-							Recieved Messages
+							Received Messages
 						</button>
 					</div>
 
 					<div className="messages-area">
-						{filteredMessages.length > 0 ? (
+						{loading ? (
+							<Spinner />
+						) : filteredMessages.length > 0 ? (
 							<>
-								{filteredMessages.map((message) => (
-									<div
-										className={
-											message.type === "recieved"
-												? "message-block"
-												: "message-block sent"
-										}
-										key={message.id}
-									>
-										<h3>{message.date}</h3>
-										<main>
-											{message.type === "recieved" ? (
-												<h6>From {message.from}</h6>
-											) : (
-												<h6>To {message.to}</h6>
-											)}
-
-											<p>{message.text}</p>
-										</main>
-									</div>
-								))}
+								{filteredMessages.map((message) => {
+									const isSentByUser =
+										message.sender_role === "admin";
+									return (
+										<div
+											className={
+												isSentByUser
+													? "message-block sent"
+													: "message-block"
+											}
+											key={message.id}
+										>
+											<h3>
+												{formatDate(message.sent_at)}
+											</h3>
+											<main>
+												{isSentByUser ? (
+													<h6>
+														To:{" "}
+														{message.recipient_role ===
+														"class"
+															? `Class: ${message.class_id ? classes.find((c) => c.id === message.class_id)?.class_name || "Unknown Class" : "All Classes"}`
+															: message.recipient_name ||
+																`All ${message.recipient_role}s`}
+													</h6>
+												) : (
+													<h6>
+														From:{" "}
+														{message.sender_name ||
+															"Unknown"}
+													</h6>
+												)}
+												<p>{message.message}</p>
+											</main>
+										</div>
+									);
+								})}
 							</>
 						) : (
 							<div className="no-messages">

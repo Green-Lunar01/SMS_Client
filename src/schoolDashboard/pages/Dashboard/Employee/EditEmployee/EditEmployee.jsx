@@ -1,30 +1,86 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./EditEmployee.css";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import api from "../../../../lib/axios";
+import { toast } from "react-hot-toast";
+import Spinner from "../../../../components/Spinner/Spinner";
 
 const EditEmployee = () => {
+	const { id } = useParams();
+	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
+	const [submitting, setSubmitting] = useState(false);
 	const [employeeInfo, setEmployeeInfo] = useState({
 		profilePhoto: null,
-		employeeSurname: "Jesus",
-		employeeFirstName: "William",
-		salary: "5000",
-		dateOfJoining: "22/03/2023",
-		role: "Principal",
-		mobileNumber: "0812345679",
-		fatherName: "",
-		bloodGroup: "",
-		religion: "Christian",
-		dateOfBirth: "22/03/2005",
-		email: "example@gmail.com",
+		surname: "",
+		first_name: "",
+		monthly_salary: "",
+		joined_at: "",
+		role: "",
+		phone_number: "",
+		family_relation: "",
+		blood_group: "",
+		religion: "",
+		date_of_birth: "",
+		email: "",
 		gender: "",
-		classField: "",
-		subject: "",
-		education: "",
+		education_level: "",
 		address: "",
 	});
+	const [photoPreview, setPhotoPreview] = useState(null);
 
 	const inputRef = useRef(null);
+
+	// Fetch employee details
+	useEffect(() => {
+		const fetchEmployeeDetails = async () => {
+			setLoading(true);
+			try {
+				const response = await api.get(
+					`school/employees?staffId=${id}`,
+					{
+						headers: {
+							Authorization: `${localStorage.getItem("sms_token")}`,
+						},
+					},
+				);
+
+				const employeeData = response.data.data[0];
+
+				// Format date strings for input fields
+				const formatDateForInput = (dateString) => {
+					if (!dateString) return "";
+					const date = new Date(dateString);
+					return date.toISOString().split("T")[0];
+				};
+
+				setEmployeeInfo({
+					...employeeData,
+					date_of_birth: formatDateForInput(
+						employeeData.date_of_birth,
+					),
+					joined_at: formatDateForInput(employeeData.joined_at),
+				});
+
+				if (employeeData.profile_photo) {
+					setPhotoPreview(employeeData.profile_photo);
+				}
+			} catch (error) {
+				console.error(error);
+				toast.error(
+					error.response?.data?.message ||
+						"Error fetching employee details",
+				);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (id) {
+			fetchEmployeeDetails();
+		}
+	}, [id]);
 
 	const handleInputChange = (e) => {
 		setEmployeeInfo({
@@ -34,17 +90,67 @@ const EditEmployee = () => {
 	};
 
 	const handlePhotoUpload = (e) => {
-		setEmployeeInfo({
-			...employeeInfo,
-			profilePhoto: e.target.files[0],
-		});
+		const file = e.target.files[0];
+		if (file) {
+			setEmployeeInfo({
+				...employeeInfo,
+				profilePhoto: file,
+			});
+			setPhotoPreview(URL.createObjectURL(file));
+		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Handle form submission, e.g., send data to backend
-		console.log("Employee Information:", employeeInfo);
+		setSubmitting(true);
+
+		try {
+			// Create form data for file upload
+			const formData = new FormData();
+
+			// Add all employeeInfo fields to formData
+			Object.keys(employeeInfo).forEach((key) => {
+				if (key === "profilePhoto" && employeeInfo[key]) {
+					formData.append("profile_photo", employeeInfo[key]);
+				} else if (
+					key !== "profilePhoto" &&
+					employeeInfo[key] !== null
+				) {
+					formData.append(key, employeeInfo[key]);
+				}
+			});
+
+			// Update employee
+			const response = await api.put(
+				`/school/employees/edit/${id}`,
+				formData,
+				{
+					headers: {
+						Authorization: `${localStorage.getItem("sms_token")}`,
+						"Content-Type": "multipart/form-data",
+					},
+				},
+			);
+
+			toast.success("Employee updated successfully");
+			navigate(`/school/dashboard/viewemployee/${id}`);
+		} catch (error) {
+			console.error(error);
+			toast.error(
+				error.response?.data?.message || "Error updating employee",
+			);
+		} finally {
+			setSubmitting(false);
+		}
 	};
+
+	if (loading) {
+		return (
+			<div className="edit-employee-container">
+				<Spinner />
+			</div>
+		);
+	}
 
 	return (
 		<div className="edit-employee-container">
@@ -59,13 +165,8 @@ const EditEmployee = () => {
 					<h3>Employee Information</h3>
 					<main>
 						<div className="profile-photo">
-							{employeeInfo.profilePhoto ? (
-								<img
-									src={URL.createObjectURL(
-										employeeInfo.profilePhoto
-									)}
-									alt="Profile"
-								/>
+							{photoPreview ? (
+								<img src={photoPreview} alt="Profile" />
 							) : (
 								<div className="placeholder-photo">
 									Upload Photo
@@ -76,44 +177,51 @@ const EditEmployee = () => {
 								name="profilePhoto"
 								onChange={handlePhotoUpload}
 								ref={inputRef}
+								accept="image/*"
 							/>
-							<button onClick={() => inputRef.current.click()}>
+							<button
+								type="button"
+								onClick={() => inputRef.current.click()}
+							>
 								Upload Photo
 							</button>
 						</div>
 						<div className="form-group">
-							<label htmlFor="employeeSurname">
-								Employee Surname
-							</label>
+							<label htmlFor="surname">Employee Surname</label>
 							<input
 								type="text"
-								id="employeeSurname"
-								name="employeeSurname"
-								value={employeeInfo.employeeSurname}
+								id="surname"
+								name="surname"
+								value={employeeInfo.surname || ""}
 								onChange={handleInputChange}
+								required
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="employeeFirstName">
+							<label htmlFor="first_name">
 								Employee First Name
 							</label>
 							<input
 								type="text"
-								id="employeeFirstName"
-								name="employeeFirstName"
-								value={employeeInfo.employeeFirstName}
+								id="first_name"
+								name="first_name"
+								value={employeeInfo.first_name || ""}
 								onChange={handleInputChange}
+								required
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="salary">Monthly Salary</label>
+							<label htmlFor="monthly_salary">
+								Monthly Salary
+							</label>
 							<input
 								type="text"
 								placeholder="Enter Amount"
-								id="salary"
-								name="salary"
-								value={employeeInfo.salary}
+								id="monthly_salary"
+								name="monthly_salary"
+								value={employeeInfo.monthly_salary || ""}
 								onChange={handleInputChange}
+								required
 							/>
 						</div>
 						<div className="form-group">
@@ -121,9 +229,11 @@ const EditEmployee = () => {
 							<select
 								id="role"
 								name="role"
-								value={employeeInfo.role}
+								value={employeeInfo.role || ""}
 								onChange={handleInputChange}
+								required
 							>
+								<option value="">Select Role</option>
 								<option value="Teacher">Teacher</option>
 								<option value="Principal">Principal</option>
 								<option value="Management">Management</option>
@@ -132,27 +242,27 @@ const EditEmployee = () => {
 							</select>
 						</div>
 						<div className="form-group">
-							<label htmlFor="dateOfJoining">
-								Date of Joining
-							</label>
+							<label htmlFor="joined_at">Date of Joining</label>
 							<input
 								type="date"
-								id="dateOfJoining"
-								name="dateOfJoining"
-								value={employeeInfo.dateOfJoining}
+								id="joined_at"
+								name="joined_at"
+								value={employeeInfo.joined_at || ""}
 								onChange={handleInputChange}
+								required
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="mobileNumber">
+							<label htmlFor="phone_number">
 								Mobile No for SMS/WhatsApp
 							</label>
 							<input
 								type="text"
-								id="mobileNumber"
-								name="mobileNumber"
-								value={employeeInfo.mobileNumber}
+								id="phone_number"
+								name="phone_number"
+								value={employeeInfo.phone_number || ""}
 								onChange={handleInputChange}
+								required
 							/>
 						</div>
 					</main>
@@ -161,25 +271,26 @@ const EditEmployee = () => {
 					<h3>Other Information</h3>
 					<main>
 						<div className="form-group">
-							<label htmlFor="fatherName">
-								Father / Husband Name
+							<label htmlFor="family_relation">
+								Family Relation
 							</label>
 							<input
 								type="text"
-								id="fatherName"
-								name="fatherName"
-								value={employeeInfo.fatherName}
+								id="family_relation"
+								name="family_relation"
+								value={employeeInfo.family_relation || ""}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="bloodGroup">Blood Group</label>
+							<label htmlFor="blood_group">Blood Group</label>
 							<select
-								name="bloodGroup"
-								id="bloodGroup"
-								value={employeeInfo.bloodGroup}
+								name="blood_group"
+								id="blood_group"
+								value={employeeInfo.blood_group || ""}
 								onChange={handleInputChange}
 							>
+								<option value="">Select Blood Group</option>
 								<option value="A+">A+</option>
 								<option value="A-">A-</option>
 								<option value="B+">B+</option>
@@ -195,22 +306,25 @@ const EditEmployee = () => {
 							<select
 								id="religion"
 								name="religion"
-								value={employeeInfo.religion}
+								value={employeeInfo.religion || ""}
 								onChange={handleInputChange}
 							>
-								<option value="Christian">Christian</option>
-								<option value="Muslim">Muslim</option>
+								<option value="">Select Religion</option>
+								<option value="Christianity">
+									Christianity
+								</option>
+								<option value="Islam">Islam</option>
 								<option value="Hindu">Hindu</option>
 								<option value="Other">Other</option>
 							</select>
 						</div>
 						<div className="form-group">
-							<label htmlFor="dateOfBirth">Date of Birth</label>
+							<label htmlFor="date_of_birth">Date of Birth</label>
 							<input
-								type="text"
-								id="dateOfBirth"
-								name="dateOfBirth"
-								value={employeeInfo.dateOfBirth}
+								type="date"
+								id="date_of_birth"
+								name="date_of_birth"
+								value={employeeInfo.date_of_birth || ""}
 								onChange={handleInputChange}
 							/>
 						</div>
@@ -219,79 +333,66 @@ const EditEmployee = () => {
 							<input
 								type="email"
 								id="email"
-								value={employeeInfo.email}
+								name="email"
+								value={employeeInfo.email || ""}
 								onChange={handleInputChange}
+								required
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="Gender">Gender</label>
+							<label htmlFor="gender">Gender</label>
 							<select
 								name="gender"
 								id="gender"
-								value={employeeInfo.gender}
+								value={employeeInfo.gender || ""}
 								onChange={handleInputChange}
+								required
 							>
-								<option value="Male">Male</option>
-								<option value="Female">Female</option>
+								<option value="">Select Gender</option>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
 							</select>
 						</div>
-						{/* <div className="form-group">
-							<label htmlFor="classField">Class</label>
-							<select
-								name="classField"
-								id="classField"
-								value={employeeInfo.classField}
-								onChange={handleInputChange}
-							>
-								<option value="J.S.S.1">J.S.S.1</option>
-								<option value="J.S.S.2">J.S.S.2</option>
-							</select>
-						</div>
-						<div className="form-group">
-							<label htmlFor="subject">Subject</label>
-							<input
-								type="text"
-								id="subject"
-								value={employeeInfo.subject}
-								onChange={handleInputChange}
-							/>
-						</div> */}
 
 						<div className="form-group address">
 							<label htmlFor="address">Address</label>
 							<input
 								type="text"
 								id="address"
-								value={employeeInfo.address}
+								name="address"
+								value={employeeInfo.address || ""}
 								onChange={handleInputChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="education">Education Level</label>
+							<label htmlFor="education_level">
+								Education Level
+							</label>
 							<select
-								name="education"
-								id="education"
-								value={employeeInfo.education}
+								name="education_level"
+								id="education_level"
+								value={employeeInfo.education_level || ""}
 								onChange={handleInputChange}
 							>
+								<option value="">Select Education Level</option>
 								<option value="High School">High School</option>
 								<option value="Associate Degree">
 									Associate Degree
 								</option>
-								<option value="Bachelor's Degree">
-									Bachelor's Degree
-								</option>
-								<option value="Master's Degree">
-									Master's Degree
-								</option>
-								<option value="Doctorate">Doctorate</option>
+								<option value="Bsc">Bachelor's Degree</option>
+								<option value="Msc">Master's Degree</option>
+								<option value="PhD">Doctorate</option>
 								<option value="Other">Other</option>
 							</select>
 						</div>
 					</main>
 				</div>
-				<button type="submit" className="submit-btn">
-					Save Changes
+				<button
+					type="submit"
+					className="submit-btn"
+					disabled={submitting}
+				>
+					{submitting ? "Saving..." : "Save Changes"}
 				</button>
 			</form>
 		</div>

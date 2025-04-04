@@ -43,7 +43,7 @@ const Login = () => {
 			setLoading(false);
 			navigate("/school/dashboard/insights");
 		} catch (err) {
-			toast.error(err.message);
+			toast.error("Error logging in");
 			console.log(err);
 			setLoading(false);
 		}

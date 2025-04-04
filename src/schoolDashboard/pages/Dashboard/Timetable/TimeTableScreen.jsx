@@ -1,4 +1,3 @@
-// TimeTableScreen.js
 import React, { useState } from "react";
 import CreateTimeTableEntry from "./CreateTimeTableEntry/CreateTimeTableEntry";
 import TimeTable from "./TimeTable/TimeTable";
