@@ -56,7 +56,7 @@ const Pagination = ({
 const StudentAttendance = ({ attendanceData }) => {
   const {
     markAttendance,
-  
+
     teacherProfile,
     classID,
     currentSession,
@@ -65,7 +65,6 @@ const StudentAttendance = ({ attendanceData }) => {
 
   useEffect(() => {
     console.log("ON Attendance(currentsession):", currentSession, classID);
-    getAllStudentAttendance(classID, currentSession);
   }, []);
 
   const currentDate = new Date().toISOString().split("T")[0];
