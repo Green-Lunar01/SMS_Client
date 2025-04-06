@@ -63,7 +63,7 @@
 	.student-table {
 		width: 100%;
 
-		> p {
+		>p {
 			margin-bottom: 20px;
 
 			span {
@@ -117,7 +117,7 @@
 		width: 100%;
 		padding: 10px 20px;
 
-		> p {
+		>p {
 			font-size: 0.9rem;
 
 			span {

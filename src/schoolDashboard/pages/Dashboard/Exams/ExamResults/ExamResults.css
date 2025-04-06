@@ -1,7 +1,7 @@
 .exam-results {
 	padding: 3rem 2rem;
 
-	> .search-exam-results-form {
+	>.search-exam-results-form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -11,7 +11,7 @@
 		width: 400px;
 		margin: 20px auto;
 
-		> h3 {
+		>h3 {
 			font-size: 1.2rem;
 			font-weight: 600;
 			text-align: center;
@@ -36,14 +36,24 @@
 				width: 100%;
 			}
 		}
+
+		.primary-btn {
+			width: 150px;
+		}
+
+		.primary-btn:disabled {
+			background-color: #90e0b0;
+			cursor: not-allowed;
+			opacity: 0.7;
+		}
 	}
 
-	> .exam-results-table {
-		> .mid {
+	>.exam-results-table {
+		>.mid {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-bottom: 40px;
+			margin-bottom: 20px;
 
 			.search-component-area {
 				margin-bottom: 0px;
@@ -79,7 +89,29 @@
 			}
 		}
 
-		> table {
+		>.exam-summary {
+			display: flex;
+			justify-content: space-between;
+			background-color: #f7f7f7;
+			padding: 15px 20px;
+			border-radius: 8px;
+			margin-bottom: 20px;
+
+			.summary-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 5px;
+				padding: 10px 15px;
+
+				span {
+					font-weight: 600;
+					color: var(--dark-green);
+				}
+			}
+		}
+
+		>table {
 			width: 100%;
 			border-collapse: collapse;
 			margin-block: 20px;
@@ -97,6 +129,118 @@
 				font-weight: 700;
 				font-size: 1rem;
 				background-color: #f7f7f7;
+			}
+		}
+
+		>.loading-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 300px;
+		}
+
+		>.no-results {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 20px;
+			min-height: 300px;
+			text-align: center;
+			padding: 30px;
+
+			img {
+				max-width: 150px;
+				opacity: 0.6;
+			}
+
+			p {
+				color: #666;
+				font-size: 1rem;
+				max-width: 400px;
+				margin: 0 auto;
+			}
+
+			button {
+				margin-top: 10px;
+			}
+		}
+
+		>.button-container {
+			display: flex;
+			justify-content: center;
+			margin-top: 30px;
+
+			button {
+				width: 150px;
+			}
+		}
+	}
+}
+
+.primary-btn {
+	background-color: #0cb352;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	padding: 15px;
+	cursor: pointer;
+	font-weight: 500;
+}
+
+.secondary-btn {
+	background-color: #e0e0e0;
+	color: #333;
+	border: none;
+	border-radius: 8px;
+	padding: 15px;
+	cursor: pointer;
+	font-weight: 500;
+	width: 150px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+	.exam-results {
+		padding: 2rem 1rem;
+
+		>.search-exam-results-form {
+			width: 100%;
+			padding: 20px;
+		}
+
+		>.exam-results-table {
+			>.mid {
+				flex-direction: column;
+				gap: 15px;
+
+				aside {
+					width: 100%;
+					overflow-x: auto;
+					justify-content: flex-start;
+				}
+			}
+
+			>.exam-summary {
+				flex-wrap: wrap;
+				gap: 10px;
+
+				.summary-item {
+					flex: 1;
+					min-width: 120px;
+				}
+			}
+
+			>table {
+				display: block;
+				overflow-x: auto;
+
+				th,
+				td {
+					padding: 15px 10px;
+					font-size: 0.8rem;
+					white-space: nowrap;
+				}
 			}
 		}
 	}

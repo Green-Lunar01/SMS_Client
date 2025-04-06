@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import "./EditStudent.css";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import api from "../../../../lib/axios";
-import Spinner from "../../../../components/Spinner/Spinner";
+import { useState, useContext, useRef } from "react";
+import axios from "axios";
 import { toast } from "react-hot-toast";
 import { UserContext } from "../../../../context/userContext";
+import "./AddStudent.css";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import { SchoolContext } from "../../../../context/SchoolContext";
+import { useNavigate } from "react-router-dom";
 
-const EditStudent = () => {
+const AddStudent2 = () => {
 	const [loading, setLoading] = useState(false);
 	const [formData, setFormData] = useState({
 		surname: "",
@@ -39,20 +39,12 @@ const EditStudent = () => {
 		mothers_address: "",
 	});
 
-	const { id } = useParams();
-	const navigate = useNavigate();
-	const inputRef = useRef(null);
+	const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 	const { userToken } = useContext(UserContext);
 	const { classes } = useContext(SchoolContext);
-	const [profilePhotoUrl, setProfilePhotoUrl] = useState(null);
+	const navigate = useNavigate();
 
-	const handleInputChange = (e) => {
-		const { name, value, type, checked } = e.target;
-		setFormData({
-			...formData,
-			[name]: type === "checkbox" ? checked : value,
-		});
-	};
+	const inputRef = useRef(null);
 
 	const handlePhotoUpload = (e) => {
 		setFormData({
@@ -61,64 +53,12 @@ const EditStudent = () => {
 		});
 	};
 
-	const formatDate = (dateString) => {
-		if (!dateString) return "";
-		const date = new Date(dateString);
-		return date.toISOString().split("T")[0]; // Format to YYYY-MM-DD
-	};
-
-	const fetchStudentData = async () => {
-		setLoading(true);
-
-		try {
-			const response = await api.get(`/school/students/${id}`, {
-				headers: {
-					Authorization: `${localStorage.getItem("sms_token")}`,
-				},
-			});
-
-			const studentData = response.data.data;
-			// console.log("Student data:", studentData);
-
-			setProfilePhotoUrl(studentData.profile_photo);
-
-			setFormData({
-				surname: studentData.surname || "",
-				first_name: studentData.first_name || "",
-				other_names: studentData.other_names || "",
-				profile_photo: null,
-				date_of_admission:
-					formatDate(studentData.date_of_admission) || "",
-				class_id: studentData.class_id || "",
-				gender: studentData.gender || "",
-				matric_number: studentData.matric_number || "",
-				date_of_birth: formatDate(studentData.date_of_birth) || "",
-				phone_number: studentData.phone_number || "",
-				religion: studentData.religion || "",
-				previous_school: studentData.previous_school || "",
-				blood_group: studentData.blood_group || "",
-				disease: studentData.disease || "",
-				address: studentData.address || "",
-				is_orphan: studentData.is_orphan || false,
-				fathers_name: studentData.fathers_name || "",
-				fathers_occupation: studentData.fathers_occupation || "",
-				fathers_number: studentData.fathers_number || "",
-				fathers_education: studentData.fathers_education || "",
-				fathers_address: studentData.fathers_address || "",
-				mothers_name: studentData.mothers_name || "",
-				mothers_occupation: studentData.mothers_occupation || "",
-				mothers_number: studentData.mothers_number || "",
-				mothers_education: studentData.mothers_education || "",
-				mothers_address: studentData.mothers_address || "",
-			});
-		} catch (err) {
-			console.error("Error fetching student:", err);
-			toast.error(
-				"Failed to load student data. Please refresh or try again later.",
-			);
-		} finally {
-			setLoading(false);
-		}
+	const handleInputChange = (e) => {
+		const { name, value, type, checked } = e.target;
+		setFormData({
+			...formData,
+			[name]: type === "checkbox" ? checked : value,
+		});
 	};
 
 	const handleSubmit = async (e) => {
@@ -133,6 +73,23 @@ const EditStudent = () => {
 			"date_of_birth",
 			"phone_number",
 			"religion",
+			"fathers_name",
+			"fathers_occupation",
+			"fathers_number",
+		];
+
+		const optionalFields = [
+			"previous_school",
+			"blood_group",
+			"disease",
+			"address",
+			"fathers_education",
+			"fathers_address",
+			"mothers_name",
+			"mothers_occupation",
+			"mothers_number",
+			"mothers_education",
+			"mothers_address",
 		];
 
 		const missingRequiredFields = requiredFields.filter(
@@ -147,79 +104,37 @@ const EditStudent = () => {
 		}
 
 		setLoading(true);
+		// console.log("Form Data: ", {
+		// 	...formData,
+		// 	class_id: Number(formData.class_id),
+		// });
+		// setLoading(false);
+		// return;
 
 		try {
-			// Create a FormData object if there's a profile photo to upload
-			let dataToSend = { ...formData };
-
-			if (
-				typeof dataToSend.class_id === "string" &&
-				dataToSend.class_id
-			) {
-				dataToSend.class_id = Number(dataToSend.class_id);
-			}
-
-			// Convert "true"/"false" string to actual boolean for is_orphan if needed
-			if (typeof dataToSend.is_orphan === "string") {
-				dataToSend.is_orphan = dataToSend.is_orphan === "true";
-			}
-
-			const response = await api.put(
-				`/school/students/edit/${id}`,
-				dataToSend,
+			const response = await axios.post(
+				`${BASE_API_URL}/school/students/create`,
+				{ ...formData, class_id: Number(formData.class_id) },
 				{
 					headers: {
-						Authorization: `${localStorage.getItem("sms_token")}`,
-						"Content-Type": "application/json",
+						Authorization: `${userToken}`,
 					},
 				},
 			);
-
-			// Handle profile photo upload separately if a new one is provided
-			if (formData.profile_photo) {
-				const photoFormData = new FormData();
-				photoFormData.append("profile_photo", formData.profile_photo);
-
-				await api.post(
-					`/school/students/${id}/upload-photo`,
-					photoFormData,
-					{
-						headers: {
-							Authorization: `${localStorage.getItem("sms_token")}`,
-							"Content-Type": "multipart/form-data",
-						},
-					},
-				);
-			}
-
-			toast.success("Student updated successfully");
+			toast.success("Student added successfully");
+			setLoading(false);
 			navigate("/school/dashboard/students");
 		} catch (err) {
-			toast.error(
-				err.response?.data?.message ||
-					"An error occurred while updating student",
-			);
-			console.error("Error updating student:", err);
-		} finally {
+			toast.error(err.response?.data?.message || "An error occurred");
+			console.log(err);
 			setLoading(false);
 		}
 	};
 
-	useEffect(() => {
-		fetchStudentData();
-	}, [id]);
-
-	if (loading && !formData.surname) {
-		return <Spinner />;
-	}
-
 	return (
-		<div className="edit-student-container">
+		<div className="add-student-container">
 			<span>
-				<Link to="/school/dashboard/students">
-					<HiOutlineArrowNarrowLeft />
-				</Link>
-				<h1>Edit Student</h1>
+				<h1>Admission Form</h1>
 			</span>
 			<form onSubmit={handleSubmit}>
 				<div className="student-info">
@@ -233,8 +148,6 @@ const EditStudent = () => {
 									)}
 									alt="Profile"
 								/>
-							) : profilePhotoUrl ? (
-								<img src={profilePhotoUrl} alt="Profile" />
 							) : (
 								<div className="placeholder-photo">
 									Upload Photo
@@ -247,8 +160,8 @@ const EditStudent = () => {
 								ref={inputRef}
 							/>
 							<button
-								type="button"
 								onClick={() => inputRef.current.click()}
+								type="button"
 							>
 								Upload Photo
 							</button>
@@ -272,16 +185,6 @@ const EditStudent = () => {
 								id="first_name"
 								name="first_name"
 								value={formData.first_name}
-								onChange={handleInputChange}
-							/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="other_names">Other Names</label>
-							<input
-								type="text"
-								id="other_names"
-								name="other_names"
-								value={formData.other_names}
 								onChange={handleInputChange}
 							/>
 						</div>
@@ -566,12 +469,12 @@ const EditStudent = () => {
 						</div>
 					</main>
 				</div>
-				<button type="submit" className="submit-btn" disabled={loading}>
-					{loading ? "Saving..." : "Save Changes"}
+				<button type="submit" disabled={loading} className="submit-btn">
+					{loading ? "Adding..." : "Add Student"}
 				</button>
 			</form>
 		</div>
 	);
 };
 
-export default EditStudent;
+export default AddStudent2;

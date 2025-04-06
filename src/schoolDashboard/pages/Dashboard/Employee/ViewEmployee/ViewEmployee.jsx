@@ -1,31 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ViewEmployee.css";
 import pdfIcon from "../../../../assets/pdf-icon.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
 	HiOutlineArrowNarrowLeft,
 	HiOutlineArrowNarrowRight,
 } from "react-icons/hi";
 import userBlueIcon from "../../../../assets/user-blue-icon.png";
 import SummaryCard from "../../../../components/SummaryCard/SummaryCard";
+import api from "../../../../lib/axios";
+import { toast } from "react-hot-toast";
+import Spinner from "../../../../components/Spinner/Spinner";
 
 const ViewEmployee = () => {
-	const employee = {
-		name: "Gwendolyn Jerde",
-		monthlySalary: "₦50,000",
-		employeeRole: "Teacher",
-		dateOfBirth: "23/09/1991",
-		gender: "Male",
-		phoneNumber: "09067255677",
-		dateOfJoining: "22/03/2023",
-		class: "J.S.S 1",
-		fatherOrHusbandName: "DuBaque",
-		educationLevel: "Bsc",
-		bloodGroup: "A+",
-		emailAddress: "Violet.Torphy@gmail.com",
-		subject: "Chemistry",
-		address: "87146 Zetta Meadow",
+	const { id } = useParams();
+	const [loading, setLoading] = useState(true);
+	const [employeeDetails, setEmployeeDetails] = useState(null);
+
+	const fetchEmployee = async () => {
+		setLoading(true);
+		try {
+			const response = await api.get(`school/employees?staffId=${id}`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			// console.log(response.data.data[0]);
+			setEmployeeDetails(response.data.data[0]);
+		} catch (error) {
+			toast.error(
+				error.response?.data?.message ||
+					"Error fetching employee details",
+			);
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
 	};
+
+	useEffect(() => {
+		fetchEmployee();
+	}, [id]);
+
+	// Format the date from ISO to readable format
+	const formatDate = (isoDate) => {
+		if (!isoDate) return "N/A";
+		const date = new Date(isoDate);
+		return date.toLocaleDateString("en-GB", {
+			day: "2-digit",
+			month: "2-digit",
+			year: "numeric",
+		});
+	};
+
+	if (loading) {
+		return <Spinner />;
+	}
+
+	if (!employeeDetails) {
+		return (
+			<div className="view-employee-container">Employee not found</div>
+		);
+	}
 
 	return (
 		<div className="view-employee-container">
@@ -33,7 +69,7 @@ const ViewEmployee = () => {
 				<Link to="/school/dashboard/employees">
 					<HiOutlineArrowNarrowLeft />
 				</Link>
-				<h1>{employee.name}</h1>
+				<h1>{`${employeeDetails.first_name} ${employeeDetails.surname}`}</h1>
 			</header>
 			<button className="download-button">
 				<img src={pdfIcon} alt="" /> Download
@@ -41,70 +77,73 @@ const ViewEmployee = () => {
 			<div className="profile-content">
 				<div className="profile-image">
 					<div className="avatar">
-						<img src={userBlueIcon} alt="Employee Avatar" />
+						<img
+							src={employeeDetails.profile_photo || userBlueIcon}
+							alt="Employee Avatar"
+						/>
 					</div>
-					<h3>{employee.name}</h3>
+					<h3>{`${employeeDetails.first_name} ${employeeDetails.surname}`}</h3>
 				</div>
 
 				<div className="profile-details">
 					<div className="detail-section">
 						<span>
 							<h6>Monthly Salary:</h6>
-							<p>{employee.monthlySalary}</p>
+							<p>₦{employeeDetails.monthly_salary || "N/A"}</p>
 						</span>
 						<span>
 							<h6>Employee Role:</h6>
-							<p>{employee.employeeRole}</p>
+							<p>{employeeDetails.role || "N/A"}</p>
 						</span>
 						<span>
 							<h6>Date of Birth:</h6>
-							<p>{employee.dateOfBirth}</p>
+							<p>{formatDate(employeeDetails.date_of_birth)}</p>
 						</span>
 						<span>
 							<h6>Gender:</h6>
-							<p>{employee.gender}</p>
+							<p>{employeeDetails.gender || "N/A"}</p>
 						</span>
 						<span>
-							<h6>Phone Number WhatsApp:</h6>
-							<p>{employee.phoneNumber}</p>
+							<h6>Phone Number:</h6>
+							<p>{employeeDetails.phone_number || "N/A"}</p>
 						</span>
 					</div>
 
 					<div className="detail-section">
 						<span>
 							<h6>Date of Joining:</h6>
-							<p>{employee.dateOfJoining}</p>
+							<p>{formatDate(employeeDetails.joined_at)}</p>
 						</span>
 						<span>
-							<h6>Class:</h6>
-							<p>{employee.class}</p>
+							<h6>Religion:</h6>
+							<p>{employeeDetails.religion || "N/A"}</p>
 						</span>
 						<span>
-							<h6>Father / Husband Name:</h6>
-							<p>{employee.fatherOrHusbandName}</p>
+							<h6>Family Relation:</h6>
+							<p>{employeeDetails.family_relation || "N/A"}</p>
 						</span>
 						<span>
 							<h6>Education Level:</h6>
-							<p>{employee.educationLevel}</p>
+							<p>{employeeDetails.education_level || "N/A"}</p>
 						</span>
 						<span>
 							<h6>Blood Group:</h6>
-							<p>{employee.bloodGroup}</p>
+							<p>{employeeDetails.blood_group || "N/A"}</p>
 						</span>
 					</div>
 
 					<div className="detail-section">
 						<span>
 							<h6>Email Address:</h6>
-							<p>{employee.emailAddress}</p>
+							<p>{employeeDetails.email || "N/A"}</p>
 						</span>
 						<span>
-							<h6>Subject:</h6>
-							<p>{employee.subject}</p>
+							<h6>Username:</h6>
+							<p>{employeeDetails.username || "N/A"}</p>
 						</span>
 						<span>
 							<h6>Address:</h6>
-							<p>{employee.address}</p>
+							<p>{employeeDetails.address || "N/A"}</p>
 						</span>
 					</div>
 				</div>
@@ -160,8 +199,10 @@ const ViewEmployee = () => {
 					<div className="header">
 						<h2>Salary Report</h2>
 						<span className="current-fee">
-							<span className="dot"></span> Current School Fee{" "}
-							<span className="fee-amount">₦50,000</span>
+							<span className="dot"></span> Current Salary{" "}
+							<span className="fee-amount">
+								₦{employeeDetails.monthly_salary || "N/A"}
+							</span>
 						</span>
 					</div>
 					<div className="recent-record">
@@ -171,7 +212,7 @@ const ViewEmployee = () => {
 						<div className="year">2023/2024</div>
 						<div className="details">
 							<span className="amount">₦2,000</span>
-							<span className="status">owning</span>
+							<span className="status">owed</span>
 						</div>
 					</div>
 				</div>
