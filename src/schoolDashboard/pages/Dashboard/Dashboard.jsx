@@ -1,7 +1,7 @@
 import React, { useState, Suspense, useContext, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import "./Dashboard.css";
-import Spinner from "../../components/Spinner/Spinner";
+import SpinnerNew from "../../components/SpinnerNew/SpinnerNew";
 import Navbar from "../../components/Navbar/Navbar";
 import { CgClose } from "react-icons/cg";
 import userBlueIcon from "../../assets/user-blue-icon.png";
@@ -323,7 +323,7 @@ const Dashboard = () => {
 								</svg>
 								Employee
 							</Link>
-							<Link
+							{/* <Link
 								to="/school/dashboard/fee"
 								className={
 									isLinkActive("/school/dashboard/fee")
@@ -420,7 +420,7 @@ const Dashboard = () => {
 									/>
 								</svg>
 								Salary
-							</Link>
+							</Link> */}
 							<Link
 								to="/school/dashboard/attendance"
 								className={
@@ -583,7 +583,7 @@ const Dashboard = () => {
 								</svg>
 								Messaging
 							</Link>
-							<Link
+							{/* <Link
 								to="/school/dashboard/liveclass"
 								className={
 									isLinkActive("/school/dashboard/liveclass")
@@ -625,7 +625,7 @@ const Dashboard = () => {
 									/>
 								</svg>
 								Live Class
-							</Link>
+							</Link> */}
 							<Link
 								to="/school/dashboard/questions"
 								className={
@@ -818,7 +818,7 @@ const Dashboard = () => {
 							</Link> */}
 						</aside>
 
-						<Suspense fallback={<Spinner />}>
+						<Suspense fallback={<SpinnerNew />}>
 							<Outlet />
 						</Suspense>
 					</main>
