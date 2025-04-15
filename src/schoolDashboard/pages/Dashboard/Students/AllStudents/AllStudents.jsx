@@ -8,7 +8,7 @@ import { RiEdit2Line, RiDeleteBinLine } from "react-icons/ri";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import api from "../../../../lib/axios";
 import { toast } from "react-hot-toast";
-import Spinner from "../../../../components/Spinner/Spinner";
+import SpinnerNew from "../../../../components/SpinnerNew/SpinnerNew";
 
 const Pagination = ({
 	totalItems,
@@ -190,7 +190,7 @@ const AllStudents = () => {
 				</div>
 			</div>
 			{loading ? (
-				<Spinner />
+				<SpinnerNew />
 			) : (
 				<>
 					{filteredStudents.length > 0 ? (
