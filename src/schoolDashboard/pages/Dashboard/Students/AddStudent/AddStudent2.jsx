@@ -5,7 +5,7 @@ import { UserContext } from "../../../../context/userContext";
 import "./AddStudent.css";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { SchoolContext } from "../../../../context/SchoolContext";
+import { SchoolContext } from "../../../../context/schoolContext";
 import { useNavigate } from "react-router-dom";
 
 const AddStudent2 = () => {

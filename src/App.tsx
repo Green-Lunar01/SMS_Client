@@ -11,11 +11,13 @@ import Login from "./schoolDashboard/pages/Auth/Login";
 import TermsAndCondition from "./pages/Terms/index.js";
 import Help from "./pages/Help/index.js";
 import Privacy from "./pages/Privacy/index.js";
+import { Toaster } from 'react-hot-toast';
 import StudentAuthProvider from "./studentDashboard/Auth/context/StudentAuthProvider.jsx";
 import TeacherAuthProvider  from "./teacherDashboard/Auth/context/TeacherAuthProvider.jsx";
 const App = () => {
 	return (
 		<>
+		 <Toaster position="top-center" reverseOrder={false} />
 		<StudentAuthProvider>
 			<TeacherAuthProvider>
 					{window.location.pathname.startsWith("/student") ? (

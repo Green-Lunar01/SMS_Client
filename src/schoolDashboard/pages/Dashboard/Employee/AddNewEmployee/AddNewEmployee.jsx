@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import Spinner from "../../../../components/Spinner/Spinner";
 import { UserContext } from "../../../../context/userContext";
-import { SchoolContext } from "../../../../context/SchoolContext";
+import { SchoolContext } from "../../../../context/schoolContext";
 
 const AddNewEmployee = () => {
 	const [loading, setLoading] = useState(false);
