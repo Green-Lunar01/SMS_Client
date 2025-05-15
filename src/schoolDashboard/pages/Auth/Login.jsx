@@ -56,22 +56,22 @@ const Login = () => {
 
 				<section className="roles">
 					<div
-						onClick={() => setRole("admin")}
+						// onClick={() => setRole("admin")}
 						className={role === "admin" ? "selected" : ""}
 					>
 						<IoPersonOutline />
 						<p>Admin</p>
 					</div>
 					<div
-						onClick={() => setRole("student")}
-						className={role === "student" ? "selected" : ""}
+					// onClick={() => setRole("student")}
+					// className={role === "student" ? "selected" : ""}
 					>
 						<PiStudentLight />
 						<p>Student</p>
 					</div>
 					<div
-						onClick={() => setRole("teacher")}
-						className={role === "teacher" ? "selected" : ""}
+					// onClick={() => setRole("teacher")}
+					// className={role === "teacher" ? "selected" : ""}
 					>
 						<LiaChalkboardTeacherSolid />
 						<p>Teacher</p>

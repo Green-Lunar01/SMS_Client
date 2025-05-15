@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 
 import { navs } from "../../../data";
 
 const Header = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const { setShowNav } = useContext(AppContext);
 	const currentPath = location.pathname;
 
@@ -36,14 +37,14 @@ const Header = () => {
 
 			<div className="hidden lg:flex items-center justify-between w-[25%] gap-5">
 				<button
-					onClick={() => window.location.replace("/school/login")}
+					onClick={() => navigate("/auth")}
 					type="button"
 					className="border border-primary-light w-[50%] rounded-md text-sm py-2.5 text-primary-light bg-white"
 				>
 					Sign in
 				</button>
 				<button
-					onClick={() => window.location.replace("/school/signup")}
+					onClick={() => navigate("/auth")}
 					type="button"
 					className="bg-primary-light text-white w-[50%] rounded-md text-sm py-2.5"
 				>
