@@ -11,9 +11,9 @@ import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-    const navigate = useNavigate()
+	const navigate = useNavigate();
 
-	const [role, setRole] = useState("admin");
+	const [role, setRole] = useState("student");
 
 	return (
 		<div className="auth login">
@@ -21,30 +21,21 @@ const Login = () => {
 				<h4>Log in to Your Academic World!</h4>
 
 				<section className="roles">
-					<div
-						onClick={() => setRole("admin")}
-						className={role === "admin" ? "selected" : ""}
-					>
+					<div>
 						<IoPersonOutline />
 						<p>Admin</p>
 					</div>
-					<div
-						onClick={() => setRole("student")}
-						className={role === "student" ? "selected" : ""}
-					>
+					<div className="selected">
 						<PiStudentLight />
 						<p>Student</p>
 					</div>
-					<div
-						onClick={() => setRole("teacher")}
-						className={role === "teacher" ? "selected" : ""}
-					>
+					<div>
 						<LiaChalkboardTeacherSolid />
 						<p>Teacher</p>
 					</div>
 				</section>
 
-				<form onSubmit={(e)=> e.preventDefault()}>
+				<form onSubmit={(e) => e.preventDefault()}>
 					<label htmlFor="email">
 						<span>Email Address</span>
 						<input
@@ -58,7 +49,7 @@ const Login = () => {
 
 					<label htmlFor="password">
 						<span>Password</span>
-					    {/* <PasswordInput
+						{/* <PasswordInput
 							placeholder="****************"
 							id="password"
 							value={password}
@@ -70,7 +61,10 @@ const Login = () => {
 						Forgot Password?
 					</Link>
 
-					<button onClick={() => navigate("/dashboard")}> Login</button>
+					<button onClick={() => navigate("/dashboard")}>
+						{" "}
+						Login
+					</button>
 
 					<h6>
 						Don't have an account? <Link to="/signup">Sign Up</Link>
@@ -79,7 +73,10 @@ const Login = () => {
 			</main>
 			<aside>
 				<h1>LUNAR SMS - Where Learning Meets Management.</h1>
-                <button onClick={() => navigate("/student/dashboard")}> Login</button>
+				<button onClick={() => navigate("/student/dashboard")}>
+					{" "}
+					Login
+				</button>
 
 				{/* <img src={loginMain} alt="" /> */}
 			</aside>

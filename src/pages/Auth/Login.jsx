@@ -1,24 +1,32 @@
 import React, { useState } from "react";
 import "./Auth.css";
-// import loginMain from "../../assets/login-main.png";
-// import PasswordInput from "../../components/PasswordInput/PasswordInput";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoPersonOutline } from "react-icons/io5";
 import { PiStudentLight } from "react-icons/pi";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+import loginMain from "../../assets/login-main.png";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-    const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const [role, setRole] = useState("admin");
+
+	const handleRoleLogin = () => {
+		if (role === "admin") {
+			window.location.href = "/school/login";
+		} else if (role === "student") {
+			window.location.href = "/student/login";
+		} else if (role === "teacher") {
+			window.location.href = "/teacher/login";
+		}
+	};
 
 	return (
 		<div className="auth login">
 			<main>
-				<h4>Log in to Your Academic World!</h4>
+				<h4>Please select what role you would like to login!</h4>
 
 				<section className="roles">
 					<div
@@ -44,44 +52,14 @@ const Login = () => {
 					</div>
 				</section>
 
-				<form onSubmit={(e)=> e.preventDefault()}>
-					<label htmlFor="email">
-						<span>Email Address</span>
-						<input
-							type="email"
-							id="email"
-							placeholder="email@example.com"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-					</label>
-
-					<label htmlFor="password">
-						<span>Password</span>
-					    {/* <PasswordInput
-							placeholder="****************"
-							id="password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/> */}
-					</label>
-
-					<Link to="/forgotpassword" className="forgot-password">
-						Forgot Password?
-					</Link>
-
-					<button onClick={() => navigate("/dashboard")}> Login</button>
-
-					<h6>
-						Don't have an account? <Link to="/signup">Sign Up</Link>
-					</h6>
-				</form>
+				<button className="proceed-btn" onClick={handleRoleLogin}>
+					Proceed to {role} login.
+				</button>
 			</main>
 			<aside>
 				<h1>LUNAR SMS - Where Learning Meets Management.</h1>
-                <button onClick={() => navigate("/student/dashboard")}> Login</button>
 
-				{/* <img src={loginMain} alt="" /> */}
+				<img src={loginMain} alt="" />
 			</aside>
 		</div>
 	);

@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AppContext } from "../../context/AppContext";
 
 import { navs } from "../../../data";
 
 const MobileHeader = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const { setShowNav } = useContext(AppContext);
 	const currentPath = location.pathname;
 
@@ -51,16 +52,14 @@ const MobileHeader = () => {
 					<button
 						type="button"
 						className="border border-primary-light w-full rounded-md text-sm py-4 text-primary-light bg-white"
-						onClick={() => window.location.replace("/school/login")}
+						onClick={() => navigate("/auth")}
 					>
 						Sign in
 					</button>
 					<button
 						type="button"
 						className="bg-primary-light text-white w-full rounded-md text-sm py-4"
-						onClick={() =>
-							window.location.replace("/school/signup")
-						}
+						onClick={() => navigate("/auth")}
 					>
 						Create account
 					</button>
