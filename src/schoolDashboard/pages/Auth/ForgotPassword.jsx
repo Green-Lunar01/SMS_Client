@@ -101,7 +101,7 @@ const ForgotPassword = () => {
 
 						<button>Reset Password</button>
 
-						<Link to="/login">
+						<Link to="/school/login">
 							<HiArrowLongLeft /> Back to Login
 						</Link>
 					</form>

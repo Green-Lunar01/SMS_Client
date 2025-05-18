@@ -45,6 +45,14 @@
 
     >main {
         display: flex;
+
+        >* {
+            padding-top: 20px;
+        }
+
+        >aside {
+            padding-top: 0px;
+        }
     }
 
     >.notification-screen {
@@ -140,6 +148,19 @@
     >.notification-screen.open {
         opacity: 1;
         pointer-events: all;
+    }
+
+    .mobile-screen-notice {
+        width: 100%;
+        padding: 20px;
+
+        h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-block: 2rem;
+            max-width: 400px;
+        }
     }
 }
 
