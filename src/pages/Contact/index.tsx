@@ -9,7 +9,7 @@ const Contact = () => {
     },
     {
       title: 'Email',
-      caption: 'Edusoft@gmail.com',
+      caption: 'LunarSMS@gmail.com',
       src: '/contact/contact-b.svg'
     },
     {

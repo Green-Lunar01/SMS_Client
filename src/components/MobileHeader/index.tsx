@@ -13,12 +13,8 @@ const MobileHeader = () => {
     <section className="fixed top-0 left-0 w-full h-full z-[1000] bg-white">
       <div className="flex flex-col gap-5 items-start w-full h-full p-5">
         <div className="flex justify-between items-center w-full">
-          <Link
-            to={`/`}
-            onClick={() => setShowNav(false)}
-            className="text-primary-light text-3xl font-bold"
-          >
-            EduSoft
+          <Link to={`/`} onClick={() => setShowNav(false)} className="text-primary-light text-3xl w-[25%] font-bold">
+            <img src="/logo.svg" alt="" className='w-[80%] md:w-[30%]' /> 
           </Link>
 
           <button type="button" onClick={() => setShowNav(false)} className="w-8">

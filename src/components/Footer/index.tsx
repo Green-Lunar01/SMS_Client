@@ -31,14 +31,16 @@ const Footer = () => {
   return (
     <div className="px-[10%] py-10 md:py-[4%] bg-primary-light text-white flex flex-col md:flex-row items-start justify-between">
       <div className="text-sm md:w-[30%]">
-        <h1 className="text-3xl font-bold">EduSoft</h1>
-        <p className="mt-5">School management system is a product of Greenlunar Nigeria Limited</p>
-        <p className="mt-5">5, Badebo street, Ikeja Lagos Nigeria.</p>
+        <Link to={`/`} className="">
+          <img src="/logo.svg" alt="" className='w-24 md:w-[30%]' />
+        </Link>
+        <p className="mt-5 text-white">School management system is a product of Greenlunar Nigeria Limited</p>
+        <p className="mt-5 text-white">5, Badebo street, Ikeja Lagos Nigeria.</p>
       </div>
 
       <div className="flex flex-col md:flex-row flex-wrap justify-between gap-[15%] gap-y-7">
         {navs.map((nav, i) => (
-          <Link key={i} to={nav.path} className="font-light text-sm">
+          <Link key={i} to={nav.path} className="font-light text-sm text-white">
             {nav.title}
           </Link>
         ))}
