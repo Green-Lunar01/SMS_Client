@@ -123,7 +123,34 @@ const AddStudent2 = () => {
 			);
 			toast.success("Student added successfully");
 			setLoading(false);
-			navigate("/school/dashboard/students");
+			setFormData({
+				surname: "",
+				first_name: "",
+				other_names: "",
+				profile_photo: null,
+				date_of_admission: "",
+				class_id: null,
+				gender: "",
+				matric_number: "",
+				date_of_birth: "",
+				phone_number: "",
+				religion: "",
+				previous_school: "",
+				blood_group: "",
+				disease: "",
+				address: "",
+				is_orphan: false,
+				fathers_name: "",
+				fathers_occupation: "",
+				fathers_number: "",
+				fathers_education: "",
+				fathers_address: "",
+				mothers_name: "",
+				mothers_occupation: "",
+				mothers_number: "",
+				mothers_education: "",
+				mothers_address: "",
+			});
 		} catch (err) {
 			toast.error(err.response?.data?.message || "An error occurred");
 			console.log(err);
@@ -301,13 +328,24 @@ const AddStudent2 = () => {
 						</div>
 						<div className="form-group">
 							<label htmlFor="blood_group">Blood Group</label>
-							<input
-								type="text"
-								id="blood_group"
+							<select
 								name="blood_group"
+								id="blood_group"
 								value={formData.blood_group}
 								onChange={handleInputChange}
-							/>
+							>
+								<option value="" disabled>
+									Select blood group
+								</option>
+								<option value="A+">A+</option>
+								<option value="A-">A-</option>
+								<option value="B+">B+</option>
+								<option value="B-">B-</option>
+								<option value="AB+">AB+</option>
+								<option value="AB-">AB-</option>
+								<option value="O+">O+</option>
+								<option value="O-">O-</option>
+							</select>
 						</div>
 						<div className="form-group">
 							<label htmlFor="disease">Disease If Any</label>

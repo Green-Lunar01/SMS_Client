@@ -247,7 +247,7 @@ const MarksGradingSetup = () => {
 							</label>
 
 							<label>
-								<p>%From *</p>
+								<p>% From *</p>
 								<input
 									type="number"
 									min="0"
@@ -265,7 +265,7 @@ const MarksGradingSetup = () => {
 							</label>
 
 							<label>
-								<p>%Upto *</p>
+								<p>% Upto *</p>
 								<input
 									type="number"
 									min="1"
