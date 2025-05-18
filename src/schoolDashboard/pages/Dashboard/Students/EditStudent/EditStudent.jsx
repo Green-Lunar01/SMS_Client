@@ -398,13 +398,24 @@ const EditStudent = () => {
 						</div>
 						<div className="form-group">
 							<label htmlFor="blood_group">Blood Group</label>
-							<input
-								type="text"
-								id="blood_group"
+							<select
 								name="blood_group"
+								id="blood_group"
 								value={formData.blood_group}
 								onChange={handleInputChange}
-							/>
+							>
+								<option value="" disabled>
+									Select blood group
+								</option>
+								<option value="A+">A+</option>
+								<option value="A-">A-</option>
+								<option value="B+">B+</option>
+								<option value="B-">B-</option>
+								<option value="AB+">AB+</option>
+								<option value="AB-">AB-</option>
+								<option value="O+">O+</option>
+								<option value="O-">O-</option>
+							</select>
 						</div>
 						<div className="form-group">
 							<label htmlFor="disease">Disease If Any</label>

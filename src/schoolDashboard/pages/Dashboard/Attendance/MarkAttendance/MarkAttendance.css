@@ -74,11 +74,12 @@
 
 			th,
 			td {
-				padding: 30px 20px;
+				padding: 20px;
 				text-align: left;
 				border-bottom: 1px solid #d9d9d9;
 				color: var(--dark-green);
 				font-size: 0.9rem;
+				height: 105px;
 			}
 
 			td.status {
@@ -102,7 +103,9 @@
 			th {
 				background-color: #2b6a3f;
 				color: #f1f1f1;
-				font-size: 1.1rem;
+				font-size: 1rem;
+				height: 80px;
+				font-weight: 500;
 			}
 
 			.mark-single-btn {
