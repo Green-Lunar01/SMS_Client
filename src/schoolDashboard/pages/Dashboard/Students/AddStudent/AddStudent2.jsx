@@ -256,7 +256,7 @@ const AddStudent2 = () => {
 								</option>
 								<option value="male">Male</option>
 								<option value="female">Female</option>
-								<option value="non-binary">Non-binary</option>
+								{/* <option value="non-binary">Non-binary</option> */}
 							</select>
 						</div>
 						<div className="form-group">
