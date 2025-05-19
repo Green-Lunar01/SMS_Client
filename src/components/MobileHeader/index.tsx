@@ -10,6 +10,10 @@ const MobileHeader = () => {
 	const { setShowNav } = useContext(AppContext);
 	const currentPath = location.pathname;
 
+	const navToSignup = () => {
+		window.location.href = "/school/signup";
+	};
+
 	return (
 		<section className="fixed top-0 left-0 w-full h-full z-[1000] bg-white">
 			<div className="flex flex-col gap-5 items-start w-full h-full p-5">
@@ -59,7 +63,7 @@ const MobileHeader = () => {
 					<button
 						type="button"
 						className="bg-primary-light text-white w-full rounded-md text-sm py-4"
-						onClick={() => navigate("/auth")}
+						onClick={() => navToSignup()}
 					>
 						Create account
 					</button>

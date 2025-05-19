@@ -10,6 +10,10 @@ const Header = () => {
 	const { setShowNav } = useContext(AppContext);
 	const currentPath = location.pathname;
 
+	const navToSignup = () => {
+		window.location.href = "/school/signup";
+	};
+
 	return (
 		<div className="flex justify-between items-center shadow-lg py-2 px-5 lg:px-10">
 			<Link
@@ -44,7 +48,7 @@ const Header = () => {
 					Sign in
 				</button>
 				<button
-					onClick={() => navigate("/auth")}
+					onClick={() => navToSignup()}
 					type="button"
 					className="bg-primary-light text-white w-[50%] rounded-md text-sm py-2.5"
 				>

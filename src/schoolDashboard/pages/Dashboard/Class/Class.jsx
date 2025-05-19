@@ -57,6 +57,9 @@ const Class = () => {
 			);
 			toast.success("class created successfully");
 			setLoading(false);
+			setClassName("");
+			setSchoolFees("");
+			setClassTeacher("");
 		} catch (err) {
 			toast.error(err.response.data.message || err.message);
 			console.log(err);
