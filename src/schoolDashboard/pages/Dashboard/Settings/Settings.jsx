@@ -36,28 +36,28 @@ export default function App() {
 				>
 					Profile
 				</button>
-				<button
+				{/* <button
 					className={`tab ${
 						activeTab === "Fee setups" ? "active" : ""
 					}`}
 					onClick={() => setActiveTab("Fee setups")}
 				>
 					Fee setups
-				</button>
-				<button
+				</button> */}
+				{/* <button
 					className={`tab ${
 						activeTab === "Account Settings" ? "active" : ""
 					}`}
 					onClick={() => setActiveTab("Account Settings")}
 				>
 					Account Settings
-				</button>
-				<button
+				</button> */}
+				{/* <button
 					className={`tab ${activeTab === "Rules" ? "active" : ""}`}
 					onClick={() => setActiveTab("Rules")}
 				>
 					Rules and Regulations
-				</button>
+				</button> */}
 				<button
 					className={`tab ${
 						activeTab === "Marks Grading" ? "active" : ""
