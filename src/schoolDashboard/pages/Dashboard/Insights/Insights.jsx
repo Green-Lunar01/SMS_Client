@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./Insights.css";
 import SummaryCard from "../../../components/SummaryCard/SummaryCard";
 import LineChart from "../../../components/LineChart/LineChart";
@@ -6,14 +6,41 @@ import BarChart from "../../../components/BarChart/BarChart";
 import Calendar from "../../../components/Calendar/Calendar";
 import AttendanceReport from "../../../components/AttendanceReport/AttendanceReport";
 import NewAdmissions from "../../../components/NewAdmissions/NewAdmissions";
+import { SchoolContext } from "../../../context/schoolContext";
+import { toast } from "react-hot-toast";
+import api from "../../../lib/axios";
+import { useEffect } from "react";
 
 const Insights = () => {
+	const { employees } = useContext(SchoolContext);
+	const [students, setStudents] = useState([]);
+
+	const fetchStudents = async () => {
+		try {
+			const response = await api.get(`/school/students`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+			setStudents(response.data.data);
+		} catch (err) {
+			console.error("Error fetching students:", err);
+			toast.error(
+				"Failed to load students. Please refresh or try again later.",
+			);
+		}
+	};
+
+	useEffect(() => {
+		fetchStudents();
+	}, []);
+
 	return (
 		<div className="insights">
 			<div className="summary-cards">
 				<SummaryCard
-					title="Total Student"
-					count={3}
+					title="Total Students"
+					count={students.length}
 					month="This month"
 					color="#5554AB"
 					icon={
@@ -63,8 +90,8 @@ const Insights = () => {
 					}
 				/>
 				<SummaryCard
-					title="Total Employee"
-					count={2}
+					title="Total Employees"
+					count={employees.length}
 					month="This month"
 					color="#9FA1D8"
 					icon={

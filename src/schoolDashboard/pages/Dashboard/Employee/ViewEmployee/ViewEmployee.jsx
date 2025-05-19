@@ -195,7 +195,7 @@ const ViewEmployee = () => {
 					</section>
 				</div>
 
-				<div className="school-report">
+				{/* <div className="school-report">
 					<div className="header">
 						<h2>Salary Report</h2>
 						<span className="current-fee">
@@ -215,7 +215,7 @@ const ViewEmployee = () => {
 							<span className="status">owed</span>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</aside>
 		</div>
 	);

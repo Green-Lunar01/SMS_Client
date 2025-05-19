@@ -279,7 +279,6 @@ const AddNewEmployee = () => {
 								onChange={handleInputChange}
 							>
 								<option value="Teacher">Teacher</option>
-								<option value="Principal">Principal</option>
 								<option value="Management">Management</option>
 								<option value="Accountant">Accountant</option>
 								<option value="Cleaner">Cleaner</option>
@@ -314,7 +313,7 @@ const AddNewEmployee = () => {
 					<main>
 						<div className="form-group">
 							<label htmlFor="family_relation">
-								Father / Husband Name
+								Guardian / Sponsor
 							</label>
 							<input
 								type="text"
