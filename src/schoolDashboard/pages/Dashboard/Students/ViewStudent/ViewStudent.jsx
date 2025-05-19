@@ -1,44 +1,157 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./ViewStudent.css";
 import pdfIcon from "../../../../assets/pdf-icon.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
 	HiOutlineArrowNarrowLeft,
 	HiOutlineArrowNarrowRight,
 } from "react-icons/hi";
 import userBlueIcon from "../../../../assets/user-blue-icon.png";
 import SummaryCard from "../../../../components/SummaryCard/SummaryCard";
+import api from "../../../../lib/axios";
+import Spinner from "../../../../components/Spinner/Spinner";
+import { toast } from "react-hot-toast";
+import { UserContext } from "../../../../context/userContext";
+import { SchoolContext } from "../../../../context/SchoolContext";
 
 const ViewStudent = () => {
-	const student = {
-		name: "Robert Donnelly",
-		matricNumber: "BD4567890",
-		dateOfAdmission: "27/09/2024",
-		class: "J.S.S 2",
-		dateOfBirth: "J.S.S 2",
-		gender: "Male",
-		phoneNumber: "09067255677",
-		religion: "Christian",
-		previousSchool: "No",
-		bloodGroup: "A+",
-		disease: "HIV",
-		orphan: "No",
-		address: "5663 VonRueden Lock",
-		father: {
-			fullName: "Leonard Bosco",
-			occupation: "Carpenter",
-			mobile: "0907864556",
-			education: "BSC",
-			address: "5663 VonRueden Lock",
-		},
-		mother: {
-			fullName: "Mary Pedo",
-			occupation: "Nurse",
-			mobile: "0907864556",
-			education: "BSC",
-			address: "5663 VonRueden Lock",
-		},
+	const [loading, setLoading] = useState(true);
+	const [student, setStudent] = useState(null);
+	const [attendanceData, setAttendanceData] = useState({
+		overallSeptember: "90%", // Default values, replace with API data when available
+		yesterdayStatus: "Absent",
+		presentCount: 0,
+		absenceCount: 0,
+	});
+	const [schoolReport, setSchoolReport] = useState({
+		currentFee: "₦50,000",
+		recentRecords: [
+			{ year: "2023/2024", amount: "₦2,000", status: "owning" },
+		],
+	});
+
+	const { id } = useParams();
+	const { userToken } = useContext(UserContext);
+	const { classes } = useContext(SchoolContext);
+
+	// Format dates for display (DD/MM/YYYY)
+	const formatDateForDisplay = (dateString) => {
+		if (!dateString) return "";
+		const date = new Date(dateString);
+		return `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
 	};
+
+	// Function to get class name from class ID
+	const getClassName = (classId) => {
+		if (!classes || !classId) return "";
+		const foundClass = classes.find((c) => c.id === parseInt(classId));
+		return foundClass ? foundClass.class_name : "";
+	};
+
+	const fetchStudentData = async () => {
+		setLoading(true);
+
+		try {
+			const response = await api.get(`/school/students/${id}`, {
+				headers: {
+					Authorization: `${localStorage.getItem("sms_token")}`,
+				},
+			});
+
+			const studentData = response.data.data;
+
+			// Transform API data to match the component's expected structure
+			setStudent({
+				name: `${studentData.surname} ${studentData.first_name} ${studentData.other_names || ""}`.trim(),
+				matricNumber: studentData.matric_number || "",
+				dateOfAdmission: formatDateForDisplay(
+					studentData.date_of_admission,
+				),
+				class: getClassName(studentData.class_id),
+				dateOfBirth: formatDateForDisplay(studentData.date_of_birth),
+				gender: studentData.gender
+					? studentData.gender.charAt(0).toUpperCase() +
+						studentData.gender.slice(1)
+					: "",
+				phoneNumber: studentData.phone_number || "",
+				religion: studentData.religion || "",
+				previousSchool: studentData.previous_school || "No",
+				bloodGroup: studentData.blood_group || "",
+				disease: studentData.disease || "None",
+				orphan: studentData.is_orphan ? "Yes" : "No",
+				address: studentData.address || "",
+				profile_photo: studentData.profile_photo || null,
+				father: {
+					fullName: studentData.fathers_name || "",
+					occupation: studentData.fathers_occupation || "",
+					mobile: studentData.fathers_number || "",
+					education: studentData.fathers_education || "",
+					address: studentData.fathers_address || "",
+				},
+				mother: {
+					fullName: studentData.mothers_name || "",
+					occupation: studentData.mothers_occupation || "",
+					mobile: studentData.mothers_number || "",
+					education: studentData.mothers_education || "",
+					address: studentData.mothers_address || "",
+				},
+			});
+
+			// Future enhancement: Fetch attendance and fee data from API
+			// fetchAttendanceData(id);
+			// fetchSchoolReportData(id);
+		} catch (err) {
+			console.error("Error fetching student:", err);
+			toast.error(
+				"Failed to load student data. Please refresh or try again later.",
+			);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// For future implementation: Attendance data fetching
+	const fetchAttendanceData = async (studentId) => {
+		try {
+			// const response = await api.get(`/school/students/${studentId}/attendance`, {
+			//     headers: { Authorization: `${localStorage.getItem("sms_token")}` },
+			// });
+			// setAttendanceData(response.data);
+		} catch (err) {
+			console.error("Error fetching attendance data:", err);
+		}
+	};
+
+	// For future implementation: School report/fees data fetching
+	const fetchSchoolReportData = async (studentId) => {
+		try {
+			// const response = await api.get(`/school/students/${studentId}/fees`, {
+			//     headers: { Authorization: `${localStorage.getItem("sms_token")}` },
+			// });
+			// setSchoolReport(response.data);
+		} catch (err) {
+			console.error("Error fetching school report data:", err);
+		}
+	};
+
+	useEffect(() => {
+		fetchStudentData();
+	}, [id]);
+
+	if (loading) {
+		return <Spinner />;
+	}
+
+	if (!student) {
+		return (
+			<div className="error-container">
+				<h2>Student not found</h2>
+				<Link to="/school/dashboard/students">
+					<button>Back to Students</button>
+				</Link>
+			</div>
+		);
+	}
 
 	return (
 		<div className="view-student-container">
@@ -54,7 +167,14 @@ const ViewStudent = () => {
 			<div className="profile-content">
 				<div className="profile-image">
 					<div className="avatar">
-						<img src={userBlueIcon} alt="" />
+						{student.profile_photo ? (
+							<img
+								src={student.profile_photo}
+								alt={student.name}
+							/>
+						) : (
+							<img src={userBlueIcon} alt="" />
+						)}
 					</div>
 					<h3>{student.name}</h3>
 				</div>
@@ -169,16 +289,16 @@ const ViewStudent = () => {
 							<div className="overall">
 								<article>
 									<p>Overall for September</p>
-									<h4>90%</h4>
+									<h4>{attendanceData.overallSeptember}</h4>
 								</article>
 							</div>
 
 							<p>Yesterday</p>
-							<button>Absent</button>
+							<button>{attendanceData.yesterdayStatus}</button>
 
 							<SummaryCard
 								title="Present"
-								count={0}
+								count={attendanceData.presentCount}
 								icon={<HiOutlineArrowNarrowRight />}
 								month="This month"
 								color="#4851FB"
@@ -188,16 +308,16 @@ const ViewStudent = () => {
 							<div className="overall">
 								<article>
 									<p>Overall for September</p>
-									<h4>90%</h4>
+									<h4>{attendanceData.overallSeptember}</h4>
 								</article>
 							</div>
 
 							<p>Yesterday</p>
-							<button>Absent</button>
+							<button>{attendanceData.yesterdayStatus}</button>
 
 							<SummaryCard
 								title="Absence"
-								count={0}
+								count={attendanceData.absenceCount}
 								icon={<HiOutlineArrowNarrowRight />}
 								month="This month"
 								color="#FB484B"
@@ -206,25 +326,29 @@ const ViewStudent = () => {
 					</section>
 				</div>
 
-				<div className="school-report">
+				{/* <div className="school-report">
 					<div className="header">
 						<h2>School Report</h2>
 						<span className="current-fee">
 							<span className="dot"></span> Current School Fee{" "}
-							<span className="fee-amount">₦50,000</span>
+							<span className="fee-amount">
+								{schoolReport.currentFee}
+							</span>
 						</span>
 					</div>
 					<div className="recent-record">
 						<h3>Recent record</h3>
 					</div>
-					<div className="record">
-						<div className="year">2023/2024</div>
-						<div className="details">
-							<span className="amount">₦2,000</span>
-							<span className="status">owning</span>
+					{schoolReport.recentRecords.map((record, index) => (
+						<div className="record" key={index}>
+							<div className="year">{record.year}</div>
+							<div className="details">
+								<span className="amount">{record.amount}</span>
+								<span className="status">{record.status}</span>
+							</div>
 						</div>
-					</div>
-				</div>
+					))}
+				</div> */}
 			</aside>
 		</div>
 	);

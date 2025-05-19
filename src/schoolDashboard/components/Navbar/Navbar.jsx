@@ -179,9 +179,9 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 
 	return (
 		<nav className="navbar">
-			<div className="logo">
+			<Link to="/school/dashboard/insights" className="logo">
 				<img src={logo} alt="" />
-			</div>
+			</Link>
 			<aside>
 				<div className="session-setup">
 					<select
