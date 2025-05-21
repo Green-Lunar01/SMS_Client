@@ -8,6 +8,7 @@ import api from "../../../../lib/axios";
 import { toast } from "react-hot-toast";
 import { SchoolContext } from "../../../../context/schoolContext";
 import Spinner from "../../../../components/Spinner/Spinner";
+import SpinnerNew from "../../../../components/SpinnerNew/SpinnerNew";
 
 const ClassesWithSubjects = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -212,7 +213,7 @@ const ClassesWithSubjects = () => {
 
 			{loading && !isModalOpen ? (
 				<div className="loading-container">
-					<Spinner />
+					<SpinnerNew />
 				</div>
 			) : (
 				<div className="class-list">

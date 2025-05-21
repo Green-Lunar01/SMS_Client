@@ -22,8 +22,8 @@ const AddNewEmployee = () => {
 		date_of_birth: "",
 		email: "",
 		gender: "male",
-		class_id: "",
-		subject: "",
+		// class_id: "",
+		// subject: "",
 		education_level: "",
 		address: "",
 	});
@@ -134,18 +134,21 @@ const AddNewEmployee = () => {
 				);
 			}
 
-			if (formData.subject) {
-				submitFormData.append("subject", formData.subject);
-			}
+			// if (formData.subject) {
+			// 	submitFormData.append("subject", formData.subject);
+			// }
 
-			if (formData.class_id) {
-				submitFormData.append("class_id", Number(formData.class_id));
-			}
+			// if (formData.class_id) {
+			// 	submitFormData.append("class_id", Number(formData.class_id));
+			// }
 
 			// Add profile photo if it exists
 			if (formData.profilePhoto) {
 				submitFormData.append("profile_photo", formData.profilePhoto);
 			}
+			console.log("Form Data: ", {
+				...formData,
+			});
 
 			// Make API request with FormData
 			const response = await axios.post(
@@ -276,7 +279,6 @@ const AddNewEmployee = () => {
 								onChange={handleInputChange}
 							>
 								<option value="Teacher">Teacher</option>
-								<option value="Principal">Principal</option>
 								<option value="Management">Management</option>
 								<option value="Accountant">Accountant</option>
 								<option value="Cleaner">Cleaner</option>
@@ -311,7 +313,7 @@ const AddNewEmployee = () => {
 					<main>
 						<div className="form-group">
 							<label htmlFor="family_relation">
-								Father / Husband Name
+								Guardian / Sponsor
 							</label>
 							<input
 								type="text"
@@ -387,7 +389,7 @@ const AddNewEmployee = () => {
 								<option value="non-binary">Other</option>
 							</select>
 						</div>
-						<div className="form-group">
+						{/* <div className="form-group">
 							<label htmlFor="class_id">Class</label>
 							<select
 								name="class_id"
@@ -412,7 +414,7 @@ const AddNewEmployee = () => {
 								value={formData.subject}
 								onChange={handleInputChange}
 							/>
-						</div>
+						</div> */}
 						<div className="form-group">
 							<label htmlFor="education_level">
 								Education Level

@@ -179,9 +179,9 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 
 	return (
 		<nav className="navbar">
-			<div className="logo">
+			<Link to="/school/dashboard/insights" className="logo">
 				<img src={logo} alt="" />
-			</div>
+			</Link>
 			<aside>
 				<div className="session-setup">
 					<select
@@ -378,15 +378,20 @@ const Navbar = ({ setOpenMenu, setOpenNotifications }) => {
 
 				<div className="profile">
 					<p>{schoolProfile.school_name}</p>
+
+					{/* {schoolProfile.photo ? (
+						<img
+							src={schoolProfile.photo}
+							alt=""
+							onClick={() => setOpenProfileMenu(!openProfileMenu)}
+						/>
+					) : ( */}
 					<img
-						src={schoolProfile.photo}
+						src={school}
 						alt=""
 						onClick={() => setOpenProfileMenu(!openProfileMenu)}
-						onError={(e) => {
-							e.target.onerror = null; // Prevent looping
-							e.target.src = school;
-						}}
 					/>
+					{/* )} */}
 
 					{openProfileMenu && (
 						<div className="profile-menu">

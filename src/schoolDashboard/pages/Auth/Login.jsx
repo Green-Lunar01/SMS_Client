@@ -51,33 +51,7 @@ const Login = () => {
 
     if (role === "student") {
       console.log("hi student");
-      //   try {
-      //     const response = await axios.post(
-      //       `https://edusoft.tonyicon.com.ng/student/signin/`,
-      //       {
-      //         matric_no: matricNumber,
-      //         pswd: password,
-      //       }
-      //     );
-      //     toast.success("Logged in successfully");
-      //     const localToken = localStorage.setItem(
-      //       "student_sms_token",
-      //       response.data.data.token
-      //     );
-      //     const localStudent = localStorage.setItem(
-      //       "student_sms_info",
-      //       JSON.stringify(response.data.data)
-      //     );
-      //     setStudentToken(localToken);
-      //     setStudentProfile(response.data.data);
-      //     // localStorage.setItem("student_sms_token", JSON.stringify(studentToken))
-      //     setLoading(false);
-      //     window.location.href = "/student/dashboard";
-      //   } catch (err) {
-      //     toast.error(err.message);
-      //     console.log(err);
-      //     setLoading(false);
-      //   }
+
       try {
         const response = await axios.post(
           `https://edusoft.tonyicon.com.ng/student/signin/`,
@@ -111,7 +85,7 @@ const Login = () => {
 	  console.log("Error:", message);
 	  setLoading(false);
       }
-    } else {
+    } else if (role === "admin"){
       try {
         const response = await axios.post(`${BASE_API_URL}/school/signin`, {
           email,
@@ -129,6 +103,53 @@ const Login = () => {
         console.log(err);
         setLoading(false);
       }
+    } else{
+       const teacherLogin = async () => {
+    if (!email || !password) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`${BASE_API_URL}/teachers/signin/`, {
+        email,
+        pswd: password,
+      });
+
+      const teacherToken = response.data.data.token;
+      setTeacherToken(teacherToken);
+      setTeacherProfile(response.data.data);
+      console.log(
+        "Teacher response:",
+        response.data.data,
+        "Teacher Info:",
+        teacherProfile
+      );
+      localStorage.setItem("teacher_sms_token", teacherToken);
+      localStorage.setItem(
+        "teacher_sms_info",
+        JSON.stringify(response.data.data)
+      );
+
+      toast.success("Logged in successfully");
+      console.log("Teacher token:", teacherToken);
+
+      setTimeout(() => {
+        window.location.href = "/teacher/dashboard/insights";
+      }, 500);
+    } catch (err) {
+      console.error("Login Error:", err);
+
+      const errorMessage =
+        err.response?.data?.message || "An error occurred. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
     }
   };
   const teacherLogin = async () => {
@@ -221,7 +242,7 @@ const Login = () => {
             <label htmlFor="password">
               <span>Password</span>
               <PasswordInput
-                placeholder="hi****************"
+                placeholder="******************"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -259,7 +280,7 @@ const Login = () => {
               Forgot Password?
             </Link>
 
-            <button onClick={teacherLogin} disabled={loading}>
+            <button onClick={login} disabled={loading}>
               {loading ? <Spinner /> : "Log In"}
             </button>
             <h6>

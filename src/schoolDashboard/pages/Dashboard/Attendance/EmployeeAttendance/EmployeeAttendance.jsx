@@ -306,7 +306,7 @@ const EmployeeAttendance = () => {
 	}, []);
 
 	// Pagination settings
-	const itemsPerPage = 5;
+	const itemsPerPage = 10;
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 	const currentItems = displayRecords.slice(
@@ -394,7 +394,12 @@ const EmployeeAttendance = () => {
 												getWeeksForSelectedMonth(
 													currentItems[0],
 												).map((week) => (
-													<th key={week}>
+													<th
+														key={week}
+														style={{
+															textAlign: "center",
+														}}
+													>
 														{selectedMonth}{" "}
 														{week.replace(
 															"week",

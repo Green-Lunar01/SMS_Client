@@ -272,7 +272,7 @@ const EditEmployee = () => {
 					<main>
 						<div className="form-group">
 							<label htmlFor="family_relation">
-								Family Relation
+								Guardian / Sponsor
 							</label>
 							<input
 								type="text"

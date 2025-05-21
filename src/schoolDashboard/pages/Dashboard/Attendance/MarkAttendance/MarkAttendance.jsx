@@ -69,6 +69,10 @@ const MarkAttendance = () => {
 	const [filteredRecords, setFilteredRecords] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 
+	useEffect(() => {
+		toast("Please select a term to mark attendance!");
+	}, []);
+
 	// Initialize the session from localStorage
 	useEffect(() => {
 		try {
