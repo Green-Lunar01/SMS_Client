@@ -1,17 +1,46 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import AssessmentTable from "../components/ResultTables/AssessmentTable";
-import Chart  from "../components/Chart/Chart";
+import Chart from "../components/Chart/Chart";
+import { useStudAuth } from "../Auth/context/StudentAuthProvider";
 function Exams() {
   const [visible, setVisible] = useState(true);
   const [value, setValue] = useState("");
   const inputRef = useRef(null);
+  const {
+    exams,
+    getExams,
+    setExams,
+    allSessions,
+    getAllSession,
+    studentProfile,
+  } = useStudAuth();
 
+  console.log("My Exams: ", allSessions);
+  useEffect(() => {
+    getExams();
+    console.log("The exams:", exams);
+  }, []);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTerm, setSelectedTerm] = useState("")
+  const [selectedSession, setSelectedSession] = useState("")
+  const filteredExams = exams.filter((exam) => {
+    const subjectMatch = searchQuery
+      ? exam.subject_name.toLowerCase().includes(searchQuery.toLowerCase())
+      : true;
+    const termMatch = selectedTerm
+      ? exam.term.toString() === selectedTerm
+      : true;
+    const sessionMatch = selectedSession ? 
+    exam.session_name.toString() === selectedSession
+    : true;
+    return subjectMatch && termMatch && sessionMatch;
+  });
   const exportToCSV = () => {
-    const csvData = examTable.map(row => ({
+    const csvData = examTable.map((row) => ({
       Subject: row.subject,
       Session: row.session,
       Class: row.class,
@@ -35,23 +64,45 @@ function Exams() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Exams");
 
-    const excelOutput = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const excelOutput = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
     const blob = new Blob([excelOutput], { type: "application/octet-stream" });
     saveAs(blob, "exam_data.xlsx");
   };
 
   // Export to PDF
+  function getOrdinalSuffix(num) {
+    const j = num % 10;
+    const k = num % 100;
+    if (j === 1 && k !== 11) return "st";
+    if (j === 2 && k !== 12) return "nd";
+    if (j === 3 && k !== 13) return "rd";
+    return "th";
+  }
   const exportToPDF = () => {
     const doc = new jsPDF();
-    const tableColumn = ["Subject", "Session", "Class", "Term", "Total Marks", "Obtained"];
-    const tableRows = examTable.map(row => [
-      row.subject,
-      row.session,
-      row.class,
-      row.term,
-      row.totalMarks,
-      row.marksObtained,
-    ]);
+    const tableColumn = [
+      "Subject",
+      "Session",
+      "Class",
+      "Term",
+      "Total Marks",
+      "Obtained",
+    ];
+    const tableRows = filteredExams.map((row) => {
+      const termNumber = Number(row.term); // Ensure it's a number
+      const termWithSuffix = `${termNumber}${getOrdinalSuffix(termNumber)}`;
+      return [
+        row.subject_name,
+        row.session_name,
+        row.class_name,
+        termWithSuffix,
+        row.total_mark,
+        row.score,
+      ];
+    });
 
     doc.autoTable({ head: [tableColumn], body: tableRows });
     doc.save("exam_data.pdf");
@@ -61,9 +112,9 @@ function Exams() {
     setVisible(false);
     inputRef.current?.focus();
   };
-
+  
   const handleBlur = () => {
-    if (!value) setVisible(true);
+    if (!searchQuery) setVisible(true); // Check searchQuery instead of value
   };
   const examTable = [
     {
@@ -130,7 +181,6 @@ function Exams() {
       totalMarks: 60,
       marksObtained: 40,
     },
-   
   ];
 
   return (
@@ -143,24 +193,22 @@ function Exams() {
           <div className="md:w-full w-11/12 md:flex bg-[#fdfdfd]  gap-[50px] my-[30px]">
             <div className="flex justify-normal   md:gap-4 gap-3 md:w-[50%]">
               <div className="w-full relative">
-                {visible && !value && (
+                {/* Show the search icon & text only if visible and searchQuery is empty */}
+                {visible && !searchQuery && (
                   <div
                     onClick={handleVisible}
                     className="input-active absolute top-[12px] left-[16px] flex justify-normal gap-[17px]"
                   >
-                    <img
-                      className=""
-                      src="/icons/search.svg"
-                      alt="Search icon"
-                    />
+                    <img src="/icons/search.svg" alt="Search icon" />
                     <p className="text-[#8e98a8]">Search</p>
                   </div>
                 )}
+
                 {/* Input Field */}
                 <input
-                  ref={inputRef} // Attach the reference here
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  ref={inputRef}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={handleVisible}
                   onBlur={handleBlur}
                   placeholder=""
@@ -175,45 +223,65 @@ function Exams() {
                 Search
               </button>
             </div>
+
             <div className="w-full flex-container my-4 md:my-0 md:gap-[28px] gap-2  ">
-            <select 
-  className="dropdown-input md:w-[100px] w-[35%] outline-none" 
-  placeholder="Term 1"
->
-  <option value="" disabled selected>Select Term</option>
-  <option value="option1">Term 1</option>
-  <option value="option2">Term 2</option>
-  <option value="option3">Term 3</option>
-</select>
-            <select 
-  className="dropdown-input md:w-[100px] w-[35%] outline-none" 
-  placeholder="Term 1"
->
-  <option value="" disabled selected>Select Year </option>
-  <option value="option1"> 2021/2022</option>
-  <option value="option2"> 2019/2020</option>
-  <option value="option3"> 2018/2019</option>
-</select>
-              
+              <select
+                value={selectedTerm}
+                onChange={(e) => setSelectedTerm(e.target.value)}
+                className="dropdown-input md:w-[100px] w-[35%] outline-none"
+                placeholder="Select Term"
+              >
+                <option value="" disabled selected>
+                  Select Term
+                </option>
+                <option value="1">Term 1</option>
+                <option value="2">Term 2</option>
+                <option value="3">Term 3</option>
+              </select>
+              <select
+                 value={selectedSession}
+                 onChange={(e) => setSelectedSession(e.target.value)}
+                className="dropdown-input md:w-[100px] w-[35%] outline-none"
+                placeholder="Select Session"
+              >
+                <option value="" disabled selected>
+                  Select Session{" "}
+                </option>
+
+                {allSessions.map((session, index) => {
+                  return (
+                    <option value={session.session_name}>
+                      {" "}
+                      {session.session_name}
+                    </option>
+                  );
+                })}
+              </select>
+
               <div className=" flex-container gap-[20px] bg-[#f7f7f7] rounded-[6px] px-4 py-4">
-               <button>
-               <img className="w-auto"  onClick={exportToExcel} src="/icons/xls.svg" alt="XLS" />
-               </button>
-               <button>
-                <img  onClick={exportToCSV} src="/icons/csv.svg" alt="CSV" />
-
-               </button>
-               <button>
-                <img onClick={exportToPDF} src="/icons/pdf.svg" alt="PDF" />
-
-               </button>
+                <button>
+                  <img
+                    className="w-auto"
+                    onClick={exportToExcel}
+                    src="/icons/xls.svg"
+                    alt="XLS"
+                  />
+                </button>
+                <button>
+                  <img onClick={exportToCSV} src="/icons/csv.svg" alt="CSV" />
+                </button>
+                <button>
+                  <img onClick={exportToPDF} src="/icons/pdf.svg" alt="PDF" />
+                </button>
               </div>
             </div>
           </div>
           <div className="lg:w-10/12 w-full mt-4 mb-5">
-            <h3 className="font-bold text-[14px]">J.S.S 1</h3>
+            <h3 className="font-bold text-[14px]">
+              {studentProfile.user.class_name}
+            </h3>
             <div className=" w-full overflow-x-auto">
-            <AssessmentTable tableData={examTable} />
+               <AssessmentTable tableData={filteredExams} />
             </div>
             {/* <Chart /> */}
           </div>

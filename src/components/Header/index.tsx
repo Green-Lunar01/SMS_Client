@@ -41,7 +41,7 @@ const Header = () => {
 
 			<div className="hidden lg:flex items-center justify-between w-[25%] gap-5">
 				<button
-					onClick={() => navigate("/auth")}
+					onClick={() => navigate("/login")}
 					type="button"
 					className="border border-primary-light w-[50%] rounded-md text-sm py-2.5 text-primary-light bg-white"
 				>

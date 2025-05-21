@@ -6,7 +6,7 @@ import api from "../../../../lib/axios";
 import Spinner from "../../../../components/Spinner/Spinner";
 import { toast } from "react-hot-toast";
 import { UserContext } from "../../../../context/userContext";
-import { SchoolContext } from "../../../../context/SchoolContext";
+import { SchoolContext } from "../../../../context/schoolContext";
 
 const EditStudent = () => {
 	const [loading, setLoading] = useState(false);

@@ -15,6 +15,8 @@ import Spinner from "../../../components/Spinner/Spinner";
 
 const Assignment = () => {
 	const [assignments, setAssignments] = useState([]);
+	 
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const { user } = useContext(UserContext);

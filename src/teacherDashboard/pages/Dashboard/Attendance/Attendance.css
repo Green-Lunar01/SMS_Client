@@ -1,0 +1,13 @@
+.attendance-screen {
+    width: calc(100vw - 300px);
+    flex-grow: 1;
+    flex-shrink: 0;
+
+    >aside {
+        h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+    }
+}

@@ -1,0 +1,110 @@
+.create-new-exams {
+	padding: 3rem 2rem;
+
+	> .search-tab {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+
+		select {
+			padding: 15px 20px;
+			border: 1px solid #d9d9d9;
+			border-radius: 8px;
+			width: 400px;
+		}
+		button {
+			width: 150px;
+		}
+	}
+
+	> .create-new-exams-form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+		padding: 40px;
+		border: 1px solid #d9d9d9;
+		border-radius: 10px;
+		width: 400px;
+		margin: 20px auto;
+
+		> h3 {
+			font-size: 1.2rem;
+			font-weight: 600;
+			text-align: center;
+		}
+
+		.form-group {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			width: 100%;
+
+			label {
+				font-size: 1rem;
+				font-weight: 500;
+			}
+
+			input,
+			select {
+				padding: 15px;
+				border: 1px solid #d9d9d9;
+				border-radius: 4px;
+				width: 100%;
+			}
+		}
+	}
+
+	> .new-exams-table {
+		> span {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			position: relative;
+			padding: 20px;
+			background-color: #f7f7f7;
+
+			svg {
+				position: absolute;
+				left: 20px;
+				font-size: 1.5rem;
+				font-weight: 600;
+				cursor: pointer;
+			}
+			h5 {
+				font-weight: 600;
+				font-size: 1.1rem;
+			}
+		}
+
+		> table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-block: 20px;
+
+			th,
+			td {
+				padding: 30px 20px;
+				text-align: left;
+				border-bottom: 1px solid #d9d9d9;
+				color: var(--dark-green);
+				font-size: 0.9rem;
+			}
+
+			th {
+				font-weight: 600;
+				background-color: #f7f7f7;
+			}
+
+			.marks {
+				input {
+					border: #d9d9d9 1px solid;
+					padding: 5px 10px;
+					border-radius: 4px;
+				}
+			}
+		}
+	}
+}

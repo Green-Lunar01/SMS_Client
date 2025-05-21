@@ -1,0 +1,110 @@
+.meeting-card {
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 16px;
+	margin-bottom: 16px;
+	width: 100%;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+
+	.meeting-header {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 16px;
+	}
+
+	.meeting-tag {
+		padding: 4px 8px;
+		border-radius: 12px;
+		font-size: 12px;
+		color: white;
+	}
+
+	.meeting-tag.host {
+		background-color: #f44336;
+	}
+
+	.meeting-tag.invitation {
+		background-color: #ff9800;
+	}
+
+	.meeting-with {
+		background-color: #f5f5f5;
+		padding: 4px 8px;
+		border-radius: 12px;
+		font-size: 12px;
+		color: #555;
+	}
+
+	.meeting-body {
+		margin-bottom: 16px;
+	}
+
+	.meeting-row {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		justify-content: space-between;
+		gap: 30px;
+		margin-block: 15px;
+
+		> article {
+			display: flex;
+			align-items: center;
+
+			.meeting-status {
+				font-weight: bold;
+				font-size: 1.2rem;
+				margin-right: 5px;
+			}
+
+			.meeting-status.active {
+				color: var(--primary-green);
+			}
+
+			.meeting-status.completed {
+				color: #aaa;
+			}
+
+			.delete-btn {
+				svg {
+					width: 20px;
+					height: 20px;
+					cursor: pointer;
+				}
+				svg:hover {
+					color: var(--primary-red);
+				}
+			}
+		}
+
+		.primary-btn {
+			text-wrap: nowrap;
+		}
+	}
+
+	.meeting-icon {
+		margin-right: 8px;
+	}
+
+	.meeting-id {
+		color: var(--primary-green);
+		text-decoration: none;
+		margin-bottom: 8px;
+		display: block;
+		font-weight: bold;
+	}
+
+	.meeting-title {
+		margin: 8px 0;
+		font-size: 18px;
+		font-weight: bold;
+		color: #333;
+	}
+
+	.meeting-description {
+		color: #555;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+}

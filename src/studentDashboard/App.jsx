@@ -14,15 +14,21 @@ import Login from "./pages/Auth/Login";
 import ProtectedRoutes from "./pages/Auth/ProtectedRoutes";
 import LiveClass from "./screens/LiveClass";
 import Profile from "./screens/Profile";
+import StudentAuthProvider from "./Auth/context/StudentAuthProvider";
+import {useStudAuth } from "./Auth/context/StudentAuthProvider"
+
+
+import { Toaster, toast } from "react-hot-toast";
 function App() {
   const [showModal, setShowModal] = useState(false);
-
+ 
   const handleModal = () => {
     setShowModal(!showModal);
   };
 
   return (
-    
+    <StudentAuthProvider>
+      <Toaster />
       <div className="relative">
         <Routes>
           <Route path="/student/login" element={<Login />} />
@@ -53,6 +59,7 @@ function App() {
           </Route>
         </Routes>
       </div>
+    </StudentAuthProvider>
   
   );
 }

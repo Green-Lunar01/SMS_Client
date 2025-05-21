@@ -146,7 +146,7 @@ function Report() {
                   <div className='w-14 h-[48px] bg-[#f7f7f7] mr-[40px] flex-container'>
                   <button onClick={exportToPDF}>
                   <img src='/icons/pdf.svg'/>
-                  </button>
+                  </button> 
                     </div>
                 
 

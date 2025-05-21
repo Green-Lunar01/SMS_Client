@@ -1,194 +1,213 @@
 import React from 'react'
+import { useStudAuth } from '../Auth/context/StudentAuthProvider'
+import {useEffect} from 'react'
 
 function Timetable() {
-  const weekTimetable = [
-    {
+  const {getTimetable, arrOfMaxClass, studentTimetable, currentSession, studentProfile} = useStudAuth()
+  useEffect(() => {
+    getTimetable()
+  }, [])
+  // console.log("on timetable page:", arrOfMaxClass)
 
-      "day": "Monday",
-      "subjectsForDay": [
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "8:00-9:00"
-        },
-        {
-          "subject": "Social Studies",
-          "color": "#79C1BB",
-          "time": "9:00-10:00"
-        },
-        {
-          "subject": "Mathematics",
-          "color": "#B4CF34",
-          "time": "11:00-12:00"
-        },
-        {
-          "subject": "P.H.E",
-          "color": "#7FB2F3",
-          "time": "12:30-1:30"
-        },
-        {
-          "subject": "C.R.K",
-          "color": "#FBAE44",
-          "time": "1:30-2:30"
-        },
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "2:30-3:00"
-        }
-      ]
 
-    },
-    {
+  const formatTimetable = (data) => {
+    return Object.entries(data).map(([day, subjects]) => ({
+        day: day.charAt(0).toUpperCase() + day.slice(1), 
+        subjectsForDay: subjects
+    }));
+};
+  const weekTimetable = formatTimetable(studentTimetable)
+  const tableColors = ["#FE7C7C","#79C1BB", "#B4CF34", "#7FB2F3", "#FBAE44", "#79C1BB"]
 
-      "day": "Tuesday",
-      "subjectsForDay": [
-        {
-          "subject": "Phonetics",
-          "color": "#FBAE44",
-          "time": "8:00-9:00"
-        },
-        {
-          "subject": "Computer",
-          "color": "#7FB2F3",
-          "time": "9:00-10:00"
-        },
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "11:00-12:00"
-        },
-        {
-          "subject": "Social Studies",
-          "color": "#79C1BB",
-          "time": "12:30-1:30"
-        },
-        {
-          "subject": "Mathematics",
-          "color": "#B4CF34",
-          "time": "1:30-2:30"
-        },
-        {
-          "subject": "P.H.E",
-          "color": "#7FB2F3",
-          "time": "2:30-3:00"
-        }
-      ]
 
-    },
-    {
+  // const weekTimetable = [
+  //   {
 
-      "day": "Wednesday",
-      "subjectsForDay": [
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "8:00-9:00"
-        },
-        {
-          "subject": "Social Studies",
-          "color": "#79C1BB",
-          "time": "9:00-10:00"
-        },
-        {
-          "subject": "Mathematics",
-          "color": "#B4CF34",
-          "time": "11:00-12:00"
-        },
-        {
-          "subject": "P.H.E",
-          "color": "#7FB2F3",
-          "time": "12:30-1:30"
-        },
-        {
-          "subject": "C.R.K",
-          "color": "#FBAE44",
-          "time": "1:30-2:30"
-        },
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "2:30-3:00"
-        }
-      ]
+  //     "day": "Monday",
+  //     "subjectsForDay": [
+  //       {
+  //         "subject": "English Language",
+  //         "color": "#FE7C7C",
+  //         "time": "8:00-9:00"
+  //       },
+  //       {
+  //         "subject": "Social Studies",
+  //         "color": "#79C1BB",
+  //         "time": "9:00-10:00"
+  //       },
+  //       {
+  //         "subject": "Mathematics",
+  //         "color": "#B4CF34",
+  //         "time": "11:00-12:00"
+  //       },
+  //       // {
+  //       //   "subject": "P.H.E",
+  //       //   "color": "#7FB2F3",
+  //       //   "time": "12:30-1:30"
+  //       // },
+  //       // {
+  //       //   "subject": "C.R.K",
+  //       //   "color": "#FBAE44",
+  //       //   "time": "1:30-2:30"
+  //       // },
+  //       // {
+  //       //   "subject": "English Language",
+  //       //   "color": "#FE7C7C",
+  //       //   "time": "2:30-3:00"
+  //       // }
+  //     ]
 
-    },
-    {
+  //   },
+  //   {
 
-      "day": "Thursday",
-      "subjectsForDay": [
-        {
-          "subject": "Phonetics",
-          "color": "#FBAE44",
-          "time": "8:00-9:00"
-        },
-        {
-          "subject": "Computer",
-          "color": "#7FB2F3",
-          "time": "9:00-10:00"
-        },
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "11:00-12:00"
-        },
-        {
-          "subject": "Social Studies",
-          "color": "#79C1BB",
-          "time": "12:30-1:30"
-        },
-        {
-          "subject": "Mathematics",
-          "color": "#B4CF34",
-          "time": "1:30-2:30"
-        },
-        {
-          "subject": "P.H.E",
-          "color": "#7FB2F3",
-          "time": "2:30-3:00"
-        }
-      ]
+  //     "day": "Tuesday",
+  //     "subjectsForDay": [
+  //       {
+  //         "subject": "Phonetics",
+  //         "color": "#FBAE44",
+  //         "time": "8:00-9:00"
+  //       },
+  //       {
+  //         "subject": "Computer",
+  //         "color": "#7FB2F3",
+  //         "time": "9:00-10:00"
+  //       },
+  //       {
+  //         "subject": "English Language",
+  //         "color": "#FE7C7C",
+  //         "time": "11:00-12:00"
+  //       },
+  //       // {
+  //       //   "subject": "Social Studies",
+  //       //   "color": "#79C1BB",
+  //       //   "time": "12:30-1:30"
+  //       // },
+  //       // {
+  //       //   "subject": "Mathematics",
+  //       //   "color": "#B4CF34",
+  //       //   "time": "1:30-2:30"
+  //       // },
+  //       // {
+  //       //   "subject": "P.H.E",
+  //       //   "color": "#7FB2F3",
+  //       //   "time": "2:30-3:00"
+  //       // }
+  //     ]
 
-    },
-    {
+  //   },
+  //   {
 
-      "day": "Friday",
-      "subjectsForDay": [
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "8:00-9:00"
-        },
-        {
-          "subject": "Social Studies",
-          "color": "#79C1BB",
-          "time": "9:00-10:00"
-        },
-        {
-          "subject": "Mathematics",
-          "color": "#B4CF34",
-          "time": "11:00-12:00"
-        },
-        {
-          "subject": "P.H.E",
-          "color": "#7FB2F3",
-          "time": "12:30-1:30"
-        },
-        {
-          "subject": "C.R.K",
-          "color": "#FBAE44",
-          "time": "1:30-2:30"
-        },
-        {
-          "subject": "English Language",
-          "color": "#FE7C7C",
-          "time": "2:30-3:00"
-        }
-      ]
+  //     "day": "Wednesday",
+  //     "subjectsForDay": [
+  //       {
+  //         "subject": "English Language",
+  //         "color": "#FE7C7C",
+  //         "time": "8:00-9:00"
+  //       },
+  //       {
+  //         "subject": "Social Studies",
+  //         "color": "#79C1BB",
+  //         "time": "9:00-10:00"
+  //       },
+  //       {
+  //         "subject": "Mathematics",
+  //         "color": "#B4CF34",
+  //         "time": "11:00-12:00"
+  //       },
+  //       // {
+  //       //   "subject": "P.H.E",
+  //       //   "color": "#7FB2F3",
+  //       //   "time": "12:30-1:30"
+  //       // },
+  //       // {
+  //       //   "subject": "C.R.K",
+  //       //   "color": "#FBAE44",
+  //       //   "time": "1:30-2:30"
+  //       // },
+  //       // {
+  //       //   "subject": "English Language",
+  //       //   "color": "#FE7C7C",
+  //       //   "time": "2:30-3:00"
+  //       // }
+  //     ]
 
-    },
+  //   },
+  //   {
+
+  //     "day": "Thursday",
+  //     "subjectsForDay": [
+  //       {
+  //         "subject": "Phonetics",
+  //         "color": "#FBAE44",
+  //         "time": "8:00-9:00"
+  //       },
+  //       {
+  //         "subject": "Computer",
+  //         "color": "#7FB2F3",
+  //         "time": "9:00-10:00"
+  //       },
+  //       {
+  //         "subject": "English Language",
+  //         "color": "#FE7C7C",
+  //         "time": "11:00-12:00"
+  //       },
+  //       // {
+  //       //   "subject": "Social Studies",
+  //       //   "color": "#79C1BB",
+  //       //   "time": "12:30-1:30"
+  //       // },
+  //       // {
+  //       //   "subject": "Mathematics",
+  //       //   "color": "#B4CF34",
+  //       //   "time": "1:30-2:30"
+  //       // },
+  //       // {
+  //       //   "subject": "P.H.E",
+  //       //   "color": "#7FB2F3",
+  //       //   "time": "2:30-3:00"
+  //       // }
+  //     ]
+
+  //   },
+  //   {
+
+  //     "day": "Friday",
+  //     "subjectsForDay": [
+  //       {
+  //         "subject": "English Language",
+  //         "color": "#FE7C7C",
+  //         "time": "8:00-9:00"
+  //       },
+  //       {
+  //         "subject": "Social Studies",
+  //         "color": "#79C1BB",
+  //         "time": "9:00-10:00"
+  //       },
+  //       {
+  //         "subject": "Mathematics",
+  //         "color": "#B4CF34",
+  //         "time": "11:00-12:00"
+  //       },
+  //       // {
+  //       //   "subject": "P.H.E",
+  //       //   "color": "#7FB2F3",
+  //       //   "time": "12:30-1:30"
+  //       // },
+  //       // {
+  //       //   "subject": "C.R.K",
+  //       //   "color": "#FBAE44",
+  //       //   "time": "1:30-2:30"
+  //       // },
+  //       // {
+  //       //   "subject": "English Language",
+  //       //   "color": "#FE7C7C",
+  //       //   "time": "2:30-3:00"
+  //       // }
+  //     ]
+
+  //   },
    
-  ]
+  // ]
   return (
     <div className=''>
     <div className='w-full flex justify-center'>
@@ -206,15 +225,15 @@ function Timetable() {
                 </div>
                 <p className='font-medium text-[16px]'>Time Table</p>
               </div>
-              <p className='font-medium text-[16px]'>2024/2025</p>
+              <p className='font-medium text-[16px]'>{currentSession.session_name}</p>
 
             </section>
             <section className='w-full px-[40px] h-[64px] flex justify-between items-center bg-gradient-to-b from-[#fff] to-[#F0F4F9] border-[1px] border-[#D2E7FF] shadow-[0px_4px_1.3px_0px_#EAEFF5]'>
               <div className='lg:w-[126px] flex items-center justify-between'>
                 
-                <p className='font-medium text-[16px]'>JSS 1A</p>
+                <p className='font-medium text-[16px]'>{studentProfile.user.class_name}</p>
               </div>
-              <p className='font-medium text-[16px]'>Term 2</p>
+              <p className='font-medium text-[16px]'>Term {studentProfile.user.current_term}</p>
 
             </section>
             <section className="overflow-x-auto md:overflow-visible">
@@ -222,32 +241,45 @@ function Timetable() {
     <thead>
       <tr>
         <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">Period</th>
-        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">1</th>
-        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">2</th>
+        {arrOfMaxClass?.map((_, index) => (
+                    <th
+                        key={index}
+                        className="border h-[64px] text-[20px] font-medium text-center w-[100px]"
+                    >
+                        {index + 1}
+                    </th>
+                ))}
+       
+        {/* <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">2</th>
         <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">3</th>
         <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">4</th>
-        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">5</th>
-        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">6</th>
+        <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">5</th> */}
+        {/* <th className="border h-[64px] text-[20px] font-medium text-center w-[100px]">6</th> */}
       </tr>
     </thead>
     <tbody>
-      {weekTimetable.map((day, index) => (
-        <React.Fragment key={day.day}>
-          <tr className="text-center">
-            <td className="h-[144px] border text-center bg-[#F0F4F9] font-bold text-[#5178b3] text-[22px] w-[100px]">{day.day}</td>
-            {day.subjectsForDay.map((subject, subIndex) => (
-              <td
-                key={`${day.day}-${subIndex}`}
-                style={{ backgroundColor: subject.color }}
-                className="border-0 h-[144px] p-2 text-center w-[600px]"
-              >
-                <h1 className="text-[16px] font-bold text-white break-words">{subject.subject}</h1>
-                <p className="font-normal text-[14px] text-white">{subject.time}</p>
-              </td>
-            ))}
-          </tr>
-        </React.Fragment>
+    {weekTimetable.map((day, rowIndex) => (
+  <React.Fragment key={day.day}>
+    <tr className="text-center">
+      {/* Day Column (Remains the same) */}
+      <td className="h-[144px] border text-center bg-[#F0F4F9] font-bold text-[#5178b3] text-[22px] w-[100px]">
+        {day.day}
+      </td>
+      {day.subjectsForDay.map((subject, colIndex) => (
+        <td
+          key={`${day.day}-${colIndex}`}
+          style={{
+            backgroundColor: tableColors[(rowIndex + colIndex) % tableColors.length] 
+          }}
+          className="border-0 h-[144px] p-2 text-center w-[600px]"
+        >
+          <h1 className="text-[16px] font-bold text-white break-words">{subject.subject === null ? "No Class Assigned": subject.subject}</h1>
+          <p className="font-normal text-[14px] text-white">{subject.duration}</p>
+        </td>
       ))}
+    </tr>
+  </React.Fragment>
+))}
     </tbody>
   </table>
 </section>
