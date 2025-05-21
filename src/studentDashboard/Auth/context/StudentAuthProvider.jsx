@@ -6,7 +6,7 @@ import {toast} from "react-hot-toast";
 
 export const StudentUserContext  = createContext({})
 
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL || "https://edusoft.tonyicon.com.ng/";
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL || "https://edusoft.tonyicon.com.ng";
 const StudentAuthProvider = ({children}) => {
     const [studentToken, setStudentToken] = useState(() => {
         const storedStudentToken = localStorage.getItem("student_sms_token");
@@ -28,7 +28,7 @@ const StudentAuthProvider = ({children}) => {
 	  });
 	  const getStudents = async () => {
 		try {
-		  const response = await axios.get(`${BASE_API_URL}data/students`, {
+		  const response = await axios.get(`${BASE_API_URL}/data/students`, {
 			headers: { Authorization: studentToken },
 		  });
 	
@@ -156,7 +156,7 @@ const StudentAuthProvider = ({children}) => {
 
 	 const getComments = async (assignmentId) => {
 		try{
-			const response =  await axios.get(`${BASE_API_URL}student/assignments/${assignmentId}/comments`,
+			const response =  await axios.get(`${BASE_API_URL}/student/assignments/${assignmentId}/comments`,
 				{headers: {Authorization: studentToken}}
 			)
 		setAllComments([...response.data.data]);
@@ -174,7 +174,7 @@ const StudentAuthProvider = ({children}) => {
 
 	 const getAllMsg = async () => {
 		try{
-			const response = await axios.get(`${BASE_API_URL}student/messages`, 
+			const response = await axios.get(`${BASE_API_URL}/student/messages`, 
 				{headers:
 				{Authorization: studentToken}
 			})
@@ -192,7 +192,7 @@ const StudentAuthProvider = ({children}) => {
 	  });
 	 const getTest =  async () => {
 		try{
-			const response =  await axios.get(`${BASE_API_URL}student/tests`,
+			const response =  await axios.get(`${BASE_API_URL}/student/tests`,
 				{headers:
 					{Authorization: studentToken}}
 
@@ -213,7 +213,7 @@ const StudentAuthProvider = ({children}) => {
 	  
 	  const getExams = async () => {
 		try {
-		  const response = await axios.get(`${BASE_API_URL}student/exams`, {
+		  const response = await axios.get(`${BASE_API_URL}/student/exams`, {
 			headers: { Authorization: studentToken },
 		  });
 	  
@@ -231,7 +231,7 @@ const StudentAuthProvider = ({children}) => {
 		
 		//   const getAllSession = async () => {
 		// 	try {
-		// 	  const response = await axios.get(`${BASE_API_URL}school/academic-sessions`, {
+		// 	  const response = await axios.get(`${BASE_API_URL}/school/academic-sessions`, {
 		// 		headers: { Authorization: studentToken },
 		// 	  });
 		  
@@ -250,7 +250,7 @@ const StudentAuthProvider = ({children}) => {
 		
 			try {
 			  const response = await axios.post(
-				`${BASE_API_URL}school-messages/send`,
+				`${BASE_API_URL}/school-messages/send`,
 				data,
 				{ headers: { Authorization: studentToken } }
 			  );
@@ -285,7 +285,7 @@ const StudentAuthProvider = ({children}) => {
 			const toastId = toast.loading("Fetching messages..."); 
 		
 			try {
-			  const response = await axios.get(`${BASE_API_URL}school-messages`, {
+			  const response = await axios.get(`${BASE_API_URL}/school-messages`, {
 				headers: { Authorization: studentToken },
 			  });
 		

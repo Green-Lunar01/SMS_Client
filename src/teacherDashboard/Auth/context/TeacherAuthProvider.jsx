@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 export const TeacherUserContext = createContext({});
 
 const BASE_API_URL =
-  import.meta.env.VITE_BASE_API_URL || "https://edusoft.tonyicon.com.ng/";
+  import.meta.env.VITE_BASE_API_URL || "https://edusoft.tonyicon.com.ng";
 const TeacherAuthProvider = ({ children }) => {
   const [teacherToken, setTeacherToken] = useState(() => {
     const storedTeacherToken = localStorage.getItem("teacher_sms_token");
@@ -35,7 +35,7 @@ const TeacherAuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const getAllClasses = async () => {
     try {
-      const response = await axios.get(`${BASE_API_URL}data/classes`, {
+      const response = await axios.get(`${BASE_API_URL}/data/classes`, {
         headers: { Authorization: teacherToken },
       });
       // console.log(response)
@@ -53,7 +53,7 @@ const TeacherAuthProvider = ({ children }) => {
   });
   const getSubjects = async () => {
     try {
-      const response = await axios.get(`${BASE_API_URL}data/subjects`, {
+      const response = await axios.get(`${BASE_API_URL}/data/subjects`, {
         headers: { Authorization: teacherToken },
       });
       // console.log(response)
@@ -95,7 +95,7 @@ const TeacherAuthProvider = ({ children }) => {
 
   const getStudents = async () => {
     try {
-      const response = await axios.get(`${BASE_API_URL}data/students`, {
+      const response = await axios.get(`${BASE_API_URL}/data/students`, {
         headers: { Authorization: teacherToken },
       });
 
@@ -111,7 +111,7 @@ const TeacherAuthProvider = ({ children }) => {
     const toastId = toast.loading("Adding Assignment....");
     try {
       const response = await axios.post(
-        `${BASE_API_URL}teachers/assignments/create`,
+        `${BASE_API_URL}/teachers/assignments/create`,
         data,
         {
           headers: {
@@ -133,7 +133,7 @@ const TeacherAuthProvider = ({ children }) => {
     setTeacherID(teacherProfile.user.id);
 
     try {
-      const response = await axios.get(`${BASE_API_URL}teachers/assignments`, {
+      const response = await axios.get(`${BASE_API_URL}/teachers/assignments`, {
         params: { class_id: classID, teacher_id: teacherID, date },
         headers: { Authorization: teacherToken },
       });
@@ -169,7 +169,7 @@ const TeacherAuthProvider = ({ children }) => {
   const getComments = async (assignmentId) => {
     try {
       const response = await axios.get(
-        `${BASE_API_URL}teachers/assignments/${assignmentId}/comments`,
+        `${BASE_API_URL}/teachers/assignments/${assignmentId}/comments`,
         { headers: { Authorization: teacherToken } }
       );
       setAllComments([...response.data.data]);
@@ -188,7 +188,7 @@ const TeacherAuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${BASE_API_URL}teachers/assignments/${assignmentId}/comment`,
+        `${BASE_API_URL}/teachers/assignments/${assignmentId}/comment`,
         { comment },
         {
           headers: { Authorization: teacherToken },
@@ -211,7 +211,7 @@ const TeacherAuthProvider = ({ children }) => {
   });
   const getTimetable = async () => {
     try {
-      const response = await axios.get(`${BASE_API_URL}teachers/timetable`, {
+      const response = await axios.get(`${BASE_API_URL}/teachers/timetable`, {
         headers: { Authorization: `${teacherToken}` },
       });
       // console.log("Teacher timetable:", response)
@@ -270,7 +270,7 @@ const TeacherAuthProvider = ({ children }) => {
 
   const overview = async () => {
     try {
-      const response = await axios.get(`${BASE_API_URL}teachers/overview`, {
+      const response = await axios.get(`${BASE_API_URL}/teachers/overview`, {
         headers: { Authorization: teacherToken },
       });
       setClassID(response.data.data.user.class_id);
@@ -300,7 +300,7 @@ const TeacherAuthProvider = ({ children }) => {
   const markAttendance = async (data, stdID) => {
     try {
       const response = await axios.post(
-        `${BASE_API_URL}teachers/student-attendance/mark/${stdID}`,
+        `${BASE_API_URL}/teachers/student-attendance/mark/${stdID}`,
         data,
         {
           headers: { Authorization: teacherToken },
@@ -322,7 +322,7 @@ const TeacherAuthProvider = ({ children }) => {
   const getAllStudentAttendance = async (clsID, sessionID) => {
     try {
       const response = await axios.get(
-        `${BASE_API_URL}teachers/student-attendance/${clsID}/${sessionID}`,
+        `${BASE_API_URL}/teachers/student-attendance/${clsID}/${sessionID}`,
         {
           headers: { Authorization: teacherToken },
         }
@@ -353,7 +353,7 @@ const TeacherAuthProvider = ({ children }) => {
     setLoading(true)
     try {
       const response = await axios.post(
-        `${BASE_API_URL}school-exam/create/`,
+        `${BASE_API_URL}/school-exam/create/`,
         data,
         {
           headers: { Authorization: teacherToken },
@@ -389,7 +389,7 @@ const TeacherAuthProvider = ({ children }) => {
     setLoading(true)
     try {
       const response = await axios.post(
-        `${BASE_API_URL}school-test/create/`,
+        `${BASE_API_URL}/school-test/create/`,
         data,
         {
           headers: { Authorization: teacherToken },
@@ -427,7 +427,7 @@ const TeacherAuthProvider = ({ children }) => {
     setLoading(true); 
     try {
       const response = await axios.get(
-        `${BASE_API_URL}school-exam/questions/${classID}/${subjectID}`,
+        `${BASE_API_URL}/school-exam/questions/${classID}/${subjectID}`,
         {
           headers: { Authorization: teacherToken },
           params: { term, sessionId: sessionID },
@@ -462,7 +462,7 @@ const TeacherAuthProvider = ({ children }) => {
 
   const getTestResults = async (clsID) => {
     try {
-      const response = await axios.get(`${BASE_API_URL}school-test/${clsID}`, {
+      const response = await axios.get(`${BASE_API_URL}/school-test/${clsID}`, {
         headers: { Authorization: teacherToken },
       });
 
@@ -491,7 +491,7 @@ const TeacherAuthProvider = ({ children }) => {
   const getExamResults = async (clsID, subID) => {
     try {
       const response = await axios.get(
-        `${BASE_API_URL}school-exam/${clsID}/${subID}`,
+        `${BASE_API_URL}/school-exam/${clsID}/${subID}`,
         { headers: { Authorization: teacherToken } }
       );
 
@@ -516,7 +516,7 @@ const TeacherAuthProvider = ({ children }) => {
     setLoading(true)
     try {
       const response = await axios.post(
-        `${BASE_API_URL}school-exam/add-scores`,
+        `${BASE_API_URL}/school-exam/add-scores`,
         data,
         { headers: { Authorization: teacherToken } }
       );
@@ -539,7 +539,7 @@ const TeacherAuthProvider = ({ children }) => {
     setLoading(true)
     try {
       const response = await axios.post(
-        `${BASE_API_URL}school-test/add-scores`,
+        `${BASE_API_URL}/school-test/add-scores`,
         data,
         { headers: { Authorization: teacherToken } }
       );
@@ -564,7 +564,7 @@ const TeacherAuthProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `${BASE_API_URL}school-exam/set-questions`,
+        `${BASE_API_URL}/school-exam/set-questions`,
         data,
         { headers: { Authorization: teacherToken } }
       );
@@ -593,7 +593,7 @@ const TeacherAuthProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `${BASE_API_URL}school-messages/send`,
+        `${BASE_API_URL}/school-messages/send`,
         data,
         { headers: { Authorization: teacherToken } }
       );
@@ -628,7 +628,7 @@ const TeacherAuthProvider = ({ children }) => {
     const toastId = toast.loading("Fetching messages..."); 
 
     try {
-      const response = await axios.get(`${BASE_API_URL}school-messages`, {
+      const response = await axios.get(`${BASE_API_URL}/school-messages`, {
         headers: { Authorization: teacherToken },
       });
 
