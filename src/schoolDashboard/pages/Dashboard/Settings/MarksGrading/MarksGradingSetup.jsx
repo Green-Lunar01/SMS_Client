@@ -4,15 +4,7 @@ import api from "../../../../lib/axios"; // Adjust the path as needed
 import { toast } from "react-hot-toast";
 
 const MarksGradingSetup = () => {
-	const [grades, setGrades] = useState([
-		{ grade: "A+", from: 80, to: 100, remark: "Pass" },
-		{ grade: "A", from: 70, to: 79, remark: "Pass" },
-		{ grade: "B+", from: 60, to: 69, remark: "Pass" },
-		{ grade: "B", from: 50, to: 59, remark: "Pass" },
-		{ grade: "C", from: 40, to: 49, remark: "Pass" },
-		{ grade: "D", from: 33, to: 39, remark: "Pass" },
-		{ grade: "F", from: 0, to: 32, remark: "Fail" },
-	]);
+	const [grades, setGrades] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [fetchLoading, setFetchLoading] = useState(true);
 
@@ -32,19 +24,19 @@ const MarksGradingSetup = () => {
 			});
 			console.log(response.data.data);
 
-			// if (response.data.success && response.data.data) {
-			const formattedGrades = response.data.data.map((grade) => ({
-				grade: grade.grade_name,
-				from: grade.min_score,
-				to: grade.max_score,
-				remark: grade.grade_remark,
-			}));
+			if (response.data.data && response.data.data.length > 0) {
+				const formattedGrades = response.data.data.map((grade) => ({
+					grade: grade.grade_name,
+					from: parseFloat(grade.min_score),
+					to: parseFloat(grade.max_score),
+					remark: grade.grade_remark,
+				}));
 
-			// Sort by 'from' score in descending order
-			formattedGrades.sort((a, b) => b.from - a.from);
+				// Sort by 'from' score in descending order
+				formattedGrades.sort((a, b) => b.from - a.from);
 
-			setGrades(formattedGrades);
-			// }
+				setGrades(formattedGrades);
+			}
 		} catch (err) {
 			console.error("Error fetching grading system:", err);
 
@@ -65,27 +57,45 @@ const MarksGradingSetup = () => {
 
 		// Handle numeric fields
 		if (field === "from" || field === "to") {
-			value = value === "" ? "" : parseInt(value, 10);
+			// Allow empty string for user to clear the field
+			if (value === "") {
+				updatedGrades[index][field] = "";
+				setGrades(updatedGrades);
+				return;
+			}
+
+			// Parse as float to handle decimal values
+			const numericValue = parseFloat(value);
 
 			// Don't allow non-numeric values
-			if (isNaN(value)) return;
+			if (isNaN(numericValue)) return;
+
+			// Ensure the value is within valid range (0-100)
+			if (numericValue < 0 || numericValue > 100) return;
+
+			updatedGrades[index][field] = numericValue;
+		} else {
+			updatedGrades[index][field] = value;
 		}
 
-		updatedGrades[index][field] = value;
 		setGrades(updatedGrades);
 	};
 
 	const addGradeRow = () => {
-		// Find the lowest 'from' value
+		// Find the lowest 'from' value to insert a new range before it
 		const lowestFrom = Math.min(...grades.map((g) => g.from));
+
+		// Create a new grade range that connects properly
+		const newFrom = Math.max(0, lowestFrom - 10);
+		const newTo = lowestFrom - 0.01;
 
 		// Add a new row with values that don't overlap
 		setGrades([
 			...grades,
 			{
 				grade: "",
-				from: Math.max(0, lowestFrom - 10),
-				to: lowestFrom - 1,
+				from: newFrom,
+				to: newTo,
 				remark: "Pass",
 			},
 		]);
@@ -103,7 +113,7 @@ const MarksGradingSetup = () => {
 
 	const validateGrades = () => {
 		// Sort by 'from' value to check for gaps and overlaps
-		const sortedGrades = [...grades].sort((a, b) => b.from - a.from);
+		const sortedGrades = [...grades].sort((a, b) => a.from - b.from);
 
 		// Check that all required fields are filled
 		for (const grade of sortedGrades) {
@@ -118,11 +128,11 @@ const MarksGradingSetup = () => {
 			}
 		}
 
-		// Check for range validity (from < to)
+		// Check for range validity (from <= to)
 		for (const grade of sortedGrades) {
-			if (grade.from >= grade.to) {
+			if (grade.from > grade.to) {
 				toast.error(
-					`Invalid range for grade ${grade.grade}: 'From' must be less than 'To'`,
+					`Invalid range for grade ${grade.grade}: 'From' must be less than or equal to 'To'`,
 				);
 				return false;
 			}
@@ -142,19 +152,32 @@ const MarksGradingSetup = () => {
 			return false;
 		}
 
-		// Check for gaps and overlaps
-		for (let i = 0; i < sortedGrades.length - 1; i++) {
-			const currentGrade = sortedGrades[i];
-			const nextGrade = sortedGrades[i + 1];
+		// Check for gaps and overlaps - ranges should be continuous
+		// for (let i = 0; i < sortedGrades.length - 1; i++) {
+		// 	const currentGrade = sortedGrades[i];
+		// 	const nextGrade = sortedGrades[i + 1];
 
-			// Check for gaps
-			if (currentGrade.from - 1 !== nextGrade.to) {
-				toast.error(
-					`Gap detected between grades ${currentGrade.grade} and ${nextGrade.grade}`,
-				);
-				return false;
-			}
-		}
+		// 	// The next grade's 'from' should be exactly currentGrade's 'to' + 0.01
+		// 	// OR they should connect perfectly (next.from = current.to + 0.01)
+		// 	const expectedNextFrom = currentGrade.to + 0.01;
+		// 	const actualNextFrom = nextGrade.from;
+
+		// 	// Use a small tolerance for floating point comparison
+		// 	const tolerance = 0.001;
+
+		// 	if (Math.abs(expectedNextFrom - actualNextFrom) > tolerance) {
+		// 		if (actualNextFrom > expectedNextFrom + tolerance) {
+		// 			toast.error(
+		// 				`Gap detected between grades ${currentGrade.grade} (ends at ${currentGrade.to}) and ${nextGrade.grade} (starts at ${nextGrade.from})`,
+		// 			);
+		// 		} else {
+		// 			toast.error(
+		// 				`Overlap detected between grades ${currentGrade.grade} (ends at ${currentGrade.to}) and ${nextGrade.grade} (starts at ${nextGrade.from})`,
+		// 			);
+		// 		}
+		// 		return false;
+		// 	}
+		// }
 
 		return true;
 	};
@@ -167,8 +190,8 @@ const MarksGradingSetup = () => {
 		try {
 			// Format the data according to the API requirements
 			const formattedGrades = grades.map((grade) => ({
-				from: grade.from,
-				to: grade.to,
+				from: parseFloat(grade.from),
+				to: parseFloat(grade.to),
 				grade: grade.grade,
 				remark: grade.remark,
 			}));
@@ -228,6 +251,13 @@ const MarksGradingSetup = () => {
 						<p>Set grades from 0 to 100 without gaps or overlaps</p>
 					</div>
 
+					{!fetchLoading && grades.length === 0 && (
+						<p>
+							No grading system found. Click "Add Grade" to create
+							one.
+						</p>
+					)}
+
 					{grades.map((grade, index) => (
 						<div className="grade-row" key={index}>
 							<label>
@@ -251,7 +281,8 @@ const MarksGradingSetup = () => {
 								<input
 									type="number"
 									min="0"
-									max="99"
+									max="99.99"
+									step="0.01"
 									value={grade.from}
 									onChange={(e) =>
 										handleInputChange(
@@ -268,8 +299,9 @@ const MarksGradingSetup = () => {
 								<p>% Upto *</p>
 								<input
 									type="number"
-									min="1"
+									min="0.01"
 									max="100"
+									step="0.01"
 									value={grade.to}
 									onChange={(e) =>
 										handleInputChange(
