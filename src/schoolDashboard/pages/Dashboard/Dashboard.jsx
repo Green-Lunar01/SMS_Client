@@ -6,6 +6,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import { CgClose } from "react-icons/cg";
 import userBlueIcon from "../../assets/user-blue-icon.png";
 import notificationEmpty from "../../assets/notification-empty.png";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const Dashboard = () => {
 	const [openMenu, setOpenMenu] = useState(false);
@@ -816,6 +817,17 @@ const Dashboard = () => {
 								</svg>
 								Users Access
 							</Link> */}
+							<Link
+								to="/school/dashboard/settings"
+								className={
+									isLinkActive("/school/dashboard/settings")
+										? "active"
+										: ""
+								}
+							>
+								<IoSettingsOutline />
+								Settings
+							</Link>
 						</aside>
 
 						<Suspense fallback={<SpinnerNew />}>
