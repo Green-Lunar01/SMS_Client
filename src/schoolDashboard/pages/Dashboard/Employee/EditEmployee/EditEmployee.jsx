@@ -155,7 +155,7 @@ const EditEmployee = () => {
 	return (
 		<div className="edit-employee-container">
 			<span>
-				<Link to="/school/dashboard/employees">
+				<Link to="/school/dashboard/employees?tab=all">
 					<HiOutlineArrowNarrowLeft />
 				</Link>
 				<h1>Edit Employee</h1>

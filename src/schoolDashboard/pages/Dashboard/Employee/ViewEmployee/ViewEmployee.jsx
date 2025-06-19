@@ -66,7 +66,7 @@ const ViewEmployee = () => {
 	return (
 		<div className="view-employee-container">
 			<header className="profile-header">
-				<Link to="/school/dashboard/employees">
+				<Link to="/school/dashboard/employees?tab=all">
 					<HiOutlineArrowNarrowLeft />
 				</Link>
 				<h1>{`${employeeDetails.first_name} ${employeeDetails.surname}`}</h1>
