@@ -105,7 +105,7 @@ const MarkAttendance = () => {
 		}
 	}, [employees]);
 
-	// Filter employees based on search query
+	// Filter employees based on search query - only reset page when search changes
 	useEffect(() => {
 		if (employeeRecords.length > 0) {
 			const filtered = employeeRecords.filter(
@@ -120,7 +120,23 @@ const MarkAttendance = () => {
 			setFilteredRecords(filtered);
 			setCurrentPage(1);
 		}
-	}, [searchQuery, employeeRecords]);
+	}, [searchQuery, employeeRecords.length]); // Changed dependency to only length
+
+	// Update filtered records when employee records change (but don't reset page)
+	useEffect(() => {
+		if (employeeRecords.length > 0) {
+			const filtered = employeeRecords.filter(
+				(record) =>
+					record.name
+						.toLowerCase()
+						.includes(searchQuery.toLowerCase()) ||
+					record.type
+						.toLowerCase()
+						.includes(searchQuery.toLowerCase()),
+			);
+			setFilteredRecords(filtered);
+		}
+	}, [employeeRecords]); // This will run when status changes but won't reset page
 
 	// Change status of a single employee
 	const handleStatusChange = (id, newStatus) => {
@@ -137,6 +153,8 @@ const MarkAttendance = () => {
 			toast.error("Session ID, date, and term are required");
 			return;
 		}
+
+		toast("Marking...");
 
 		try {
 			const response = await api.post(
