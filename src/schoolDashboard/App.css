@@ -38,7 +38,7 @@ a {
   color: var(--primary-green);
 }
 
-/* p,
+p,
 h1,
 h2,
 h3,
@@ -47,6 +47,10 @@ h5,
 h6,
 span,
 label,
+button,
 a {
-  color: var(--dark-green);
-} */
+  &::selection {
+    background-color: var(--primary-green) !important;
+    color: white !important;
+  }
+}
