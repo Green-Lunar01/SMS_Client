@@ -20,7 +20,7 @@ const Home = () => {
       <section className="px-[8%] my-10">
         <div className="flex flex-col items-center text-center gap-4 shadow-md border rounded-xl py-10 px-5">
           <h1 className="text-2xl md:text-4xl font-semibold text-primary-light">
-            Ready to experience the EduSoft difference?{' '}
+            Ready to experience the Lunar SMS difference?{' '}
           </h1>
           <h3 className="md:text-lg md:font-semibold md:w-[50%]">
             Sign up for a free trial today and see how our school management system can transform

@@ -28,7 +28,7 @@ const Features = () => {
       title: 'Secure & Scalable',
       src: '/features/feature-e.png',
       caption:
-        'EduSoft is built with the highest security standards and cloud-based technology to ensure data privacy and scalability. Access your system from anywhere, anytime, on any device.'
+        'Lunar SMS is built with the highest security standards and cloud-based technology to ensure data privacy and scalability. Access your system from anywhere, anytime, on any device.'
     },
         {
       title: 'Affordable',

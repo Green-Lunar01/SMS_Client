@@ -7,8 +7,7 @@ const Hero = () => {
           Simplifying Management.
         </h1>
         <p className="opacity-80 mt-5 md:mt-5 tracking-wider text-2xl text-gray-600 font-semibold">
-          EduSoft is the all-in-one school management system designed to save you time, boost
-          efficiency, and unlock the full potential of your school community.
+        Lunar SMS is the all-in-one school management system designed to save you time, boost efficiency, and unlock the full potential of your school community.
         </p>
         
         <div className="flex items-center gap-5 mt-10 w-[60%]">
